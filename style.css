@@ -590,6 +590,19 @@ section {
   transform: scale(1.02) translateX(10px);
 }
 
+text-align: center;
+}
+
+.spotify-container {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+}
+
+.spotify-container:hover {
+  transform: scale(1.02);
+  box-shadow: 0 15px 40px rgba(0, 119, 255, 0.3);
+}
+
 .rank-number {
   font-size: 2.5rem;
   font-weight: 900;
