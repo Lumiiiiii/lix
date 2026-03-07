@@ -523,9 +523,9 @@ section {
   display: flex;
   flex-direction: column;
   cursor: text;
-  background-image: linear-gradient(transparent 95%, #ebdcd0 95%);
+  background-image: linear-gradient(transparent 29px, #ebdcd0 29px);
   background-size: 100% 30px;
-  background-position: 0 25px;
+  background-position: 0 0;
 }
 
 /* When opened, letter slides up and gets tall */
@@ -551,7 +551,7 @@ section {
   font-family: 'Dancing Script', cursive;
   font-size: 1.5rem;
   color: #4a4a4a;
-  line-height: 20px;
+  line-height: 30px;
   outline: none;
 }
 
