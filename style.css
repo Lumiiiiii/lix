@@ -446,6 +446,115 @@ section {
   transform: scale(1.1);
 }
 
+/* Envelope and Letter */
+.envelope-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 80px;
+  margin-bottom: 50px;
+}
+
+.envelope-wrapper {
+  position: relative;
+  width: 320px;
+  height: 220px;
+  background: #f0e6d6;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.envelope-wrapper:hover {
+  transform: translateY(-5px);
+}
+
+/* Form the back envelope flap using borders */
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 110px 160px;
+  border-color: #e5d8c5 transparent transparent transparent;
+  transform-origin: top;
+  transition: transform 0.5s ease-in-out, z-index 0s 0.25s;
+  z-index: 4;
+}
+
+.envelope-wrapper.open .envelope-flap {
+  transform: rotateX(180deg);
+  z-index: 1;
+  /* Hide behind letter paper */
+}
+
+/* Front envelope pocket */
+.envelope-pocket {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 110px 160px 110px 160px;
+  border-color: transparent #fffdfa #fffdfa #fffdfa;
+  z-index: 3;
+  pointer-events: none;
+  border-radius: 0 0 10px 10px;
+}
+
+/* The actual letter paper */
+.envelope-letter {
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  width: 300px;
+  height: 210px;
+  background: #fffff8;
+  border-radius: 5px;
+  z-index: 2;
+  transition: transform 0.8s ease-in-out, height 0.8s ease-in-out;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  padding: 30px 20px 20px 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: text;
+  background-image: linear-gradient(transparent 95%, #ebdcd0 95%);
+  background-size: 100% 30px;
+  background-position: 0 25px;
+}
+
+/* When opened, letter slides up and gets tall */
+.envelope-wrapper.open .envelope-letter {
+  transform: translateY(-250px);
+  height: 400px;
+  overflow-y: auto;
+  z-index: 2;
+  /* Still behind pocket, poking out */
+}
+
+/* Custom scrollbar for letter */
+.envelope-letter::-webkit-scrollbar {
+  width: 6px;
+}
+
+.envelope-letter::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+.letter-text {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.5rem;
+  color: #4a4a4a;
+  line-height: 20px;
+  outline: none;
+}
+
 /* Nicknames Ranking */
 .ranking-list {
   display: flex;
