@@ -306,24 +306,48 @@ section {
 .timeline {
   display: flex;
   flex-direction: column;
-  gap: 30px;
 }
 
 .milestone {
   display: flex;
-  gap: 20px;
-  align-items: center;
+  align-items: stretch;
 }
 
 .milestone-date {
   font-weight: 800;
   font-family: 'Outfit';
   color: var(--accent-color);
-  min-width: 120px;
+  width: 130px;
+  flex-shrink: 0;
+  text-align: right;
+  padding-right: 30px;
+  padding-top: 3px;
 }
 
 .milestone-info {
   flex: 1;
+  position: relative;
+  padding-left: 30px;
+  padding-bottom: 50px;
+  border-left: 2px solid rgba(0, 119, 255, 0.3);
+}
+
+.milestone:last-child .milestone-info {
+  padding-bottom: 0;
+  border-image: linear-gradient(to bottom, rgba(0, 119, 255, 0.3), transparent) 1;
+  /* Fade out line at the bottom */
+}
+
+.milestone-info::before {
+  content: '';
+  position: absolute;
+  left: -7px;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  background: var(--accent-glow);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--accent-glow);
 }
 
 .copy-container {
@@ -399,6 +423,18 @@ footer {
   .milestone {
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
+  }
+
+  .milestone-date {
+    text-align: left;
+    padding-right: 0;
+    width: auto;
+    padding-bottom: 10px;
+  }
+
+  .milestone-info {
+    padding-left: 20px;
+    margin-left: 10px;
+    /* Aligns the vertical line slightly inset */
   }
 }
