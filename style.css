@@ -447,6 +447,28 @@ section {
   font-size: 2rem;
 }
 
+/* Huge Love Message */
+.huge-love-text {
+  font-size: clamp(3rem, 10vw, 8rem);
+  font-weight: 900;
+  font-family: 'Outfit', sans-serif;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  background: linear-gradient(110deg,
+      #fff 20%,
+      var(--accent-glow) 40%,
+      var(--accent-color) 50%,
+      var(--accent-glow) 60%,
+      #fff 80%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 25px rgba(0, 119, 255, 0.4));
+  animation: wave-gradient 4s linear infinite;
+}
+
 footer {
   text-align: center;
   padding: 40px;
