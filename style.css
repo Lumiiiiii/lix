@@ -590,9 +590,6 @@ section {
   transform: scale(1.02) translateX(10px);
 }
 
-text-align: center;
-}
-
 .spotify-container {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   transition: transform 0.3s ease;
