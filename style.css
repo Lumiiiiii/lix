@@ -701,6 +701,7 @@ section {
   transform: scale(1.05);
 }
 
+.credits-scroll p.highlight-credit,
 .credits-scroll p:last-child {
   font-size: clamp(3rem, 7vw, 5rem);
   font-weight: 900;
