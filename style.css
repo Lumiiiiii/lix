@@ -641,26 +641,78 @@ section {
   font-size: 2rem;
 }
 
-/* Huge Love Message */
-.huge-love-text {
-  font-size: clamp(3rem, 10vw, 8rem);
-  font-weight: 900;
+/* Credits Section */
+.credits-section {
+  position: relative;
+  height: 60vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+  margin-bottom: 80px;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+}
+
+.credits-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.credits-scroll {
+  position: absolute;
+  top: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  width: 100%;
+  animation: scroll-up 35s linear infinite;
+}
+
+@keyframes scroll-up {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(calc(-100% - 60vh));
+  }
+}
+
+.credits-scroll p {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
   font-family: 'Outfit', sans-serif;
+  color: var(--text-dim);
   text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 5px;
-  background: linear-gradient(110deg,
-      #fff 20%,
-      var(--accent-glow) 40%,
-      var(--accent-color) 50%,
-      var(--accent-glow) 60%,
-      #fff 80%);
+  margin: 0;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.credits-scroll p:hover {
+  color: #fff;
+  text-shadow: 0 0 20px var(--accent-glow);
+  transform: scale(1.05);
+}
+
+.credits-scroll p:last-child {
+  font-size: clamp(3rem, 7vw, 5rem);
+  font-weight: 900;
+  background: linear-gradient(110deg, #fff 20%, var(--accent-glow) 40%, var(--accent-color) 50%, var(--accent-glow) 60%, #fff 80%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   filter: drop-shadow(0 0 25px rgba(0, 119, 255, 0.4));
   animation: wave-gradient 4s linear infinite;
+  margin-top: 30px;
+  margin-bottom: 40px;
 }
 
 footer {
