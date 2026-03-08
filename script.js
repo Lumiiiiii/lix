@@ -160,7 +160,6 @@ if (lovometroSection && loveBar) {
             if (entry.isIntersecting) {
                 // Add a small delay for better effect
                 setTimeout(() => {
-                    loveBar.style.width = '120%'; // Shoots out of the container
                     loveBar.classList.add('filled');
                 }, 500);
                 observer.unobserve(entry.target);
