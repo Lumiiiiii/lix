@@ -885,8 +885,8 @@ section {
 .my-love-text {
   position: absolute;
   top: -65px;
-  right: -95px;
-  /* Spostato ulteriormente a destra */
+  right: -55px;
+  /* Riportato a sinistra (centrato) su desktop */
   font-family: 'Inter', sans-serif;
   font-weight: 700;
   font-size: 1.1rem;
@@ -1078,8 +1078,8 @@ footer {
   .my-love-text {
     font-size: 0.85rem;
     top: -50px;
-    right: -55px;
-    /* Spostato più a destra anche su mobile */
+    right: -85px;
+    /* Spostato molto a destra solo su mobile */
   }
 
   .lovometro-track {
