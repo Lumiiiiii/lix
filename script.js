@@ -149,3 +149,24 @@ window.copyCoordinates = function () {
         console.error('Errore durante la copia: ', err);
     });
 };
+
+// Lovometro Animation Logic
+const lovometroSection = document.getElementById('lovometro');
+const loveBar = document.getElementById('love-bar');
+
+if (lovometroSection && loveBar) {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Add a small delay for better effect
+                setTimeout(() => {
+                    loveBar.style.width = '120%'; // Shoots out of the container
+                    loveBar.classList.add('filled');
+                }, 500);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    observer.observe(lovometroSection);
+}

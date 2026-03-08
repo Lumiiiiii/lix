@@ -759,6 +759,177 @@ section {
   font-size: 2rem;
 }
 
+/* Lovometro Section */
+.lovometro-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 60px 40px;
+  text-align: center;
+  position: relative;
+}
+
+.lovometro-track-wrapper {
+  position: relative;
+  width: 100%;
+  margin-top: 40px;
+  padding-bottom: 20px;
+}
+
+.lovometro-labels {
+  position: relative;
+  height: 30px;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.lovometro-labels .label {
+  position: absolute;
+  transform: translateX(-50%);
+  font-weight: 600;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.lovometro-labels .label.infinite {
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-shadow: 0 0 15px var(--accent-glow), 0 0 30px var(--accent-glow);
+  transform: translateX(-50%) translateY(-5px);
+  animation: float-pulse 3s infinite ease-in-out;
+}
+
+@keyframes float-pulse {
+
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(-5px) scale(1);
+  }
+
+  50% {
+    transform: translateX(-50%) translateY(-10px) scale(1.05);
+  }
+}
+
+.lovometro-track {
+  width: 100%;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  position: relative;
+  /* Allow overflow so the bar can shoot past the container */
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.lovometro-marker {
+  position: absolute;
+  top: -8px;
+  bottom: -8px;
+  width: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.lovometro-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  /* Starts at 0, filled via JS */
+  background: linear-gradient(90deg, var(--accent-color), var(--accent-glow), #00ffcc);
+  border-radius: 12px;
+  box-shadow: 0 0 20px var(--accent-glow), 0 0 40px rgba(0, 255, 204, 0.6);
+  transition: width 3.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.love-pulsating-heart {
+  font-size: 1.8rem;
+  margin-right: -15px;
+  /* stick out from the bar */
+  filter: drop-shadow(0 0 10px white);
+  animation: heartbeat 1s infinite alternate;
+  opacity: 0;
+  transition: opacity 0.5s 3.5s;
+  /* Fade in after bar animation */
+}
+
+.wave-text-biancorosso {
+  background: linear-gradient(110deg,
+      #fff 20%,
+      #ff3333 40%,
+      #ff0000 50%,
+      #ff3333 60%,
+      #fff 80%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.3));
+  animation: wave-gradient 4s linear infinite;
+  font-weight: 900;
+}
+
+.lovometro-bar.filled .love-pulsating-heart {
+  opacity: 1;
+}
+
+.my-love-text {
+  position: absolute;
+  top: -65px;
+  right: -75px;
+  /* Posizionato più a destra rispetto al cuore */
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #ffffff;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s 4s, transform 0.5s 4s;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  display: flex;
+  flex-direction: column;
+  /* Testo sopra, freccia sotto */
+  align-items: center;
+  gap: 4px;
+}
+
+/* Freccia pulita che punta verso il basso */
+.my-love-text::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 9px solid #ffffff;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+}
+
+.lovometro-bar.filled .my-love-text {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes heartbeat {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.3);
+  }
+}
+
 /* Credits Section */
 .credits-section {
   position: relative;
@@ -879,5 +1050,35 @@ footer {
     padding-left: 20px;
     margin-left: 10px;
     /* Aligns the vertical line slightly inset */
+  }
+
+  /* Lovometro Mobile Adjustments */
+  .lovometro-container {
+    padding: 40px 15px;
+  }
+
+  .lovometro-labels .label {
+    font-size: 0.75rem;
+  }
+
+  .lovometro-labels .label.infinite {
+    font-size: 0.9rem;
+    left: 95% !important;
+    /* Prevent total overflow on very narrow screens */
+  }
+
+  .my-love-text {
+    font-size: 0.9rem;
+    top: -55px;
+    right: -40px;
+    /* Keep it more compact */
+  }
+
+  .lovometro-track {
+    height: 18px;
+  }
+
+  .love-pulsating-heart {
+    font-size: 1.4rem;
   }
 }
