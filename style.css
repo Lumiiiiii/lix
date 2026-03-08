@@ -1060,9 +1060,9 @@ footer {
   }
 
   .lovometro-track-wrapper {
-    width: 80%;
-    /* Base più stretta così il 120% della barra rimane nello schermo */
-    margin: 40px auto 0 auto;
+    width: 70%;
+    /* Ristretta e spostata a sinistra per far entrare il 120% della barra */
+    margin: 40px 0 0 5%;
   }
 
   .lovometro-labels .label {
@@ -1078,8 +1078,8 @@ footer {
   .my-love-text {
     font-size: 0.85rem;
     top: -50px;
-    right: -85px;
-    /* Spostato molto a destra solo su mobile */
+    right: -20px;
+    /* Spostato leggermente a destra ma in sicurezza dentro lo schermo */
   }
 
   .lovometro-track {
