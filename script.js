@@ -1,5 +1,41 @@
-// Relationship Start Date: Dec 11, 2025
-const startDate = new Date('2025-12-11T00:00:00').getTime();
+// Relationship Start Date:
+// Authentication Logic
+document.addEventListener('DOMContentLoaded', () => {
+    const loginOverlay = document.getElementById('login-overlay');
+    const loginPass = document.getElementById('login-pass');
+    const loginBtn = document.getElementById('login-btn');
+    const loginError = document.getElementById('login-error');
+
+    function checkLogin() {
+        const pass = loginPass.value.toLowerCase().trim();
+        if (pass === 'bibi') {
+            loginOverlay.classList.add('hidden');
+            document.body.style.overflow = 'auto'; // Re-enable scroll
+            localStorage.setItem('loggedIn', 'true');
+        } else {
+            loginOverlay.classList.add('shake');
+            loginError.classList.remove('hidden');
+            setTimeout(() => loginOverlay.classList.remove('shake'), 400);
+            loginPass.value = '';
+        }
+    }
+
+    // Check if already logged in
+    if (localStorage.getItem('loggedIn') === 'true') {
+        loginOverlay.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    } else {
+        document.body.style.overflow = 'hidden'; // Lock scroll until login
+    }
+
+    loginBtn.addEventListener('click', checkLogin);
+    loginPass.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') checkLogin();
+    });
+});
+
+// Countdown Timer Logic
+const startDate = new Date('2024-12-11T00:00:00'); // Fixed starting date();
 
 // Timer Logic
 function updateTimer() {
