@@ -83,12 +83,14 @@ document.querySelectorAll('.stat-card').forEach(card => {
             // Show the number container
             numberContainer.classList.remove('hidden');
 
-            // Start the appropriate animation
-            if (counterElement.hasAttribute('data-text')) {
-                animateTypingText(counterElement);
-            } else if (counterElement.hasAttribute('data-target')) {
-                animateSingleCounter(counterElement);
-            }
+            // Start the appropriate animation for each counter found in the card
+            card.querySelectorAll('.stat-number').forEach(counterElement => {
+                if (counterElement.hasAttribute('data-text')) {
+                    animateTypingText(counterElement);
+                } else if (counterElement.hasAttribute('data-target')) {
+                    animateSingleCounter(counterElement);
+                }
+            });
         });
     }
 });

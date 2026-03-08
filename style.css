@@ -2,13 +2,13 @@
 
 :root {
   --bg-color: #000814;
-  --accent-color: #0077ff;
-  --accent-glow: #00d4ff;
-  --text-color: #ffffff;
-  --text-dim: rgba(255, 255, 255, 0.7);
+  --accent-color: #0066ff;
+  --accent-glow: #00ccff;
+  --text-color: #e6f0ff;
+  --text-dim: rgba(200, 220, 255, 0.7);
   --glass-bg: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glow-shadow: 0 0 30px rgba(0, 119, 255, 0.3);
+  --glass-border: rgba(0, 102, 255, 0.15);
+  --glow-shadow: 0 0 30px rgba(0, 102, 255, 0.3);
   --card-radius: 24px;
   --transition-smooth: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
@@ -252,12 +252,23 @@ section {
   font-size: clamp(4rem, 8vw, 6rem);
   font-weight: 900;
   font-family: 'Outfit';
-  background: linear-gradient(135deg, #fff 0%, var(--accent-glow) 100%);
+  background: linear-gradient(135deg, #aaddff 0%, var(--accent-glow) 50%, var(--accent-color) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   filter: drop-shadow(0 0 20px rgba(0, 119, 255, 0.4));
   line-height: 1;
+}
+
+.stat-number.mini {
+  font-size: 1.5rem;
+  font-weight: 700;
+  vertical-align: baseline;
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+  min-width: 3ch;
+  /* Reserve space for at least 3 digits to prevent wrapping shifts */
+  text-align: right;
 }
 
 .stat-number.typing-text {
