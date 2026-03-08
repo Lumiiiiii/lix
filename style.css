@@ -1078,8 +1078,8 @@ footer {
   .my-love-text {
     font-size: 0.85rem;
     top: -50px;
-    right: -20px;
-    /* Spostato leggermente a destra ma in sicurezza dentro lo schermo */
+    right: -70px;
+    /* Spostato ancora più a destra per evitare sovrapposizioni sul cuore */
   }
 
   .lovometro-track {
