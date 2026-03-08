@@ -1054,31 +1054,39 @@ footer {
 
   /* Lovometro Mobile Adjustments */
   .lovometro-container {
-    padding: 40px 15px;
+    padding: 60px 10px;
+    overflow: hidden;
+    /* Blocca scorrimento orizzontale accidentale */
+  }
+
+  .lovometro-track-wrapper {
+    width: 80%;
+    /* Base più stretta così il 120% della barra rimane nello schermo */
+    margin: 40px auto 0 auto;
   }
 
   .lovometro-labels .label {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
   }
 
   .lovometro-labels .label.infinite {
-    font-size: 0.9rem;
-    left: 95% !important;
-    /* Prevent total overflow on very narrow screens */
+    font-size: 0.85rem;
+    left: 100% !important;
+    transform: translateX(-50%) translateY(-5px);
   }
 
   .my-love-text {
-    font-size: 0.9rem;
-    top: -55px;
-    right: -40px;
-    /* Keep it more compact */
+    font-size: 0.85rem;
+    top: -50px;
+    right: -35px;
   }
 
   .lovometro-track {
-    height: 18px;
+    height: 16px;
   }
 
   .love-pulsating-heart {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
+    margin-right: -10px;
   }
 }
