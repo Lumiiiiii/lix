@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Countdown Timer Logic
-const startDate = new Date('2024-12-11T00:00:00'); // Fixed starting date();
+const startDate = new Date('2025-12-11T00:00:00'); // Fixed starting date();
 
 // Timer Logic
 function updateTimer() {
