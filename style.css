@@ -1058,24 +1058,31 @@ footer {
 
   /* Lovometro Mobile Adjustments */
   .lovometro-container {
-    padding: 60px 10px;
-    overflow: visible;
-    /* Lasciamo che la barra esca */
+    padding: 60px 0;
+    overflow: hidden !important;
   }
 
   .lovometro-track-wrapper {
-    width: 95%;
-    /* Allargata affinché il 120% esca fisicamente dallo schermo a destra */
-    margin: 40px -20px 0 5%;
+    width: 80%;
+    margin: 40px 0 0 5%;
   }
 
   .lovometro-labels .label {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
+  }
+
+  .lovometro-marker:nth-child(3),
+  .lovometro-labels .label:nth-child(3) {
+    left: 60% !important;
+  }
+
+  .lovometro-marker:nth-child(4) {
+    left: 90% !important;
   }
 
   .lovometro-labels .label.infinite {
-    font-size: 0.85rem;
-    left: 100% !important;
+    font-size: 0.75rem;
+    left: 90% !important;
     transform: translateX(-50%) translateY(-5px);
   }
 
@@ -1090,12 +1097,10 @@ footer {
   .love-text-mobile {
     display: flex !important;
     flex-direction: row;
-    /* Testo a sinistra, freccia a destra */
     align-items: center;
-    gap: 8px;
-    top: -45px;
-    right: -130px;
-    /* Spostato molto a destra in modo che accompagni la barra fuori dallo schermo */
+    gap: 6px;
+    top: -35px;
+    right: 40px;
   }
 
   .love-text-mobile::after {
@@ -1105,12 +1110,12 @@ footer {
     height: 0;
     border-top: 5px solid transparent;
     border-bottom: 5px solid transparent;
-    border-left: 8px solid #ffffff;
+    border-left: 6px solid #ffffff;
     filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
   }
 
   .lovometro-track {
-    height: 16px;
+    height: 14px;
   }
 
   .love-pulsating-heart {
