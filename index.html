@@ -14,16 +14,35 @@
 </head>
 
 <body>
-    <!-- Login Overlay -->
+    <!-- Login Overlay (PIN Numpad) -->
     <div id="login-overlay">
         <div class="login-card glass">
             <h2>Reserved for my Moon 🤍</h2>
-            <p>Inserisci la password per entrare</p>
-            <div class="login-input-group">
-                <input type="password" id="login-pass" placeholder="Password..." autocomplete="current-password">
-                <button id="login-btn">Entra</button>
+            <p id="status-msg">Inserisci il PIN per entrare</p>
+
+            <div id="pin-dots" class="pin-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
             </div>
-            <p id="login-error" class="error-text hidden">Opps! Password errata... riprova</p>
+
+            <div id="numpad" class="numpad">
+                <button class="num-btn" data-val="1">1</button>
+                <button class="num-btn" data-val="2">2</button>
+                <button class="num-btn" data-val="3">3</button>
+                <button class="num-btn" data-val="4">4</button>
+                <button class="num-btn" data-val="5">5</button>
+                <button class="num-btn" data-val="6">6</button>
+                <button class="num-btn" data-val="7">7</button>
+                <button class="num-btn" data-val="8">8</button>
+                <button class="num-btn" data-val="9">9</button>
+                <div class="btn-spacer"></div>
+                <button class="num-btn" data-val="0">0</button>
+                <button class="num-btn delete-btn" id="delete-btn">⌫</button>
+            </div>
         </div>
     </div>
 
@@ -377,6 +396,133 @@
             </div>
         </section>
 
+        <!-- Moon Section -->
+
+        <!-- 1. Tickets Section -->
+        <section id="tickets-section" style="margin-top: 80px; margin-bottom: 60px;">
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 20px;">I Nostri Coupon 🎫</h2>
+            <p style="text-align: center; color: var(--text-dim); margin-bottom: 40px;">(Scegli saggiamente, non sono
+                rimborsabili!)</p>
+            <div class="tickets-container">
+                <div class="ticket glass" onclick="this.classList.toggle('redeemed')">
+                    <div class="ticket-left">
+                        <h3>Cena Cucinata</h3>
+                        <p>Da me, quello che vuoi tu</p>
+                    </div>
+                    <div class="ticket-right">
+                        <span>Riscuoti</span>
+                    </div>
+                </div>
+                <div class="ticket glass" onclick="this.classList.toggle('redeemed')">
+                    <div class="ticket-left">
+                        <h3>Massaggio</h3>
+                        <p>30 Minuti di puro relax</p>
+                    </div>
+                    <div class="ticket-right">
+                        <span>Riscuoti</span>
+                    </div>
+                </div>
+                <div class="ticket glass" onclick="this.classList.toggle('redeemed')">
+                    <div class="ticket-left">
+                        <h3>Serata Cinema</h3>
+                        <p>Scegli il film, io porto i popcorn</p>
+                    </div>
+                    <div class="ticket-right">
+                        <span>Riscuoti</span>
+                    </div>
+                </div>
+                <div class="ticket glass" onclick="this.classList.toggle('redeemed')">
+                    <div class="ticket-left">
+                        <h3>Gita a Sorpresa</h3>
+                        <p>Zaino in spalla, guido io</p>
+                    </div>
+                    <div class="ticket-right">
+                        <span>Riscuoti</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vinyl Player Section -->
+        <section id="vinyl-player-section" style="margin-top: 80px; margin-bottom: 60px; text-align: center;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">I Nostri Ricordi in Vinile 🎶</h2>
+            <div class="vinyl-player-container glass">
+                <div class="turntable">
+                    <div class="vinyl-record" id="vinyl-record">
+                        <div class="vinyl-label" id="vinyl-cover">
+                            <!-- Inizia qui: Inserisci il link della tua immagine tra virgolette in src -->
+                            <img src="tuacoperetina.jpg" alt="Cover" class="vinyl-cover-img">
+                        </div>
+                    </div>
+                    <div class="tonearm" id="tonearm"></div>
+                </div>
+                <div class="vinyl-controls">
+                    <button id="vinyl-play-pause" class="romantic-btn" onclick="toggleVinyl()">
+                        <span id="vinyl-icon">▶️</span> <span id="vinyl-text">Riproduci</span>
+                    </button>
+                    <audio id="romantic-audio" loop>
+                        <source src="canzone.mp3.mp3" type="audio/mpeg">
+                    </audio>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- Vinyl Player Section (Already present above) -->
+
+
+
+        <!-- 7. Phrase Generator Section -->
+        <section id="phrase-generator" style="margin-top: 80px; margin-bottom: 60px; text-align: center;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Un Pensiero per Te ✨</h2>
+            <div class="generator-container glass">
+                <div class="phrase-display">
+                    <p id="random-phrase">Clicca il cuore per ricevere un messaggio...</p>
+                </div>
+                <button id="generate-btn" class="romantic-btn" onclick="generatePhrase()">
+                    <span class="btn-icon">❤️</span> Genera Messaggio
+                </button>
+            </div>
+        </section>
+
+        <!-- Secret Letter Section -->
+        <section id="secret-letter-section" style="margin-top: 80px; margin-bottom: 80px;">
+            <div class="secret-login-container glass" id="secret-login">
+                <h2 style="font-size: 2rem; margin-bottom: 15px;">Un messaggio solo per te 🔒</h2>
+                <p style="color: var(--text-dim); margin-bottom: 30px;">Inserisci la nostra parola segreta...</p>
+                <div class="secret-input-group">
+                    <input type="text" id="secret-pass" placeholder="La nostra parola..." autocomplete="off">
+                    <button id="secret-btn" onclick="checkSecretLetter()">Rivela la Lettera</button>
+                    <p id="secret-error" class="error-text hidden">Mmh, non è questa... 🥺</p>
+                </div>
+            </div>
+
+            <div id="revealed-letter" class="letter-paper hidden">
+                <div class="letter-content">
+                    <p class="letter-date">09 Marzo 2026</p>
+                    <p>Mia dolce Luna,</p>
+                    <p>
+                        Ho deciso di nascondere queste parole qui, in un angolo speciale del nostro sito,
+                        perché volevo che fosse qualcosa di solo nostro.
+                    </p>
+                    <p>
+                        Sono passati solo tre mesi, ma per me pesano come una vita intera di felicità.
+                        Ogni giorno che passo con te è una conferma: sei la persona che aspettavo senza saperlo.
+                        Mi piace come ridiamo, come ci capiamo con uno sguardo e come anche i silenzi con te siano pieni
+                        di senso.
+                    </p>
+                    <p>
+                        Spero che questo piccolo spazio digitale ti ricordi sempre quanto io tenga a noi,
+                        anche nei momenti in cui magari la distanza o lo stress sembrano pesare un po' di più.
+                        Io sono qui, e ci sarò sempre.
+                    </p>
+                    <p>Ti amo tantissimo, Linda.</p>
+                    <p class="letter-signature">Per sempre tuo, <br> Bibi 🤍</p>
+                </div>
+            </div>
+        </section>
+
         <!-- Interactive Letter Section -->
         <section id="love-letter" class="envelope-section">
             <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 20px;">Ti ho scritto una letterina</h2>
@@ -442,7 +588,7 @@
     </main>
 
     <footer>
-        To my moon. Buon 3° mese 🤍
+        Buon 3° mese <span id="secret-trigger" style="cursor: pointer; user-select: none;">🤍</span>
     </footer>
 
     <script src="script.js?v=2"></script>
