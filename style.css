@@ -1582,60 +1582,48 @@ footer {
     font-size: clamp(1.5rem, 5vw, 3rem);
   }
 
-  section {
-    padding: 40px 15px;
+  /* Vinyl Player mobile resize */
+  .turntable {
+    width: 200px;
+    height: 200px;
   }
 
-  .card {
-    padding: 25px;
+  .vinyl-record {
+    width: 160px;
+    height: 160px;
   }
 
-  .stat-card {
-    padding: 40px 20px;
+  .vinyl-label {
+    width: 50px;
+    height: 50px;
   }
 
-  .stat-number {
-    font-size: clamp(3rem, 15vw, 6rem);
+  .tonearm {
+    width: 80px;
+    height: 8px;
+    top: 15px;
+    right: 15px;
   }
 
-  .milestone {
-    flex-direction: column;
-    align-items: flex-start;
+  .tonearm::after {
+    width: 15px;
+    height: 15px;
   }
 
-  .milestone-date {
-    text-align: left;
-    padding-right: 0;
-    width: auto;
-    padding-bottom: 10px;
+  .photo-item {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    aspect-ratio: 1/1;
   }
 
-  .milestone-info {
-    padding-left: 20px;
-    margin-left: 10px;
+  .lovometro-container {
+    height: 400px;
+    padding: 30px 10px;
   }
 
-  /* PIN Pad adjustments for mobile */
-  .login-card {
-    padding: 30px 20px;
-    width: 95%;
-    max-width: 320px;
-  }
-
-  .num-btn {
-    width: 60px;
-    height: 60px;
-    font-size: 1.4rem;
-  }
-
-  .pin-dots {
-    gap: 10px;
-    margin: 20px 0 30px;
-  }
-
-  .dot {
-    width: 12px;
-    height: 12px;
+  .lovometro-track-wrapper {
+    height: 250px;
   }
 }
 

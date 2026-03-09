@@ -400,6 +400,8 @@ function toggleVinyl() {
 
     if (audio.paused) {
         btn.disabled = true;
+        const originalText = text.innerText;
+        text.innerText = 'Caricamento...';
 
         audio.play().then(() => {
             record.classList.add('playing');
@@ -410,7 +412,9 @@ function toggleVinyl() {
             btn.disabled = false;
         }).catch(error => {
             console.error("Playback error:", error);
+            text.innerText = originalText;
             btn.disabled = false;
+            alert("Per riprodurre la musica su mobile, assicurati che il volume sia attivo e riprova!");
         });
     } else {
         audio.pause();
