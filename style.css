@@ -1525,16 +1525,16 @@ footer {
 
 @media (max-width: 768px) {
   .timer-box {
-    width: 90px;
-    height: 90px;
+    width: clamp(80px, 20vw, 140px);
+    height: clamp(80px, 20vw, 140px);
   }
 
   .timer-value {
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 5vw, 3rem);
   }
 
   section {
-    padding: 60px 15px;
+    padding: 40px 15px;
   }
 
   .card {
@@ -1543,6 +1543,10 @@ footer {
 
   .stat-card {
     padding: 40px 20px;
+  }
+
+  .stat-number {
+    font-size: clamp(3rem, 15vw, 6rem);
   }
 
   .milestone {
@@ -1560,8 +1564,53 @@ footer {
   .milestone-info {
     padding-left: 20px;
     margin-left: 10px;
-    /* Aligns the vertical line slightly inset */
   }
 
+  /* PIN Pad adjustments for mobile */
+  .login-card {
+    padding: 30px 20px;
+    width: 95%;
+    max-width: 320px;
+  }
 
+  .num-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 1.4rem;
+  }
+
+  .pin-dots {
+    gap: 10px;
+    margin: 20px 0 30px;
+  }
+
+  .dot {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+/* Specific adjustments for ultra-small screens */
+@media (max-width: 375px) {
+  .num-btn {
+    width: 55px;
+    height: 55px;
+  }
+
+  .timer-container {
+    gap: 10px;
+  }
+
+  .timer-box {
+    width: 75px;
+    height: 75px;
+  }
+
+  .stat-number {
+    font-size: 2.5rem;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+  }
 }
