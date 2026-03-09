@@ -403,6 +403,9 @@ function toggleVinyl() {
         const originalText = text.innerText;
         text.innerText = 'Caricamento...';
 
+        // Su mobile può servire un caricamento esplicito se non l'ha ancora fatto
+        if (audio.readyState < 2) audio.load();
+
         audio.play().then(() => {
             record.classList.add('playing');
             arm.classList.add('playing');
@@ -414,7 +417,8 @@ function toggleVinyl() {
             console.error("Playback error:", error);
             text.innerText = originalText;
             btn.disabled = false;
-            alert("Per riprodurre la musica su mobile, assicurati che il volume sia attivo e riprova!");
+            // Se fallisce, chiediamo un altro tocco che è garantito per sbloccare
+            alert("Il tuo telefono ha bloccato la riproduzione. Riprova ora! ❤️");
         });
     } else {
         audio.pause();
