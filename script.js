@@ -315,9 +315,13 @@ function generatePhrase() {
 
     // Disable button during animation
     btn.disabled = true;
-    phraseElement.classList.add('hidden');
+
+    // Step 1: Fade out
+    phraseElement.classList.remove('fade-in');
+    phraseElement.classList.add('fade-out');
 
     setTimeout(() => {
+        // Step 2: Change text
         let newIndex;
         do {
             newIndex = Math.floor(Math.random() * romanticPhrases.length);
@@ -325,8 +329,15 @@ function generatePhrase() {
 
         lastPhraseIndex = newIndex;
         phraseElement.innerText = romanticPhrases[newIndex];
-        phraseElement.classList.remove('hidden');
-        btn.disabled = false;
+
+        // Step 3: Fade in
+        phraseElement.classList.remove('fade-out');
+        phraseElement.classList.add('fade-in');
+
+        // Step 4: Re-enable button after fade-in starts
+        setTimeout(() => {
+            btn.disabled = false;
+        }, 400);
     }, 500);
 }
 
@@ -383,31 +394,30 @@ function toggleVinyl() {
     const audio = document.getElementById('romantic-audio');
     const record = document.getElementById('vinyl-record');
     const arm = document.getElementById('tonearm');
-    const icon = document.getElementById('vinyl-icon');
+    const svg = document.getElementById('play-pause-svg');
     const text = document.getElementById('vinyl-text');
     const btn = document.getElementById('vinyl-play-pause');
 
     if (audio.paused) {
-        // Disable button while waiting for promise to avoid multiple triggers
         btn.disabled = true;
 
         audio.play().then(() => {
             record.classList.add('playing');
             arm.classList.add('playing');
-            icon.innerText = '⏸️';
+            // Switch to Pause Icon (VG style)
+            svg.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
             text.innerText = 'Pausa';
             btn.disabled = false;
         }).catch(error => {
             console.error("Playback error:", error);
             btn.disabled = false;
-            // On mobile, this often fails if not triggered by direct user interaction
-            // Since this is called from onclick, it should generally work.
         });
     } else {
         audio.pause();
         record.classList.remove('playing');
         arm.classList.remove('playing');
-        icon.innerText = '▶️';
+        // Switch to Play Icon (VG style)
+        svg.innerHTML = '<path d="M8 5v14l11-7z"/>';
         text.innerText = 'Riproduci';
     }
 }
@@ -459,12 +469,18 @@ function createFallingHeart() {
     heart.style.animationDuration = (Math.random() * 2 + 3) + 's'; // 3-5s
     heart.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
 
-    document.body.appendChild(heart);
-
     // Cleanup
     setTimeout(() => {
         heart.remove();
     }, 5000);
+}
+
+function restartAudio() {
+    const audio = document.getElementById('romantic-audio');
+    audio.currentTime = 0;
+    if (audio.paused) {
+        toggleVinyl();
+    }
 }
 
 
