@@ -14,16 +14,35 @@
 </head>
 
 <body>
-    <!-- Login Overlay -->
+    <!-- Login Overlay (PIN Numpad) -->
     <div id="login-overlay">
         <div class="login-card glass">
             <h2>Reserved for my Moon 🤍</h2>
-            <p>Inserisci la password per entrare</p>
-            <div class="login-input-group">
-                <input type="password" id="login-pass" placeholder="Password..." autocomplete="current-password">
-                <button id="login-btn">Entra</button>
+            <p id="status-msg">Inserisci il PIN per entrare</p>
+
+            <div id="pin-dots" class="pin-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
             </div>
-            <p id="login-error" class="error-text hidden">Opps! Password errata... riprova</p>
+
+            <div id="numpad" class="numpad">
+                <button class="num-btn" data-val="1">1</button>
+                <button class="num-btn" data-val="2">2</button>
+                <button class="num-btn" data-val="3">3</button>
+                <button class="num-btn" data-val="4">4</button>
+                <button class="num-btn" data-val="5">5</button>
+                <button class="num-btn" data-val="6">6</button>
+                <button class="num-btn" data-val="7">7</button>
+                <button class="num-btn" data-val="8">8</button>
+                <button class="num-btn" data-val="9">9</button>
+                <div class="btn-spacer"></div>
+                <button class="num-btn" data-val="0">0</button>
+                <button class="num-btn delete-btn" id="delete-btn">⌫</button>
+            </div>
         </div>
     </div>
 
@@ -377,6 +396,8 @@
             </div>
         </section>
 
+        <!-- Moon Section -->
+
         <!-- Interactive Letter Section -->
         <section id="love-letter" class="envelope-section">
             <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 20px;">Ti ho scritto una letterina</h2>
@@ -442,7 +463,7 @@
     </main>
 
     <footer>
-        To my moon. Buon 3° mese 🤍
+        Buon 3° mese <span id="secret-trigger" style="cursor: pointer; user-select: none;">🤍</span>
     </footer>
 
     <script src="script.js?v=2"></script>
