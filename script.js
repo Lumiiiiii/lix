@@ -385,13 +385,24 @@ function toggleVinyl() {
     const arm = document.getElementById('tonearm');
     const icon = document.getElementById('vinyl-icon');
     const text = document.getElementById('vinyl-text');
+    const btn = document.getElementById('vinyl-play-pause');
 
     if (audio.paused) {
-        audio.play();
-        record.classList.add('playing');
-        arm.classList.add('playing');
-        icon.innerText = '⏸️';
-        text.innerText = 'Pausa';
+        // Disable button while waiting for promise to avoid multiple triggers
+        btn.disabled = true;
+
+        audio.play().then(() => {
+            record.classList.add('playing');
+            arm.classList.add('playing');
+            icon.innerText = '⏸️';
+            text.innerText = 'Pausa';
+            btn.disabled = false;
+        }).catch(error => {
+            console.error("Playback error:", error);
+            btn.disabled = false;
+            // On mobile, this often fails if not triggered by direct user interaction
+            // Since this is called from onclick, it should generally work.
+        });
     } else {
         audio.pause();
         record.classList.remove('playing');
