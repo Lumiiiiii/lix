@@ -759,36 +759,77 @@ section {
   font-size: 2rem;
 }
 
-/* Lovometro Section */
+/* Lovometro Section - Vertical Redesign */
 .lovometro-container {
   max-width: 900px;
   margin: 0 auto;
-  padding: 60px 40px;
+  padding: 60px 20px;
+  height: 500px;
+  display: flex;
+  justify-content: center;
   text-align: center;
   position: relative;
 }
 
 .lovometro-track-wrapper {
+  width: 40px;
+  height: 350px;
+  margin: 0;
   position: relative;
+}
+
+.lovometro-track {
+  width: 20px;
+  height: 100%;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.lovometro-bar {
+  position: absolute;
   width: 100%;
-  margin-top: 40px;
-  padding-bottom: 20px;
+  height: 0%;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(0deg, var(--accent-color), var(--accent-glow), #00ffcc);
+  border-radius: 12px;
+  box-shadow: 0 0 20px var(--accent-glow), 0 0 40px rgba(0, 255, 204, 0.6);
+  transition: height 3.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.lovometro-bar.filled {
+  height: 120%;
+  width: 100%;
 }
 
 .lovometro-labels {
-  position: relative;
-  height: 30px;
-  margin-bottom: 15px;
-  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 45px;
+  height: 100%;
+  width: 150px;
+  margin: 0;
 }
 
 .lovometro-labels .label {
   position: absolute;
-  transform: translateX(-50%);
+  bottom: 0%;
+  left: 0 !important;
+  transform: translateY(50%);
   font-weight: 600;
   color: var(--text-dim);
   font-size: 0.95rem;
   white-space: nowrap;
+  text-align: left;
 }
 
 .lovometro-labels .label.infinite {
@@ -796,7 +837,7 @@ section {
   font-size: 1.2rem;
   font-weight: 800;
   text-shadow: 0 0 15px var(--accent-glow), 0 0 30px var(--accent-glow);
-  transform: translateX(-50%) translateY(-5px);
+  transform: translateY(50%);
   animation: float-pulse 3s infinite ease-in-out;
 }
 
@@ -804,75 +845,43 @@ section {
 
   0%,
   100% {
-    transform: translateX(-50%) translateY(-5px) scale(1);
+    transform: translateY(50%) scale(1);
+    text-shadow: 0 0 15px var(--accent-glow), 0 0 30px var(--accent-glow);
   }
 
   50% {
-    transform: translateX(-50%) translateY(-10px) scale(1.05);
+    transform: translateY(40%) scale(1.05);
+    text-shadow: 0 0 25px #00ffcc, 0 0 50px var(--accent-glow);
   }
-}
-
-.lovometro-track {
-  width: 100%;
-  height: 24px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  position: relative;
-  /* Allow overflow so the bar can shoot past the container */
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 .lovometro-marker {
   position: absolute;
-  top: -8px;
-  bottom: -8px;
-  width: 4px;
+  left: 0 !important;
+  bottom: 0;
+  width: 100%;
+  height: 4px;
   background: rgba(255, 255, 255, 0.2);
   border-radius: 2px;
-  transform: translateX(-50%);
+  transform: translateY(50%);
   z-index: 1;
 }
 
-.lovometro-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 0%;
-  /* Starts at 0, filled via JS */
-  background: linear-gradient(90deg, var(--accent-color), var(--accent-glow), #00ffcc);
-  border-radius: 12px;
-  box-shadow: 0 0 20px var(--accent-glow), 0 0 40px rgba(0, 255, 204, 0.6);
-  transition: width 3.5s cubic-bezier(0.2, 0.8, 0.2, 1), height 3.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.lovometro-bar.filled {
-  width: 120%;
-}
-
 .love-pulsating-heart {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
   font-size: 1.8rem;
-  margin-right: -15px;
-  /* stick out from the bar */
   filter: drop-shadow(0 0 10px white);
   animation: heartbeat 1s infinite alternate;
   opacity: 0;
   transition: opacity 0.5s 3.5s;
-  /* Fade in after bar animation */
 }
 
 .wave-text-biancorosso {
-  background: linear-gradient(110deg,
-      #fff 20%,
-      #ff3333 40%,
-      #ff0000 50%,
-      #ff3333 60%,
-      #fff 80%);
+  background: linear-gradient(110deg, #fff 20%, #ff3333 40%, #ff0000 50%, #ff3333 60%, #fff 80%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
@@ -888,53 +897,59 @@ section {
 
 .my-love-text {
   position: absolute;
-  top: -65px;
-  right: -55px;
-  /* Riportato a sinistra (centrato) su desktop */
+  top: -5px;
+  right: -50px;
+  /* Moved more to the right */
+  transform: translateX(25px);
+  /* Pushed further to the right */
   font-family: 'Inter', sans-serif;
   font-weight: 700;
   font-size: 1.1rem;
   color: #ffffff;
   white-space: nowrap;
   opacity: 0;
-  transform: translateY(10px);
   transition: opacity 0.5s 4s, transform 0.5s 4s;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
   display: flex;
-  flex-direction: column;
-  /* Testo sopra, freccia sotto (default desktop) */
+  flex-direction: row;
+  /* Text then arrow side by side */
   align-items: center;
-  gap: 4px;
+  gap: 8px;
 }
 
-.love-text-mobile {
-  display: none !important;
-}
-
-/* Freccia pulita che punta verso il basso (desktop) */
-.love-text-desktop::after {
+.my-love-text::after {
   content: '';
   display: block;
   width: 0;
   height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 9px solid #ffffff;
+  /* Arrow pointing right */
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 8px solid #ffffff;
+  border-right: 0 solid transparent;
   filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+}
+
+.love-text-desktop {
+  display: none !important;
+}
+
+.love-text-mobile {
+  display: flex !important;
 }
 
 .lovometro-bar.filled .my-love-text {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateX(-50%) translateY(0);
 }
 
 @keyframes heartbeat {
   from {
-    transform: scale(1);
+    transform: translateX(-50%) scale(1);
   }
 
   to {
-    transform: scale(1.3);
+    transform: translateX(-50%) scale(1.3);
   }
 }
 
@@ -1060,168 +1075,5 @@ footer {
     /* Aligns the vertical line slightly inset */
   }
 
-  /* Lovometro Mobile Adjustments - Vertical Redesign */
-  .lovometro-container {
-    padding: 60px 20px;
-    height: 500px;
-    /* Give it enough height to grow */
-    display: flex;
-    justify-content: center;
-  }
 
-  .lovometro-track-wrapper {
-    width: 40px;
-    /* Width of the vertical container */
-    height: 350px;
-    margin: 0;
-    position: relative;
-  }
-
-  .lovometro-track {
-    width: 20px;
-    height: 100%;
-    margin: 0 auto;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
-    position: relative;
-  }
-
-  .lovometro-bar {
-    width: 100%;
-    height: 0%;
-    /* Start empty at the bottom */
-    top: auto;
-    bottom: 0;
-    left: 0;
-    background: linear-gradient(0deg, var(--accent-color), var(--accent-glow), #00ffcc);
-    /* Vertical gradient */
-    transition: height 3.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-    flex-direction: column;
-    /* Stack contents vertically */
-    justify-content: flex-start;
-    /* Push contents to the top */
-    align-items: center;
-  }
-
-  .lovometro-bar.filled {
-    height: 120%;
-    /* Shoot out the top */
-    width: 100%;
-    /* Keep width constrained */
-  }
-
-  .lovometro-labels {
-    position: absolute;
-    top: 0;
-    left: 45px;
-    /* Offset labels to the right of the track */
-    height: 100%;
-    width: 150px;
-    /* Enough space for text */
-    margin: 0;
-  }
-
-  .lovometro-labels .label {
-    top: auto;
-    bottom: 0%;
-    /* Default positions to override below */
-    left: 0 !important;
-    /* Align left alongside track */
-    transform: translateY(50%);
-    /* Center perfectly on marker */
-    font-size: 0.8rem;
-    text-align: left;
-  }
-
-  .lovometro-labels .label:nth-child(1) {
-    bottom: 10%;
-  }
-
-  .lovometro-labels .label:nth-child(2) {
-    bottom: 40%;
-  }
-
-  .lovometro-labels .label:nth-child(3) {
-    bottom: 70%;
-  }
-
-  .lovometro-labels .label:nth-child(4) {
-    bottom: 100%;
-  }
-
-  .lovometro-labels .label.infinite {
-    font-size: 1rem;
-    transform: translateY(50%);
-  }
-
-  /* Reset desktop specific left positions */
-  .lovometro-marker {
-    left: 0 !important;
-    top: auto;
-    bottom: 0;
-    width: 100%;
-    height: 4px;
-    transform: translateY(50%);
-  }
-
-  .lovometro-marker:nth-child(1) {
-    bottom: 10%;
-  }
-
-  .lovometro-marker:nth-child(2) {
-    bottom: 40%;
-  }
-
-  .lovometro-marker:nth-child(3) {
-    bottom: 70%;
-  }
-
-  .lovometro-marker:nth-child(4) {
-    bottom: 100%;
-  }
-
-  .love-text-desktop {
-    display: none !important;
-  }
-
-  .love-text-mobile {
-    display: flex !important;
-    flex-direction: column-reverse;
-    /* Testo sotto, freccia sopra */
-    align-items: center;
-    gap: 8px;
-    position: absolute;
-    top: -65px;
-    /* Sits completely above the bar tip */
-    right: auto;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.85rem;
-    white-space: nowrap;
-  }
-
-  /* Upward arrow for vertical infinity */
-  .love-text-mobile::after {
-    content: '';
-    display: block;
-    width: 0;
-    height: 0;
-    border-top: 0 solid transparent;
-    border-bottom: 8px solid #ffffff;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
-  }
-
-  .love-pulsating-heart {
-    position: absolute;
-    top: -15px;
-    /* Sit right at the tip of the vertical bar */
-    left: 50%;
-    transform: translateX(-50%);
-    margin: 0;
-    font-size: 1.5rem;
-  }
 }
