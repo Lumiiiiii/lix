@@ -1204,6 +1204,220 @@ section {
   }
 }
 
+
+/* Vinyl Player Section */
+.vinyl-player-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 50px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  position: relative;
+  overflow: visible;
+}
+
+.vinyl-wrapper {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  perspective: 1000px;
+}
+
+.vinyl-disk {
+  width: 100%;
+  height: 100%;
+  background: #111;
+  border-radius: 50%;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), inset 0 0 2px rgba(255, 255, 255, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.8s ease-in-out;
+  transform-style: preserve-3d;
+}
+
+.vinyl-disk.playing {
+  animation: spin 3s linear infinite;
+}
+
+.vinyl-grooves {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  height: 90%;
+  border-radius: 50%;
+  background: repeating-radial-gradient(circle at center,
+      rgba(255, 255, 255, 0.05) 0px,
+      rgba(255, 255, 255, 0.05) 1px,
+      transparent 1px,
+      transparent 3px);
+  pointer-events: none;
+}
+
+.vinyl-cover {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  z-index: 2;
+  border: 2px solid #222;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.vinyl-center-hole {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: var(--bg-color);
+  border-radius: 50%;
+  z-index: 3;
+}
+
+.tonearm-container {
+  position: absolute;
+  top: 0;
+  right: 50px;
+  width: 150px;
+  height: 250px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.tonearm {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-origin: 30px 30px;
+  transition: transform 1s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  transform: rotate(-30deg);
+  /* Stopped position: outside the record */
+}
+
+.tonearm.playing {
+  transform: rotate(15deg);
+  /* Playing position: over the record */
+}
+
+.tonearm-base {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 30px;
+  height: 30px;
+  background: #333;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.tonearm-arm {
+  position: absolute;
+  top: 25px;
+  left: 28px;
+  width: 4px;
+  height: 200px;
+  background: linear-gradient(to bottom, #444, #222);
+  border-radius: 2px;
+}
+
+.tonearm-head {
+  position: absolute;
+  bottom: 0;
+  left: -10px;
+  width: 24px;
+  height: 36px;
+  background: #222;
+  border-radius: 4px;
+  transform: rotate(-10deg);
+}
+
+.player-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.player-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-color);
+  background: rgba(0, 119, 255, 0.1);
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 20px rgba(0, 119, 255, 0.2);
+}
+
+.player-btn:hover {
+  background: var(--accent-color);
+  transform: scale(1.1);
+  box-shadow: 0 0 30px rgba(0, 119, 255, 0.5);
+}
+
+.song-title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--text-color);
+  letter-spacing: 0.05em;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Mobile Adjustments for Vinyl Player */
+@media (max-width: 768px) {
+  .vinyl-player-container {
+    padding: 30px 10px;
+    gap: 30px;
+  }
+
+  .vinyl-wrapper {
+    width: 240px;
+    height: 240px;
+  }
+
+  .vinyl-cover {
+    width: 90px;
+    height: 90px;
+  }
+
+  .tonearm-container {
+    right: 20px;
+    height: 200px;
+    width: 120px;
+  }
+
+  .tonearm-arm {
+    height: 160px;
+  }
+
+  .tonearm {
+    transform: rotate(-35deg);
+  }
+
+  .tonearm.playing {
+    transform: rotate(10deg);
+  }
+}
+
 footer {
   text-align: center;
   padding: 60px 20px 40px;
