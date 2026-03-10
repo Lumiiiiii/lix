@@ -1294,7 +1294,7 @@ section {
   height: 100%;
   transform-origin: 30px 30px;
   transition: transform 1s cubic-bezier(0.45, 0.05, 0.55, 0.95);
-  transform: rotate(-30deg);
+  transform: rotate(-30000deg);
   /* Stopped position: outside the record */
 }
 
@@ -1414,7 +1414,7 @@ section {
   }
 
   .tonearm.playing {
-    transform: rotate(30px);
+    transform: rotate(3000px);
   }
 }
 
