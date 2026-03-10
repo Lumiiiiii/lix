@@ -1299,7 +1299,7 @@ section {
 }
 
 .tonearm.playing {
-  transform: rotate(15deg);
+  transform: rotate(25deg);
   /* Playing position: over the record */
 }
 
@@ -1327,12 +1327,12 @@ section {
 .tonearm-head {
   position: absolute;
   bottom: 0;
-  left: -10px;
+  left: 10px;
   width: 24px;
   height: 36px;
   background: #222;
   border-radius: 4px;
-  transform: rotate(-10deg);
+  transform: rotate(-20deg);
 }
 
 .player-controls {
@@ -1410,11 +1410,11 @@ section {
   }
 
   .tonearm {
-    transform: rotate(-35deg);
+    transform: rotate(-15deg);
   }
 
   .tonearm.playing {
-    transform: rotate(10deg);
+    transform: rotate(30px);
   }
 }
 
