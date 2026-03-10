@@ -1410,7 +1410,7 @@ section {
   }
 
   .tonearm {
-    transform: rotate(-15deg);
+    transform: rotate(-25deg);
   }
 
   .tonearm.playing {
