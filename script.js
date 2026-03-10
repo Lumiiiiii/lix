@@ -343,7 +343,43 @@ function createFallingHeart() {
     }, 5000);
 }
 
+// ----------------------------------------------------
+// Vinyl Player Logic
+// ----------------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+    const playPauseBtn = document.getElementById('play-pause-btn');
+    const bgMusic = document.getElementById('bg-music');
+    const vinylDisk = document.getElementById('vinyl-disk');
+    const tonearm = document.getElementById('tonearm');
+    const playIcon = playPauseBtn?.querySelector('.play-icon');
+    const pauseIcon = playPauseBtn?.querySelector('.pause-icon');
 
+    if (!playPauseBtn || !bgMusic) return;
 
+    function togglePlay() {
+        if (bgMusic.paused) {
+            bgMusic.play().then(() => {
+                vinylDisk.classList.add('playing');
+                tonearm.classList.add('playing');
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+            }).catch(err => console.error("Error playing audio:", err));
+        } else {
+            bgMusic.pause();
+            vinylDisk.classList.remove('playing');
+            tonearm.classList.remove('playing');
+            playIcon.classList.remove('hidden');
+            pauseIcon.classList.add('hidden');
+        }
+    }
 
+    playPauseBtn.addEventListener('click', togglePlay);
 
+    // Reset when audio ends
+    bgMusic.addEventListener('ended', () => {
+        vinylDisk.classList.remove('playing');
+        tonearm.classList.remove('playing');
+        playIcon.classList.remove('hidden');
+        pauseIcon.classList.add('hidden');
+    });
+});
