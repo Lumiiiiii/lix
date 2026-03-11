@@ -275,8 +275,8 @@
 
         <!-- Photo Gallery Section -->
         <section id="gallery" style="margin-top: 80px; margin-bottom: 50px;">
-            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 15px;">Alcune delle mie nostre foto
-                preferite (non mi uccidere)
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 15px;">Alcune delle mie foto preferite di
+                noi hihi (non mi uccidere)
             </h2>
             <p style="text-align: center; color: var(--text-dim); margin-bottom: 40px;"> (anche se sono solo una piccola
                 parte di tutte quelle che avrei voluto mettere) </p>
@@ -365,34 +365,81 @@
             </div>
         </section>
 
-        <!-- Vinyl Player Section -->
+        <!-- Magic Love Card Section -->
+        <section id="love-machine" style="margin-top: 80px; margin-bottom: 50px;">
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 10px;">Cose che amo di te 🤍</h2>
+            <p style="text-align: center; color: var(--text-dim); margin-bottom: 40px;">(non sono riuscito a metterle
+                tutti, ma sono una gran parte)</p>
+
+            <div class="magic-card-wrapper">
+                <div class="magic-card-container" id="magic-card-container">
+                    <div class="magic-card" id="magic-card">
+                        <!-- Front face -->
+                        <div class="magic-card-face magic-card-front">
+                            <div class="magic-card-glow"></div>
+                            <div class="magic-card-content">
+                                <div class="magic-heart-icon">🤍</div>
+                                <p class="magic-hint">Tocca per scoprire</p>
+                            </div>
+                            <div class="magic-sparkles">
+                                <span class="sparkle s1">✦</span>
+                                <span class="sparkle s2">✧</span>
+                                <span class="sparkle s3">✦</span>
+                                <span class="sparkle s4">✧</span>
+                                <span class="sparkle s5">✦</span>
+                                <span class="sparkle s6">✧</span>
+                            </div>
+                        </div>
+                        <!-- Back face -->
+                        <div class="magic-card-face magic-card-back">
+                            <div class="magic-card-glow"></div>
+                            <div class="magic-card-content">
+                                <div class="magic-reveal-emoji">🤍</div>
+                                <p class="magic-reason-text" id="magic-reason-text">Il tuo sorriso</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="magic-btn" id="magic-btn"
+                    onclick="event.preventDefault(); dispenseLoveReason()">
+                    <span class="magic-btn-text">Scopri un motivo</span>
+                    <span class="magic-btn-icon">✨</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Music Player Section -->
         <section id="soundtrack" style="margin-top: 80px; margin-bottom: 50px; text-align: center;">
             <h2 style="font-size: 2.5rem; margin-bottom: 40px;">Una delle tante canzoni che ci unisce (mi fa pensare a
                 te)</h2>
 
-            <div class="vinyl-player-container glass">
-                <div class="vinyl-wrapper">
-                    <div class="vinyl-disk" id="vinyl-disk">
-                        <div class="vinyl-grooves"></div>
-                        <img src="tuacoperetina.jpg" alt="Cover" class="vinyl-cover">
-                        <div class="vinyl-center-hole"></div>
+            <div class="music-player glass">
+                <div class="mp-cover-wrapper">
+                    <div class="mp-vinyl-ring" id="vinyl-disk"></div>
+                    <img src="tuacoperetina.jpg" alt="Cover" class="mp-cover-art" id="mp-cover-art">
+                </div>
+
+                <div class="mp-info">
+                    <p class="mp-song-title">"Your lips, my lips, apocalypse"</p>
+
+                </div>
+
+                <div class="mp-progress-wrapper">
+                    <div class="mp-progress-bar">
+                        <div class="mp-progress-fill" id="mp-progress-fill"></div>
+                    </div>
+                    <div class="mp-time">
+                        <span id="mp-current-time">0:00</span>
+                        <span id="mp-duration">0:00</span>
                     </div>
                 </div>
 
-                <div class="tonearm-container">
-                    <div class="tonearm" id="tonearm">
-                        <div class="tonearm-base"></div>
-                        <div class="tonearm-arm"></div>
-                        <div class="tonearm-head"></div>
-                    </div>
-                </div>
-
-                <div class="player-controls">
-                    <button id="play-pause-btn" class="player-btn">
+                <div class="mp-controls">
+                    <button id="play-pause-btn" class="mp-play-btn">
                         <span class="play-icon">▶</span>
-                        <span class="pause-icon hidden">II</span>
+                        <span class="pause-icon hidden">❚❚</span>
                     </button>
-                    <p class="song-title">Your lips, my lips, apocalypse</p>
                 </div>
 
                 <audio id="bg-music" src="canzone.mp3.mp3"></audio>
@@ -433,13 +480,11 @@
                         è molto tardi, sono l'1 e 48, in realtà nonn ho molto l'inspirazione da scrittore adesso, però
                         ci sono alcune cose che vorrei scrivere, e vorrei che tu leggessi, e chi lo sa, magari quando
                         stai male puoi aprire questo sito (sì resterà per sempre online) leggere questa lettera e
-                        sentirti un pochino meglio. Sinceramente, dopo la mia ex, di cui ancora non penso di averti
-                        parlato per bene, non pensavo di boh poter provare un amore così grande, lo so, potresti dire
-                        che sono di parte perchè ora sto con te ma in realtà non è così. E' la realtà. Magari è bruttoda
-                        dire, ma io con lei non avevo quello che ho adesso con te, ho tanta paura che possa finire tutto
-                        da un momento all'altro, mi sembra così perfetto che ho una paura immensa. E' così bello avere
+                        sentirti un pochino meglio. Sinceramente non pensavo di boh poter provare un amore così grande,
+                        (lo so è molto sdolcinata come cosa). E' così bello avere
                         una persona che mi ascolta come te, che ha le mie stesse idee, che mi capisce, che non mi
-                        giudica, con cui mi diverto, con cui rido, piango, mi sfogo, ci parlo... ti amo immensamente
+                        giudica, con cui mi diverto, con cui rido, piango, mi sfogo, con cui parlo di tutto. Ti amo
+                        immensamente
                         amore mio, you know how much??? Hai presente l'universo? Che si espande sempre di più? Quello è
                         il mio amore che provo per te. Mi dispiace tanto che tu ora stia male, vorrei tanto poter essere
                         lì, a coccolarti, nel letto. Ma sono sicuro che ci riusciremo un giorno, e staremo abbracciati

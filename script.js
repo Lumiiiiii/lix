@@ -344,30 +344,69 @@ function createFallingHeart() {
 }
 
 // ----------------------------------------------------
-// Vinyl Player Logic
+// Modern Music Player Logic
 // ----------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
     const playPauseBtn = document.getElementById('play-pause-btn');
     const bgMusic = document.getElementById('bg-music');
     const vinylDisk = document.getElementById('vinyl-disk');
-    const tonearm = document.getElementById('tonearm');
+    const coverArt = document.getElementById('mp-cover-art');
+    const progressFill = document.getElementById('mp-progress-fill');
+    const currentTimeEl = document.getElementById('mp-current-time');
+    const durationEl = document.getElementById('mp-duration');
     const playIcon = playPauseBtn?.querySelector('.play-icon');
     const pauseIcon = playPauseBtn?.querySelector('.pause-icon');
 
     if (!playPauseBtn || !bgMusic) return;
 
+    function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function updateProgress() {
+        if (bgMusic.duration) {
+            const progress = (bgMusic.currentTime / bgMusic.duration) * 100;
+            progressFill.style.width = progress + '%';
+            currentTimeEl.textContent = formatTime(bgMusic.currentTime);
+        }
+        if (!bgMusic.paused) {
+            requestAnimationFrame(updateProgress);
+        }
+    }
+
+    bgMusic.addEventListener('loadedmetadata', () => {
+        durationEl.textContent = formatTime(bgMusic.duration);
+    });
+
+    // Allow seeking by clicking on progress bar
+    const progressBar = document.querySelector('.mp-progress-bar');
+    if (progressBar) {
+        progressBar.addEventListener('click', (e) => {
+            const rect = progressBar.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const percent = clickX / rect.width;
+            if (bgMusic.duration) {
+                bgMusic.currentTime = percent * bgMusic.duration;
+                updateProgress();
+            }
+        });
+    }
+
     function togglePlay() {
         if (bgMusic.paused) {
             bgMusic.play().then(() => {
                 vinylDisk.classList.add('playing');
-                tonearm.classList.add('playing');
+                coverArt.classList.add('playing');
                 playIcon.classList.add('hidden');
                 pauseIcon.classList.remove('hidden');
+                requestAnimationFrame(updateProgress);
             }).catch(err => console.error("Error playing audio:", err));
         } else {
             bgMusic.pause();
             vinylDisk.classList.remove('playing');
-            tonearm.classList.remove('playing');
+            coverArt.classList.remove('playing');
             playIcon.classList.remove('hidden');
             pauseIcon.classList.add('hidden');
         }
@@ -378,8 +417,86 @@ document.addEventListener('DOMContentLoaded', () => {
     // Reset when audio ends
     bgMusic.addEventListener('ended', () => {
         vinylDisk.classList.remove('playing');
-        tonearm.classList.remove('playing');
+        coverArt.classList.remove('playing');
         playIcon.classList.remove('hidden');
         pauseIcon.classList.add('hidden');
+        progressFill.style.width = '0%';
+        currentTimeEl.textContent = '0:00';
     });
 });
+
+// ----------------------------------------------------
+// Magic Love Card - Love Reasons Generator
+// ----------------------------------------------------
+const loveReasons = [
+    "Il tuo sorriso",
+    "Le tue labbra",
+    "I tuoi occhi",
+    "La tua risata",
+    "I tuoi piedi!! HIIHI",
+    "I tuoi capelli",
+    "Il tuo naso",
+    "Le tue gambe",
+    "Il tuo umorismo",
+    "La tua schiena (sì, la amo così com'è)",
+    "Le tue orecchie",
+    "Come mi guardi",
+    "Come mi baci",
+    "Gli abbracci che mi dai",
+    "TUTTO (sì, anche i difetti)",
+    "La tua dolcezza",
+];
+
+let isDispensing = false;
+let lastReasonIndex = -1;
+
+function dispenseLoveReason() {
+    if (isDispensing) return;
+    isDispensing = true;
+
+    const card = document.getElementById('magic-card');
+    const reasonText = document.getElementById('magic-reason-text');
+    const btn = document.getElementById('magic-btn');
+    const container = document.getElementById('magic-card-container');
+
+    // Pick a random reason (avoid repeating the same one)
+    let randomIndex;
+    do {
+        randomIndex = Math.floor(Math.random() * loveReasons.length);
+    } while (randomIndex === lastReasonIndex && loveReasons.length > 1);
+    lastReasonIndex = randomIndex;
+
+    const reason = loveReasons[randomIndex];
+
+    // Set the reason text before flipping
+    reasonText.innerText = reason;
+
+    // Lock scroll position to prevent jump during 3D transform
+    const scrollY = window.scrollY || window.pageYOffset;
+    const lockScroll = () => window.scrollTo(0, scrollY);
+
+    // Flip the card
+    card.classList.add('flipped');
+
+    // Enforce scroll lock for a brief period (covers the transform start)
+    lockScroll();
+    const scrollLockId = setInterval(lockScroll, 16);
+    setTimeout(() => clearInterval(scrollLockId), 150);
+
+    // Disable button during animation
+    btn.style.pointerEvents = 'none';
+    btn.style.opacity = '0.5';
+
+    // Flip back after a delay so user can read
+    setTimeout(() => {
+        card.classList.remove('flipped');
+        
+        // Re-enable button after flip-back animation
+        setTimeout(() => {
+            btn.style.pointerEvents = '';
+            btn.style.opacity = '';
+            isDispensing = false;
+        }, 800);
+    }, 2500);
+}
+
