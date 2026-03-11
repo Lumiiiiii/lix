@@ -454,6 +454,7 @@ const loveReasons = [
 let isDispensing = false;
 let lastReasonIndex = -1;
 
+/*
 function dispenseLoveReason(e) {
     if (e) e.preventDefault();
     if (isDispensing) return;
@@ -515,4 +516,5 @@ document.addEventListener('DOMContentLoaded', () => {
         dispenseLoveReason(e);
     });
 });
+*/
 
