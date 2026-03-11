@@ -412,7 +412,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    playPauseBtn.addEventListener('click', togglePlay);
+    // Mobile-friendly event binding for the play button
+    let isPlayingHandled = false;
+    const handlePlayInteraction = (e) => {
+        if (e && e.type === 'touchstart') {
+            e.preventDefault(); // Prevent double-firing from synthetic click
+        }
+        if (isPlayingHandled) return;
+        isPlayingHandled = true;
+        
+        togglePlay();
+        
+        setTimeout(() => { isPlayingHandled = false; }, 300);
+    };
+
+    playPauseBtn.addEventListener('click', handlePlayInteraction);
+    playPauseBtn.addEventListener('touchstart', handlePlayInteraction, { passive: false });
 
     // Reset when audio ends
     bgMusic.addEventListener('ended', () => {
@@ -450,7 +465,8 @@ const loveReasons = [
 let isDispensing = false;
 let lastReasonIndex = -1;
 
-function dispenseLoveReason() {
+function dispenseLoveReason(e) {
+    if (e) e.preventDefault();
     if (isDispensing) return;
     isDispensing = true;
 
@@ -499,4 +515,25 @@ function dispenseLoveReason() {
         }, 800);
     }, 2500);
 }
+
+// Bind the magic button
+document.addEventListener('DOMContentLoaded', () => {
+    const magicBtn = document.getElementById('magic-btn');
+    if (!magicBtn) return;
+    
+    let isDispenseHandled = false;
+    const handleDispenseInteraction = (e) => {
+        if (e && e.type === 'touchstart') e.preventDefault();
+        
+        if (isDispenseHandled) return;
+        isDispenseHandled = true;
+        
+        dispenseLoveReason(e);
+        
+        setTimeout(() => { isDispenseHandled = false; }, 300);
+    };
+
+    magicBtn.addEventListener('click', handleDispenseInteraction);
+    magicBtn.addEventListener('touchstart', handleDispenseInteraction, { passive: false });
+});
 
