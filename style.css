@@ -1384,7 +1384,9 @@ section {
 
 /* Play button */
 .mp-controls {
-  z-index: 1;
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
 }
 
 .mp-play-btn {
@@ -1404,6 +1406,9 @@ section {
     0 4px 20px rgba(0, 102, 255, 0.4),
     0 0 40px rgba(0, 102, 255, 0.15);
   position: relative;
+  z-index: 10;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .mp-play-btn:hover {
@@ -1687,6 +1692,11 @@ section {
   background: linear-gradient(135deg, rgba(0, 102, 255, 0.12), rgba(0, 204, 255, 0.06));
   color: #fff;
   cursor: pointer;
+  position: relative;
+  z-index: 100;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
   font-family: 'Inter', sans-serif;
   font-size: 1rem;
   font-weight: 600;
