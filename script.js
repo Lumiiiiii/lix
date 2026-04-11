@@ -629,3 +629,87 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+
+// ----------------------------------------------------
+// Scattered Polaroids Logic
+// ----------------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+    const polaroids = document.querySelectorAll('.polaroid-item');
+    const gallery = document.getElementById('polaroid-gallery');
+    if (!polaroids.length || !gallery) return;
+
+    let highestZ = 10;
+    
+    // Initialize random rotations and positions
+    polaroids.forEach(polaroid => {
+        // Random rotation between -15 and +15 degrees
+        const randomRot = Math.random() * 30 - 15;
+        
+        // Slight random offset from center for a messy pile look
+        const randomX = Math.random() * 60 - 30;
+        const randomY = Math.random() * 60 - 30;
+
+        polaroid.dataset.rot = randomRot;
+        polaroid.dataset.basex = randomX;
+        polaroid.dataset.basey = randomY;
+        
+        polaroid.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRot}deg)`;
+        
+        // Drag logic
+        let isDragging = false;
+        let startX, startY, initialX = randomX, initialY = randomY;
+
+        // Use pointer events for both mouse and touch support
+        polaroid.addEventListener('pointerdown', (e) => {
+            if (e.button && e.button !== 0) return; // Only left click
+            e.preventDefault(); // Prevent default text selection
+            
+            isDragging = true;
+            polaroid.classList.add('dragging');
+            
+            // Bring to front
+            highestZ++;
+            polaroid.style.zIndex = highestZ;
+            
+            startX = e.clientX;
+            startY = e.clientY;
+            
+            // Revert scale slightly for dragging feel without losing rotation
+            polaroid.style.transform = `translate(${initialX}px, ${initialY}px) rotate(${randomRot}deg) scale(1.05)`;
+            polaroid.setPointerCapture(e.pointerId);
+        });
+
+        polaroid.addEventListener('pointermove', (e) => {
+            if (!isDragging) return;
+            
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            
+            const currentX = initialX + dx;
+            const currentY = initialY + dy;
+            
+            polaroid.dataset.x = currentX;
+            polaroid.dataset.y = currentY;
+            
+            polaroid.style.transform = `translate(${currentX}px, ${currentY}px) rotate(${randomRot}deg) scale(1.05)`;
+        });
+
+        const stopDrag = (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            polaroid.classList.remove('dragging');
+            
+            try {
+                polaroid.releasePointerCapture(e.pointerId);
+            } catch (err) {}
+            
+            if(polaroid.dataset.x !== undefined) initialX = parseFloat(polaroid.dataset.x);
+            if(polaroid.dataset.y !== undefined) initialY = parseFloat(polaroid.dataset.y);
+            
+            polaroid.style.transform = `translate(${initialX}px, ${initialY}px) rotate(${randomRot}deg) scale(1)`;
+        };
+
+        polaroid.addEventListener('pointerup', stopDrag);
+        polaroid.addEventListener('pointercancel', stopDrag);
+    });
+});
