@@ -1902,3 +1902,130 @@ footer {
     opacity: 0;
   }
 }
+
+
+/* Date Roulette */
+.roulette-container {
+    padding: 40px;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.roulette-slots {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.slot-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.slot-window {
+    width: 100%;
+    height: 80px;
+    background: rgba(0,0,0,0.5);
+    border: 2px solid var(--glass-border);
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 5px 20px rgba(0,0,0,0.8);
+}
+
+.slot-text {
+    font-size: 1.5rem;
+    font-weight: 900;
+    font-family: 'Outfit';
+    color: var(--accent-glow);
+    text-transform: uppercase;
+    transition: transform 0.1s;
+    text-shadow: 0 0 10px rgba(0,255,255,0.4);
+    pointer-events: none;
+}
+
+.slot-window.spinning .slot-text {
+    filter: blur(3px);
+    opacity: 0.7;
+    transform: translateY(10px);
+}
+
+.slot-label {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.spin-btn {
+    font-size: 1.5rem;
+    padding: 15px 50px;
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Time Capsules */
+.capsules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.capsule {
+    padding: 40px 30px;
+    text-align: center;
+    position: relative;
+    transition: var(--transition-smooth);
+    border-top: 4px solid var(--glass-border);
+}
+
+.capsule.locked {
+    border-top-color: #ff3333;
+}
+
+.capsule.unlocked {
+    border-top-color: #00ff88;
+    box-shadow: 0 0 30px rgba(0,255,136,0.1);
+}
+
+.capsule-icon {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+    display: inline-block;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.capsule.unlocked .capsule-icon {
+    transform: scale(1.2) rotate(10deg);
+}
+
+.capsule.locked .capsule-icon {
+    filter: drop-shadow(0 0 10px rgba(255,50,50,0.5));
+}
+
+.capsule.unlocked .capsule-icon {
+    filter: drop-shadow(0 0 15px rgba(0,255,136,0.8));
+}
+
+.capsule-title {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.capsule-date {
+    color: var(--text-dim);
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+.capsule.shake {
+    animation: shake 0.4s ease-in-out;
+}

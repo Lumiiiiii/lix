@@ -713,3 +713,94 @@ document.addEventListener('DOMContentLoaded', () => {
         polaroid.addEventListener('pointercancel', stopDrag);
     });
 });
+// ----------------------------------------------------
+// Time Capsules Logic
+// ----------------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+    const capsules = document.querySelectorAll('.capsule');
+    if (!capsules.length) return;
+
+    // Funzione chiamata all'avvio per verificare lo stato
+    const checkCapsulesState = () => {
+        const now = new Date();
+        
+        capsules.forEach(capsule => {
+            const unlockDateString = capsule.getAttribute('data-unlock-date');
+            if(!unlockDateString) return;
+            
+            const unlockDate = new Date(unlockDateString);
+            const btn = capsule.querySelector('.open-capsule-btn');
+            
+            if (now >= unlockDate) {
+                capsule.classList.remove('locked');
+                capsule.classList.add('unlocked');
+                
+                const icon = capsule.querySelector('.capsule-icon');
+                if(icon) icon.innerText = '🔓';
+                
+                if(btn) {
+                    btn.classList.remove('hidden');
+                }
+            }
+        });
+    };
+
+    checkCapsulesState(); // Controllo iniziale
+    
+    capsules.forEach(capsule => {
+        // Quando clicca sulla capsula
+        capsule.addEventListener('click', (e) => {
+            const unlockDateString = capsule.getAttribute('data-unlock-date');
+            if(!unlockDateString) return;
+            
+            const unlockDate = new Date(unlockDateString);
+            const now = new Date();
+            
+            // Se ancora bloccata
+            if (now < unlockDate) {
+                e.preventDefault();
+                capsule.classList.add('shake');
+                
+                // Crea messaggio temporaneo d'errore se non esiste
+                let errMsg = capsule.querySelector('.capsule-error');
+                if(!errMsg) {
+                    errMsg = document.createElement('p');
+                    errMsg.classList.add('capsule-error');
+                    errMsg.style.color = '#ff3333';
+                    errMsg.style.fontWeight = 'bold';
+                    errMsg.style.fontSize = '0.9rem';
+                    errMsg.style.marginTop = '10px';
+                    capsule.insertBefore(errMsg, capsule.querySelector('.capsule-title').nextSibling);
+                }
+                
+                errMsg.innerText = "Ehi! Non barare! È troppo presto!";
+                
+                setTimeout(() => {
+                    capsule.classList.remove('shake');
+                    setTimeout(() => {
+                        if(errMsg) errMsg.innerText = "";
+                    }, 1000);
+                }, 400);
+            }
+        });
+
+        // Quando clicca su Apri (disponibile solo se sbloccata)
+        const btn = capsule.querySelector('.open-capsule-btn');
+        if(btn) {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Evita di triggerare il click sulla capsula stessa
+                
+                const content = capsule.querySelector('.capsule-content');
+                if(content) {
+                    if(content.classList.contains('hidden')) {
+                        content.classList.remove('hidden');
+                        btn.innerText = "Nascondi";
+                    } else {
+                        content.classList.add('hidden');
+                        btn.innerText = "Apri";
+                    }
+                }
+            });
+        }
+    });
+});
