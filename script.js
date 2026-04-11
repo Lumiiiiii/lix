@@ -558,3 +558,74 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 */
 
+// ----------------------------------------------------
+// Bucket List Logic & Confetti
+// ----------------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+    const bucketItems = document.querySelectorAll('.bucket-item');
+
+    bucketItems.forEach(item => {
+        const checkbox = item.querySelector('input[type="checkbox"]');
+        
+        item.addEventListener('click', (e) => {
+            // Prevent double toggling if clicking directly on the checkbox/label
+            if (e.target !== checkbox && e.target !== item.querySelector('.check-box')) {
+                checkbox.checked = !checkbox.checked;
+            }
+
+            if (checkbox.checked) {
+                item.classList.add('checked');
+                fireConfetti(item);
+            } else {
+                item.classList.remove('checked');
+            }
+        });
+        
+        // Also listen to change on the checkbox explicitly
+        checkbox.addEventListener('change', (e) => {
+            if (checkbox.checked) {
+                item.classList.add('checked');
+                fireConfetti(item);
+            } else {
+                item.classList.remove('checked');
+            }
+        });
+    });
+
+    function fireConfetti(element) {
+        const colors = ['#ff0055', '#00ff88', '#00ccff', '#ffcc00', '#ff00ff'];
+        const rect = element.getBoundingClientRect();
+        
+        for (let i = 0; i < 30; i++) {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            
+            // Random color
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            // Start from the element's position
+            const startX = rect.left + Math.random() * rect.width;
+            const startY = rect.top + Math.random() * rect.height + window.scrollY;
+            
+            confetti.style.left = startX + 'px';
+            confetti.style.top = startY + 'px';
+            
+            // Custom animation logic
+            const tx = (Math.random() - 0.5) * 100; // X spread
+            const ty = -Math.random() * 50; // Y upwards force before falling
+            
+            confetti.style.setProperty('--tx', tx + 'px');
+            confetti.style.setProperty('--ty', ty + 'px');
+            
+            // Apply custom animation
+            confetti.style.animation = `popConfetti ${0.5 + Math.random() * 0.5}s ease-out forwards`;
+            
+            document.body.appendChild(confetti);
+            
+            // Cleanup
+            setTimeout(() => {
+                confetti.remove();
+            }, 1000);
+        }
+    }
+});

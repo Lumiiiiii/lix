@@ -79,14 +79,17 @@
             </div>
 
             <div id="timer-single" class="timer-container hidden">
-                <div class="timer-box glass" style="width: 90%; max-width: 600px; height: auto; padding: 30px 20px; min-height: 140px; text-align: center;">
-                    <span id="single-value" class="timer-value" style="font-size: clamp(1.5rem, 7vw, 4rem); white-space: nowrap; line-height: 1.1; margin-bottom: 15px; display: block; text-align: center;">00</span>
+                <div class="timer-box glass"
+                    style="width: 90%; max-width: 600px; height: auto; padding: 30px 20px; min-height: 140px; text-align: center;">
+                    <span id="single-value" class="timer-value"
+                        style="font-size: clamp(1.5rem, 7vw, 4rem); white-space: nowrap; line-height: 1.1; margin-bottom: 15px; display: block; text-align: center;">00</span>
                     <span id="single-label" class="timer-label">Mesi</span>
                 </div>
             </div>
 
             <div style="text-align: center; margin-top: 30px;">
-                <button id="format-btn" class="reveal-btn" style="margin-top: 0; font-size: 1rem; padding: 10px 20px;">Converti in: Soli Mesi</button>
+                <button id="format-btn" class="reveal-btn"
+                    style="margin-top: 0; font-size: 1rem; padding: 10px 20px;">Converti in: Soli Mesi</button>
             </div>
 
             <div class="scroll-indicator"
@@ -354,6 +357,62 @@
                 </div>
                 <div class="photo-item"><img src="photo13.jpg" alt="Ricordo 13" style="object-position: right center;">
                 </div>
+            </div>
+        </section>
+
+        <!-- Fun Bucket List Section -->
+        <section id="bucket-list" style="margin-top: 80px; margin-bottom: 50px;">
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 10px;">La nostra Bucket List <span
+                    style="font-family: initial;">✈️</span></h2>
+            <p style="text-align: center; color: var(--text-dim); margin-bottom: 40px;">Cose da fare assolutamente
+                insieme (clicca per spuntarle!)</p>
+
+            <div class="bucket-container glass">
+                <ul class="bucket-list" id="bucket-list-ul">
+                    <li class="bucket-item glass">
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" id="bl-1">
+                            <label for="bl-1" class="check-box"></label>
+                        </div>
+                        <span class="bucket-text">Fare un viaggio in Korea</span>
+                    </li>
+                    <li class="bucket-item glass">
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" id="bl-2">
+                            <label for="bl-2" class="check-box"></label>
+                        </div>
+                        <span class="bucket-text">Dormire insieme<span style="font-family: initial;">🐈</span></span>
+                    </li>
+                    <li class="bucket-item glass checked">
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" id="bl-3" checked>
+                            <label for="bl-3" class="check-box"></label>
+                        </div>
+                        <span class="bucket-text">Andare al mare insieme <span
+                                style="font-family: initial;">🌊</span></span>
+                    </li>
+                    <li class="bucket-item glass checked">
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" id="bl-4" checked>
+                            <label for="bl-4" class="check-box"></label>
+                        </div>
+                        <span class="bucket-text">Cenare fuori da soli insieme</span>
+                    </li>
+                    <li class="bucket-item glass">
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" id="bl-5">
+                            <label for="bl-5" class="check-box"></label>
+                        </div>
+                        <span class="bucket-text">Andare a un concerto insieme</span>
+                    </li>
+                    <li class="bucket-item glass">
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" id="bl-6">
+                            <label for="bl-6" class="check-box"></label>
+                        </div>
+                        <span class="bucket-text">Fare la doccia insieme</span>
+                    </li>
+                </ul>
             </div>
         </section>
 
