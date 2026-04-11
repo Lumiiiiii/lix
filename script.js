@@ -111,22 +111,62 @@ document.addEventListener('DOMContentLoaded', () => {
 // Countdown Timer Logic
 const startDate = new Date('2025-12-11T00:00:00'); // Fixed starting date();
 
+let currentTimerMode = 0;
+const timerModes = [
+    { id: 'default', nextLabel: 'Soli Mesi' },
+    { id: 'months', label: 'Mesi', nextLabel: 'Soli Giorni', calc: d => (d / (1000 * 60 * 60 * 24 * 30.436875)).toFixed(6) },
+    { id: 'days', label: 'Giorni', nextLabel: 'Sole Ore', calc: d => (d / (1000 * 60 * 60 * 24)).toFixed(5) },
+    { id: 'hours', label: 'Ore', nextLabel: 'Soli Minuti', calc: d => Math.floor(d / (1000 * 60 * 60)).toLocaleString('it-IT') },
+    { id: 'minutes', label: 'Minuti', nextLabel: 'Soli Secondi', calc: d => Math.floor(d / (1000 * 60)).toLocaleString('it-IT') },
+    { id: 'seconds', label: 'Secondi', nextLabel: 'Soli Millisecondi', calc: d => Math.floor(d / 1000).toLocaleString('it-IT') },
+    { id: 'milliseconds', label: 'Millisecondi', nextLabel: 'Formato Standard', calc: d => Math.floor(d).toLocaleString('it-IT') }
+];
+
+document.addEventListener('DOMContentLoaded', () => {
+    // ... existed logic ...
+    
+    // Timer Format Switcher
+    const formatBtn = document.getElementById('format-btn');
+    if(formatBtn) {
+        formatBtn.addEventListener('click', () => {
+            currentTimerMode = (currentTimerMode + 1) % timerModes.length;
+            formatBtn.innerText = 'Converti in: ' + timerModes[currentTimerMode].nextLabel;
+            
+            if (currentTimerMode === 0) {
+                document.getElementById('timer-default').classList.remove('hidden');
+                document.getElementById('timer-single').classList.add('hidden');
+            } else {
+                document.getElementById('timer-default').classList.add('hidden');
+                document.getElementById('timer-single').classList.remove('hidden');
+                document.getElementById('single-label').innerText = timerModes[currentTimerMode].label;
+            }
+            updateTimer();
+        });
+    }
+});
+
 // Timer Logic
 function updateTimer() {
     const now = new Date().getTime();
     const distance = now - startDate;
 
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    const milliseconds = Math.floor(distance % 1000);
+    if (currentTimerMode === 0) {
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        const milliseconds = Math.floor(distance % 1000);
 
-    document.getElementById('days').innerText = days.toString().padStart(2, '0');
-    document.getElementById('hours').innerText = hours.toString().padStart(2, '0');
-    document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0');
-    document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0');
-    document.getElementById('milliseconds').innerText = milliseconds.toString().padStart(3, '0');
+        document.getElementById('days').innerText = days.toString().padStart(2, '0');
+        document.getElementById('hours').innerText = hours.toString().padStart(2, '0');
+        document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0');
+        document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0');
+        document.getElementById('milliseconds').innerText = milliseconds.toString().padStart(3, '0');
+    } else {
+        const mode = timerModes[currentTimerMode];
+        const val = mode.calc(distance);
+        document.getElementById('single-value').innerText = val;
+    }
 }
 
 setInterval(updateTimer, 50); // Faster update for milliseconds

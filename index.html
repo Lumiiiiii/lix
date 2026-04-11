@@ -55,7 +55,7 @@
             <h1>나의 사랑</h1>
             <p class="subtitle">Stiamo insieme da: </p>
 
-            <div id="timer" class="timer-container">
+            <div id="timer-default" class="timer-container">
                 <div class="timer-box glass">
                     <span id="days" class="timer-value">00</span>
                     <span class="timer-label">Giorni</span>
@@ -76,6 +76,17 @@
                     <span id="milliseconds" class="timer-value">000</span>
                     <span class="timer-label">Millisec</span>
                 </div>
+            </div>
+
+            <div id="timer-single" class="timer-container hidden">
+                <div class="timer-box glass" style="width: auto; padding: 0 40px; min-width: 250px;">
+                    <span id="single-value" class="timer-value" style="font-size: 4rem;">00</span>
+                    <span id="single-label" class="timer-label">Mesi</span>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button id="format-btn" class="reveal-btn" style="margin-top: 0; font-size: 1rem; padding: 10px 20px;">Converti in: Soli Mesi</button>
             </div>
 
             <div class="scroll-indicator"
