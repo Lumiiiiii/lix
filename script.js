@@ -644,3 +644,254 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// ----------------------------------------------------
+// Mesiversario Countdown Logic
+// ----------------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+    const ANNIVERSARY_DAY = 11; // 11th of each month
+    const RELATIONSHIP_START = new Date('2025-12-11T00:00:00');
+
+    const daysEl = document.getElementById('mesi-days');
+    const hoursEl = document.getElementById('mesi-hours');
+    const minutesEl = document.getElementById('mesi-minutes');
+    const secondsEl = document.getElementById('mesi-seconds');
+    const countdownEl = document.getElementById('mesiversario-countdown');
+    const todayEl = document.getElementById('mesiversario-today');
+    const subtitleEl = document.getElementById('mesiversario-subtitle');
+    const monthNumberEl = document.getElementById('mesi-month-number');
+
+    if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return;
+
+    function getMonthNumber(date) {
+        const startYear = RELATIONSHIP_START.getFullYear();
+        const startMonth = RELATIONSHIP_START.getMonth();
+        const currentYear = date.getFullYear();
+        const currentMonth = date.getMonth();
+        return (currentYear - startYear) * 12 + (currentMonth - startMonth);
+    }
+
+    function getNextMesiversario() {
+        const now = new Date();
+        const thisMonth11 = new Date(now.getFullYear(), now.getMonth(), ANNIVERSARY_DAY);
+
+        if (now.getDate() === ANNIVERSARY_DAY) {
+            return null; // It's today!
+        } else if (now.getDate() < ANNIVERSARY_DAY) {
+            return thisMonth11;
+        } else {
+            // Next month's 11th
+            return new Date(now.getFullYear(), now.getMonth() + 1, ANNIVERSARY_DAY);
+        }
+    }
+
+    let confettiFired = false;
+
+    function updateMesiversario() {
+        const now = new Date();
+        const target = getNextMesiversario();
+
+        if (target === null) {
+            // It's mesiversario day!
+            countdownEl.classList.add('hidden');
+            todayEl.classList.remove('hidden');
+            const monthNum = getMonthNumber(now);
+            monthNumberEl.innerText = monthNum + '° mese insieme 🤍';
+            subtitleEl.innerText = 'Oggi è un giorno speciale!';
+
+            // Fire confetti once
+            if (!confettiFired) {
+                confettiFired = true;
+                fireMesiversarioConfetti();
+            }
+        } else {
+            countdownEl.classList.remove('hidden');
+            todayEl.classList.add('hidden');
+
+            const nextMonthNum = getMonthNumber(target);
+            subtitleEl.innerText = 'Mancano al nostro ' + nextMonthNum + '° mese...';
+
+            const diff = target.getTime() - now.getTime();
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            daysEl.innerText = days.toString().padStart(2, '0');
+            hoursEl.innerText = hours.toString().padStart(2, '0');
+            minutesEl.innerText = minutes.toString().padStart(2, '0');
+            secondsEl.innerText = seconds.toString().padStart(2, '0');
+        }
+    }
+
+    function fireMesiversarioConfetti() {
+        const colors = ['#ff6b9d', '#c44dff', '#6e8efb', '#ffcc00', '#00ff88', '#ff3366'];
+        const card = document.getElementById('mesiversario-card');
+        if (!card) return;
+
+        for (let i = 0; i < 50; i++) {
+            setTimeout(() => {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.width = (Math.random() * 8 + 5) + 'px';
+                confetti.style.height = (Math.random() * 8 + 5) + 'px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = '-10px';
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+                confetti.style.pointerEvents = 'none';
+                confetti.style.zIndex = '9999';
+                confetti.style.opacity = '1';
+                confetti.style.transition = 'none';
+
+                document.body.appendChild(confetti);
+
+                const duration = 2000 + Math.random() * 2000;
+                const swayX = (Math.random() - 0.5) * 200;
+                const startTime = performance.now();
+
+                function animateConfetti(time) {
+                    const elapsed = time - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+
+                    confetti.style.top = (progress * window.innerHeight * 1.1) + 'px';
+                    confetti.style.transform = `translateX(${Math.sin(progress * 6) * swayX}px) rotate(${progress * 720}deg)`;
+                    confetti.style.opacity = progress > 0.8 ? 1 - ((progress - 0.8) / 0.2) : 1;
+
+                    if (progress < 1) {
+                        requestAnimationFrame(animateConfetti);
+                    } else {
+                        confetti.remove();
+                    }
+                }
+
+                requestAnimationFrame(animateConfetti);
+            }, i * 60);
+        }
+    }
+
+    updateMesiversario();
+    setInterval(updateMesiversario, 1000);
+});
+
+// ----------------------------------------------------
+// Secret Message Board Logic
+// ----------------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+    const STORAGE_KEY = 'lix-secret-board';
+    const messagesContainer = document.getElementById('board-messages');
+    const emptyMsg = document.getElementById('board-empty');
+    const input = document.getElementById('board-input');
+    const sendBtn = document.getElementById('board-send-btn');
+
+    if (!messagesContainer || !input || !sendBtn) return;
+
+    function loadMessages() {
+        try {
+            const data = localStorage.getItem(STORAGE_KEY);
+            return data ? JSON.parse(data) : [];
+        } catch {
+            return [];
+        }
+    }
+
+    function saveMessages(messages) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+    }
+
+    function formatDate(timestamp) {
+        const d = new Date(timestamp);
+        const day = d.getDate().toString().padStart(2, '0');
+        const month = (d.getMonth() + 1).toString().padStart(2, '0');
+        const year = d.getFullYear();
+        const hours = d.getHours().toString().padStart(2, '0');
+        const mins = d.getMinutes().toString().padStart(2, '0');
+        return `${day}/${month}/${year} alle ${hours}:${mins}`;
+    }
+
+    function renderMessages() {
+        // Remove all notes (keep empty message element)
+        messagesContainer.querySelectorAll('.board-note').forEach(n => n.remove());
+
+        const messages = loadMessages();
+
+        if (messages.length === 0) {
+            emptyMsg.classList.remove('hidden');
+        } else {
+            emptyMsg.classList.add('hidden');
+            messages.forEach((msg, index) => {
+                const note = document.createElement('div');
+                note.classList.add('board-note');
+
+                const text = document.createElement('p');
+                text.classList.add('board-note-text');
+                text.textContent = msg.text;
+
+                const time = document.createElement('span');
+                time.classList.add('board-note-time');
+                time.textContent = formatDate(msg.timestamp);
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.classList.add('board-note-delete');
+                deleteBtn.innerHTML = '×';
+                deleteBtn.title = 'Elimina';
+                deleteBtn.addEventListener('click', () => {
+                    deleteMessage(index);
+                });
+
+                note.appendChild(deleteBtn);
+                note.appendChild(text);
+                note.appendChild(time);
+                messagesContainer.appendChild(note);
+            });
+
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+    }
+
+    function addMessage(text) {
+        const messages = loadMessages();
+        messages.push({
+            text: text.trim(),
+            timestamp: Date.now()
+        });
+        saveMessages(messages);
+        renderMessages();
+    }
+
+    function deleteMessage(index) {
+        const messages = loadMessages();
+        messages.splice(index, 1);
+        saveMessages(messages);
+        renderMessages();
+    }
+
+    function handleSend() {
+        const text = input.value.trim();
+        if (!text) return;
+
+        addMessage(text);
+        input.value = '';
+
+        // Visual feedback
+        sendBtn.classList.add('sent');
+        const originalContent = sendBtn.innerHTML;
+        sendBtn.innerHTML = '✓';
+        setTimeout(() => {
+            sendBtn.classList.remove('sent');
+            sendBtn.innerHTML = originalContent;
+        }, 1200);
+    }
+
+    sendBtn.addEventListener('click', handleSend);
+
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            handleSend();
+        }
+    });
+
+    // Initial render
+    renderMessages();
+});

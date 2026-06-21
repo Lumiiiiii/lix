@@ -547,7 +547,56 @@
             </div>
         </section>
 
-        <!-- Moon Section -->
+        <!-- Countdown to Next Mesiversario -->
+        <section id="next-mesiversario" style="margin-top: 80px; margin-bottom: 50px;">
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 10px;">Prossimo Mesiversario 🤍</h2>
+            <p id="mesiversario-subtitle" style="text-align: center; color: var(--text-dim); margin-bottom: 40px;"></p>
+
+            <div class="mesiversario-card glass" id="mesiversario-card">
+                <div class="mesiversario-countdown" id="mesiversario-countdown">
+                    <div class="mesi-box">
+                        <span id="mesi-days" class="mesi-value">--</span>
+                        <span class="mesi-label">Giorni</span>
+                    </div>
+                    <div class="mesi-box">
+                        <span id="mesi-hours" class="mesi-value">--</span>
+                        <span class="mesi-label">Ore</span>
+                    </div>
+                    <div class="mesi-box">
+                        <span id="mesi-minutes" class="mesi-value">--</span>
+                        <span class="mesi-label">Minuti</span>
+                    </div>
+                    <div class="mesi-box">
+                        <span id="mesi-seconds" class="mesi-value">--</span>
+                        <span class="mesi-label">Secondi</span>
+                    </div>
+                </div>
+                <div id="mesiversario-today" class="mesiversario-today hidden">
+                    <div class="mesi-celebration-emoji">🎉</div>
+                    <p class="mesi-celebration-text">Oggi è il nostro mesiversario!</p>
+                    <p class="mesi-celebration-sub" id="mesi-month-number"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Secret Message Board -->
+        <section id="secret-board" style="margin-top: 80px; margin-bottom: 50px;">
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 10px;">La nostra bacheca segreta 📌</h2>
+            <p style="text-align: center; color: var(--text-dim); margin-bottom: 40px;">Lasciami un messaggio che troverò
+                la prossima volta che apro il sito 🤍</p>
+
+            <div class="board-container glass">
+                <div class="board-messages" id="board-messages">
+                    <p class="board-empty" id="board-empty">Nessun messaggio ancora... scrivimi qualcosa! 💌</p>
+                </div>
+
+                <div class="board-input-area">
+                    <input type="text" id="board-input" class="board-input" placeholder="Scrivi un pensiero dolce..."
+                        maxlength="200" autocomplete="off">
+                    <button id="board-send-btn" class="board-send-btn">💌</button>
+                </div>
+            </div>
+        </section>
 
         <!-- Interactive Letter Section -->
         <section id="love-letter" class="envelope-section">
