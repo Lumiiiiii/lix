@@ -895,3 +895,267 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial render
     renderMessages();
 });
+
+// ----------------------------------------------------
+// Travel Map Logic
+// ----------------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+    const mapElement = document.getElementById('wishlist-map');
+    const listContainer = document.getElementById('map-places-list');
+    if (!mapElement || !listContainer) return;
+
+    // Initialize Leaflet Map
+    const map = L.map('wishlist-map', {
+        minZoom: 2,
+        maxZoom: 12,
+        worldCopyJump: true,
+        attributionControl: false // Custom attribution below
+    }).setView([20, 10], 2);
+
+    // Add CartoDB Dark Matter tile layer
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap &copy; CARTO',
+        subdomains: 'abcd',
+        maxZoom: 20
+    }).addTo(map);
+
+    // Define custom marker icons using L.divIcon
+    const heartIcon = L.divIcon({
+        className: 'custom-marker-heart',
+        html: '<div class="marker-pulse-red"></div><div class="marker-icon-heart">❤️</div>',
+        iconSize: [32, 32],
+        iconAnchor: [16, 16],
+        popupAnchor: [0, -12]
+    });
+
+    const wishIcon = L.divIcon({
+        className: 'custom-marker-wish',
+        html: '<div class="marker-pulse-blue"></div><div class="marker-icon-wish">✈️</div>',
+        iconSize: [32, 32],
+        iconAnchor: [16, 16],
+        popupAnchor: [0, -12]
+    });
+
+    // Default Seeded places
+    const defaultPlaces = [
+        {
+            id: 'first-kiss',
+            name: 'Grosseto (Il nostro primo bacio) 🤍',
+            coords: [42.757825, 11.096206],
+            desc: 'Uno dei momenti più belli della mia vita. Il nostro primo bacio, dove tutto è cominciato. 🤍',
+            type: 'memory'
+        },
+        {
+            id: 'tokyo',
+            name: 'Tokyo, Giappone 🇯🇵',
+            coords: [35.6762, 139.6503],
+            desc: 'Per vedere la fioritura dei ciliegi, perderci tra le luci di Shibuya e mangiare ramen delizioso.',
+            type: 'wishlist'
+        },
+        {
+            id: 'seoul',
+            name: 'Seoul, Corea del Sud 🇰🇷',
+            coords: [37.5665, 126.9780],
+            desc: 'Per fare le foto sotto i ciliegi in fiore, comprare vestiti carini a Myeongdong e mangiare street food piccante! 🌸',
+            type: 'wishlist'
+        },
+        {
+            id: 'paris',
+            name: 'Parigi, Francia 🇫🇷',
+            coords: [48.8566, 2.3522],
+            desc: 'La città dell\'amore, per vedere la Torre Eiffel scintillare di notte e mangiare croissant caldi passeggiando lungo la Senna.',
+            type: 'wishlist'
+        },
+        {
+            id: 'reykjavik',
+            name: 'Reykjavík, Islanda 🇮🇸',
+            coords: [64.1466, -21.9426],
+            desc: 'Per vedere l\'aurora boreale stretti sotto le coperte e rilassarci nelle sorgenti calde naturali.',
+            type: 'wishlist'
+        },
+        {
+            id: 'newyork',
+            name: 'New York City, USA 🇺🇸',
+            coords: [40.7128, -74.0060],
+            desc: 'Per camminare a Central Park in autunno tra le foglie rosse e dorate e vedere le luci di Times Square.',
+            type: 'wishlist'
+        }
+    ];
+
+    const STORAGE_KEY = 'lix-travel-map-custom';
+    let markersMap = {}; // Keep track of marker objects by place ID
+
+    // Load custom places from localStorage
+    function loadCustomPlaces() {
+        try {
+            const data = localStorage.getItem(STORAGE_KEY);
+            return data ? JSON.parse(data) : [];
+        } catch (e) {
+            console.error('Error loading custom places:', e);
+            return [];
+        }
+    }
+
+    // Save custom places to localStorage
+    function saveCustomPlaces(places) {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(places));
+        } catch (e) {
+            console.error('Error saving custom places:', e);
+        }
+    }
+
+    // Render list and markers
+    function renderMapAndList() {
+        // Clear existing markers from map
+        Object.values(markersMap).forEach(marker => map.removeLayer(marker));
+        markersMap = {};
+
+        const customPlaces = loadCustomPlaces();
+        const allPlaces = [...defaultPlaces, ...customPlaces];
+
+        // Clear sidebar list container
+        listContainer.innerHTML = '';
+
+        allPlaces.forEach(place => {
+            // Determine icon and emoji
+            const isMemory = place.type === 'memory';
+            const icon = isMemory ? heartIcon : wishIcon;
+            const emoji = isMemory ? '❤️' : '✈️';
+
+            // Create Leaflet Marker
+            const popupContent = `
+                <div class="popup-title">${isMemory ? '🤍' : '✈️'} ${place.name}</div>
+                <div class="popup-description">${place.desc}</div>
+            `;
+            const marker = L.marker(place.coords, { icon: icon })
+                .bindPopup(popupContent)
+                .addTo(map);
+
+            markersMap[place.id] = marker;
+
+            // Create sidebar list item
+            const item = document.createElement('div');
+            item.classList.add('map-item');
+            item.dataset.id = place.id;
+
+            const iconDiv = document.createElement('div');
+            iconDiv.classList.add('map-item-icon');
+            iconDiv.textContent = emoji;
+
+            const contentDiv = document.createElement('div');
+            contentDiv.classList.add('map-item-content');
+
+            const titleEl = document.createElement('div');
+            titleEl.classList.add('map-item-title');
+            titleEl.textContent = place.name;
+
+            const descEl = document.createElement('div');
+            descEl.classList.add('map-item-desc');
+            descEl.textContent = place.desc;
+
+            contentDiv.appendChild(titleEl);
+            contentDiv.appendChild(descEl);
+            item.appendChild(iconDiv);
+            item.appendChild(contentDiv);
+
+            // Add delete button only for custom places
+            if (!defaultPlaces.some(dp => dp.id === place.id)) {
+                const deleteBtn = document.createElement('button');
+                deleteBtn.classList.add('map-item-delete');
+                deleteBtn.innerHTML = '×';
+                deleteBtn.title = 'Rimuovi questo luogo';
+                deleteBtn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent clicking the item
+                    deleteCustomPlace(place.id);
+                });
+                item.appendChild(deleteBtn);
+            }
+
+            // Click listener for list item
+            item.addEventListener('click', () => {
+                // Remove active class from all items
+                document.querySelectorAll('.map-item').forEach(el => el.classList.remove('active'));
+                item.classList.add('active');
+
+                // Fly to coordinate and open popup
+                map.flyTo(place.coords, 6, {
+                    animate: true,
+                    duration: 1.5
+                });
+                
+                // Open marker popup after transition
+                setTimeout(() => {
+                    marker.openPopup();
+                }, 1000);
+            });
+
+            listContainer.appendChild(item);
+        });
+    }
+
+    function addCustomPlace(lat, lng, name, desc) {
+        const customPlaces = loadCustomPlaces();
+        const newPlace = {
+            id: 'custom-' + Date.now(),
+            name: name,
+            coords: [lat, lng],
+            desc: desc,
+            type: 'wishlist'
+        };
+        customPlaces.push(newPlace);
+        saveCustomPlaces(customPlaces);
+        renderMapAndList();
+
+        // Highlight and focus the new item
+        setTimeout(() => {
+            const newItem = listContainer.querySelector(`[data-id="${newPlace.id}"]`);
+            if (newItem) {
+                newItem.click();
+                newItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }, 300);
+    }
+
+    function deleteCustomPlace(id) {
+        let customPlaces = loadCustomPlaces();
+        customPlaces = customPlaces.filter(p => p.id !== id);
+        saveCustomPlaces(customPlaces);
+        renderMapAndList();
+    }
+
+    // Map Click Listener to Add Place
+    map.on('click', (e) => {
+        const lat = e.latlng.lat;
+        const lng = e.latlng.lng;
+
+        // Custom modal prompt
+        const name = window.prompt("Nome del luogo da visitare insieme (es: Londra, Islanda, ecc.):");
+        if (!name) return; // Cancelled
+
+        const desc = window.prompt(`Cosa vogliamo fare a ${name}? (es: Vedere i musei, mangiare dolci, ecc.):`);
+        if (desc === null) return; // Cancelled
+
+        addCustomPlace(lat, lng, name, desc || 'Nessuna descrizione inserita.');
+    });
+
+    // Fix hidden-container leaflet tile loading bug by calling invalidateSize when map becomes visible
+    if (window.IntersectionObserver) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    map.invalidateSize();
+                }
+            });
+        }, { threshold: 0.1 });
+        observer.observe(mapElement);
+    } else {
+        // Fallback for browsers without observer
+        setTimeout(() => {
+            map.invalidateSize();
+        }, 2000);
+    }
+
+    // Initial Render
+    renderMapAndList();
+});

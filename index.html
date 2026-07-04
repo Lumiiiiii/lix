@@ -11,6 +11,8 @@
         href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Inter:wght@400;700&family=Outfit:wght@400;700;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=2">
+    <!-- Leaflet Map CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
 </head>
 
 <body>
@@ -453,6 +455,27 @@
             </div>
         </section>
 
+        <!-- Travel Map Section -->
+        <section id="travel-map" style="margin-top: 80px; margin-bottom: 50px;">
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 10px;">La Mappa del Nostro Futuro 🌍</h2>
+            <p style="text-align: center; color: var(--text-dim); margin-bottom: 40px;">I paesi e i posti che vogliamo
+                visitare insieme (e quelli che abbiamo già nel cuore)</p>
+
+            <div class="map-container glass">
+                <div class="map-sidebar">
+                    <h3>La Nostra Lista ✈️</h3>
+                    <div class="map-instructions">
+                        💡 <em>Fai click in un punto qualsiasi della mappa per aggiungere un nuovo luogo da visitare
+                            insieme!</em>
+                    </div>
+                    <div class="map-list" id="map-places-list">
+                        <!-- Generato dinamicamente in script.js -->
+                    </div>
+                </div>
+                <div id="wishlist-map" class="map-element"></div>
+            </div>
+        </section>
+
         <!-- Magic Love Card Section (Temporarily Disabled - In Development)
         <section id="love-machine" style="margin-top: 80px; margin-bottom: 50px;">
             <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 10px;">Cose che amo di te 🤍</h2>
@@ -581,19 +604,20 @@
 
         <!-- Secret Message Board -->
         <section id="secret-board" style="margin-top: 80px; margin-bottom: 50px;">
-            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 10px;">La nostra bacheca segreta 📌</h2>
-            <p style="text-align: center; color: var(--text-dim); margin-bottom: 40px;">Lasciami un messaggio che troverò
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 10px;">La nostra bacheca segreta </h2>
+            <p style="text-align: center; color: var(--text-dim); margin-bottom: 40px;">Lasciami un messaggio che
+                troverò
                 la prossima volta che apro il sito 🤍</p>
 
             <div class="board-container glass">
                 <div class="board-messages" id="board-messages">
-                    <p class="board-empty" id="board-empty">Nessun messaggio ancora... scrivimi qualcosa! 💌</p>
+                    <p class="board-empty" id="board-empty">Nessun messaggio ancora... scrivimi qualcosa! </p>
                 </div>
 
                 <div class="board-input-area">
                     <input type="text" id="board-input" class="board-input" placeholder="Scrivi un pensiero dolce..."
                         maxlength="200" autocomplete="off">
-                    <button id="board-send-btn" class="board-send-btn">💌</button>
+                    <button id="board-send-btn" class="board-send-btn"></button>
                 </div>
             </div>
         </section>
@@ -667,6 +691,8 @@
         Buon 3° mese <span id="secret-trigger" style="cursor: pointer; user-select: none;">🤍</span>
     </footer>
 
+    <!-- Leaflet Map JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
     <script src="script.js?v=2"></script>
 </body>
 
