@@ -124,14 +124,14 @@ const timerModes = [
 
 document.addEventListener('DOMContentLoaded', () => {
     // ... existed logic ...
-    
+
     // Timer Format Switcher
     const formatBtn = document.getElementById('format-btn');
-    if(formatBtn) {
+    if (formatBtn) {
         formatBtn.addEventListener('click', () => {
             currentTimerMode = (currentTimerMode + 1) % timerModes.length;
             formatBtn.innerText = 'Converti in: ' + timerModes[currentTimerMode].nextLabel;
-            
+
             if (currentTimerMode === 0) {
                 document.getElementById('timer-default').classList.remove('hidden');
                 document.getElementById('timer-single').classList.add('hidden');
@@ -569,12 +569,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!polaroids.length || !gallery) return;
 
     let highestZ = 10;
-    
+
     // Initialize random rotations and positions
     polaroids.forEach(polaroid => {
         // Random rotation between -15 and +15 degrees
         const randomRot = Math.random() * 30 - 15;
-        
+
         // Slight random offset from center for a messy pile look
         const randomX = Math.random() * 60 - 30;
         const randomY = Math.random() * 60 - 30;
@@ -582,9 +582,9 @@ document.addEventListener('DOMContentLoaded', () => {
         polaroid.dataset.rot = randomRot;
         polaroid.dataset.basex = randomX;
         polaroid.dataset.basey = randomY;
-        
+
         polaroid.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRot}deg)`;
-        
+
         // Drag logic
         let isDragging = false;
         let startX, startY, initialX = randomX, initialY = randomY;
@@ -593,17 +593,17 @@ document.addEventListener('DOMContentLoaded', () => {
         polaroid.addEventListener('pointerdown', (e) => {
             if (e.button && e.button !== 0) return; // Only left click
             e.preventDefault(); // Prevent default text selection
-            
+
             isDragging = true;
             polaroid.classList.add('dragging');
-            
+
             // Bring to front
             highestZ++;
             polaroid.style.zIndex = highestZ;
-            
+
             startX = e.clientX;
             startY = e.clientY;
-            
+
             // Revert scale slightly for dragging feel without losing rotation
             polaroid.style.transform = `translate(${initialX}px, ${initialY}px) rotate(${randomRot}deg) scale(1.05)`;
             polaroid.setPointerCapture(e.pointerId);
@@ -611,16 +611,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         polaroid.addEventListener('pointermove', (e) => {
             if (!isDragging) return;
-            
+
             const dx = e.clientX - startX;
             const dy = e.clientY - startY;
-            
+
             const currentX = initialX + dx;
             const currentY = initialY + dy;
-            
+
             polaroid.dataset.x = currentX;
             polaroid.dataset.y = currentY;
-            
+
             polaroid.style.transform = `translate(${currentX}px, ${currentY}px) rotate(${randomRot}deg) scale(1.05)`;
         });
 
@@ -628,14 +628,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!isDragging) return;
             isDragging = false;
             polaroid.classList.remove('dragging');
-            
+
             try {
                 polaroid.releasePointerCapture(e.pointerId);
-            } catch (err) {}
-            
-            if(polaroid.dataset.x !== undefined) initialX = parseFloat(polaroid.dataset.x);
-            if(polaroid.dataset.y !== undefined) initialY = parseFloat(polaroid.dataset.y);
-            
+            } catch (err) { }
+
+            if (polaroid.dataset.x !== undefined) initialX = parseFloat(polaroid.dataset.x);
+            if (polaroid.dataset.y !== undefined) initialY = parseFloat(polaroid.dataset.y);
+
             polaroid.style.transform = `translate(${initialX}px, ${initialY}px) rotate(${randomRot}deg) scale(1)`;
         };
 
@@ -939,45 +939,33 @@ document.addEventListener('DOMContentLoaded', () => {
     // Default Seeded places
     const defaultPlaces = [
         {
-            id: 'first-kiss',
-            name: 'Grosseto (Il nostro primo bacio) 🤍',
-            coords: [42.757825, 11.096206],
-            desc: 'Uno dei momenti più belli della mia vita. Il nostro primo bacio, dove tutto è cominciato. 🤍',
-            type: 'memory'
-        },
-        {
             id: 'tokyo',
             name: 'Tokyo, Giappone 🇯🇵',
             coords: [35.6762, 139.6503],
-            desc: 'Per vedere la fioritura dei ciliegi, perderci tra le luci di Shibuya e mangiare ramen delizioso.',
             type: 'wishlist'
         },
         {
             id: 'seoul',
             name: 'Seoul, Corea del Sud 🇰🇷',
             coords: [37.5665, 126.9780],
-            desc: 'Per fare le foto sotto i ciliegi in fiore, comprare vestiti carini a Myeongdong e mangiare street food piccante! 🌸',
             type: 'wishlist'
         },
         {
             id: 'paris',
             name: 'Parigi, Francia 🇫🇷',
             coords: [48.8566, 2.3522],
-            desc: 'La città dell\'amore, per vedere la Torre Eiffel scintillare di notte e mangiare croissant caldi passeggiando lungo la Senna.',
             type: 'wishlist'
         },
         {
             id: 'reykjavik',
             name: 'Reykjavík, Islanda 🇮🇸',
             coords: [64.1466, -21.9426],
-            desc: 'Per vedere l\'aurora boreale stretti sotto le coperte e rilassarci nelle sorgenti calde naturali.',
             type: 'wishlist'
         },
         {
             id: 'newyork',
             name: 'New York City, USA 🇺🇸',
             coords: [40.7128, -74.0060],
-            desc: 'Per camminare a Central Park in autunno tra le foglie rosse e dorate e vedere le luci di Times Square.',
             type: 'wishlist'
         }
     ];
@@ -1083,7 +1071,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     animate: true,
                     duration: 1.5
                 });
-                
+
                 // Open marker popup after transition
                 setTimeout(() => {
                     marker.openPopup();
