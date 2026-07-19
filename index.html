@@ -10,7 +10,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Inter:wght@400;700&family=Outfit:wght@400;700;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="style.css?v=3">
     <!-- Leaflet Map CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
 </head>
@@ -351,10 +351,10 @@
                 </div>
 
                 <div class="milestone">
-                    <div class="milestone-date">XX XX XXXX</div>
+                    <div class="milestone-date">12 LUG 2026</div>
                     <div class="milestone-info">
                         <strong>La nostra prima notte insieme </strong>
-                        <p>(speriamo questo momento arrivi il prima possibile)</p>
+                        <p>Prima nottata passata insieme (svegli fino alle 6) 🤍</p>
                     </div>
                 </div>
             </div>
@@ -457,7 +457,7 @@
 
         <!-- Travel Map Section -->
         <section id="travel-map" style="margin-top: 80px; margin-bottom: 50px;">
-            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 10px;">La Mappa del Nostro Futuro 🌍</h2>
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 10px;">La Mappa del Nostro Futuro</h2>
             <p style="text-align: center; color: var(--text-dim); margin-bottom: 40px;">I paesi e i posti che vogliamo
                 visitare insieme (e quelli che abbiamo già nel cuore)</p>
 
@@ -572,7 +572,7 @@
 
         <!-- Countdown to Next Mesiversario -->
         <section id="next-mesiversario" style="margin-top: 80px; margin-bottom: 50px;">
-            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 10px;">Prossimo Mesiversario 🤍</h2>
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 10px;">Prossimo Mesiversario</h2>
             <p id="mesiversario-subtitle" style="text-align: center; color: var(--text-dim); margin-bottom: 40px;"></p>
 
             <div class="mesiversario-card glass" id="mesiversario-card">
@@ -598,6 +598,71 @@
                     <div class="mesi-celebration-emoji">🎉</div>
                     <p class="mesi-celebration-text">Oggi è il nostro mesiversario!</p>
                     <p class="mesi-celebration-sub" id="mesi-month-number"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quadernino dei Ricordi Section -->
+        <section id="memories-notebook" style="margin-top: 80px; margin-bottom: 50px;">
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 10px;">Il Nostro Quadernino dei Ricordi</h2>
+            <p style="text-align: center; color: var(--text-dim); margin-bottom: 40px;">Un piccolo spazio per custodire i nostri momenti più speciali per sempre 🤍</p>
+
+            <div class="notebook-container glass">
+                <!-- Left Page: Form to Add Memory -->
+                <div class="notebook-page notebook-left">
+                    <h3 class="notebook-page-title">Scrivi un Ricordo</h3>
+                    <form id="memory-form" class="notebook-form" onsubmit="event.preventDefault();">
+                        <div class="form-group">
+                            <label for="memory-title">Cosa è successo?</label>
+                            <input type="text" id="memory-title" placeholder="Es. Il nostro picnic al parco..." required autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="memory-date">Quando?</label>
+                            <input type="date" id="memory-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="memory-desc">Il tuo ricordo...</label>
+                            <textarea id="memory-desc" placeholder="Scrivi quello che ricordi di questo momento speciale..." rows="4" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Scegli un'emoji:</label>
+                            <div class="emoji-selector" id="memory-emoji-selector">
+                                <span class="emoji-opt active" data-emoji="🤍">🤍</span>
+                                <span class="emoji-opt" data-emoji="🍕">🍕</span>
+                                <span class="emoji-opt" data-emoji="🎬">🎬</span>
+                                <span class="emoji-opt" data-emoji="🌊">🌊</span>
+                                <span class="emoji-opt" data-emoji="🛌">🛌</span>
+                                <span class="emoji-opt" data-emoji="✨">✨</span>
+                                <span class="emoji-opt" data-emoji="🍷">🍷</span>
+                                <span class="emoji-opt" data-emoji="🚗">🚗</span>
+                            </div>
+                            <input type="hidden" id="memory-emoji" value="🤍">
+                        </div>
+                        <button type="submit" id="add-memory-btn" class="notebook-btn">Aggiungi al Quaderno</button>
+                    </form>
+                </div>
+
+                <!-- Central Binding -->
+                <div class="notebook-binding">
+                    <div class="binding-ring"></div>
+                    <div class="binding-ring"></div>
+                    <div class="binding-ring"></div>
+                    <div class="binding-ring"></div>
+                    <div class="binding-ring"></div>
+                    <div class="binding-ring"></div>
+                    <div class="binding-ring"></div>
+                    <div class="binding-ring"></div>
+                </div>
+
+                <!-- Right Page: List of Memories -->
+                <div class="notebook-page notebook-right">
+                    <h3 class="notebook-page-title">I Nostri Ricordi</h3>
+                    <div class="notebook-search-box">
+                        <input type="text" id="memory-search" placeholder="Cerca tra i ricordi..." autocomplete="off">
+                    </div>
+                    <div class="memories-list-wrapper" id="memories-list">
+                        <!-- Generato dinamicamente in script.js -->
+                    </div>
                 </div>
             </div>
         </section>
@@ -693,7 +758,7 @@
 
     <!-- Leaflet Map JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-    <script src="script.js?v=2"></script>
+    <script src="script.js?v=3"></script>
 </body>
 
 </html>

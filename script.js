@@ -1147,3 +1147,264 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial Render
     renderMapAndList();
 });
+
+// ----------------------------------------------------
+// Quadernino dei Ricordi (Memories Notebook) Logic
+// ----------------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+    const STORAGE_KEY = 'lix-memories-book';
+    const memoriesList = document.getElementById('memories-list');
+    const memoryForm = document.getElementById('memory-form');
+    const memoryTitle = document.getElementById('memory-title');
+    const memoryDate = document.getElementById('memory-date');
+    const memoryDesc = document.getElementById('memory-desc');
+    const memoryEmojiInput = document.getElementById('memory-emoji');
+    const emojiSelector = document.getElementById('memory-emoji-selector');
+    const searchInput = document.getElementById('memory-search');
+
+    if (!memoriesList || !memoryForm) return;
+
+    // Function to strip emojis from titles
+    function cleanTitleString(str) {
+        if (!str) return '';
+        return str.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, '') // Strips surrogate pairs (most emojis)
+                  .replace(/[\u2700-\u27BF]|[\u2600-\u26FF]|[\u2B50]/g, '') // Strips BMP emojis
+                  .replace(/\s+/g, ' ')
+                  .trim();
+    }
+
+    // Seed data
+    const defaultMemories = [
+        {
+            id: 'seed-1',
+            title: 'Il nostro primo messaggio WhatsApp',
+            date: '2025-11-29',
+            desc: 'La prima scintilla... Da quel "Ciao" non abbiamo mai smesso di scriverci nemmeno per un giorno.',
+            emoji: '✨'
+        },
+        {
+            id: 'seed-2',
+            title: 'Il nostro primo bacio',
+            date: '2025-12-05',
+            desc: 'A Grosseto, una delle serate più fredde ma allo stesso tempo più calde e magiche della mia vita.',
+            emoji: '🤍'
+        },
+        {
+            id: 'seed-3',
+            title: 'La nostra prima notte insieme',
+            date: '2026-07-12',
+            desc: 'Prima nottata passata insieme! Rimasti svegli a parlare, ridere e coccolarci fino alle 6 del mattino... Indimenticabile. 🤍',
+            emoji: '🛌'
+        }
+    ];
+
+    function loadMemories() {
+        try {
+            const data = localStorage.getItem(STORAGE_KEY);
+            let memories = [];
+            if (!data) {
+                // If empty, save and return default seed data
+                memories = defaultMemories;
+                saveMemories(memories);
+            } else {
+                memories = JSON.parse(data);
+            }
+            // Strip any emojis from titles of all memories
+            return memories.map(m => ({
+                ...m,
+                title: cleanTitleString(m.title)
+            }));
+        } catch (e) {
+            console.error('Error loading memories:', e);
+            return defaultMemories.map(m => ({
+                ...m,
+                title: cleanTitleString(m.title)
+            }));
+        }
+    }
+
+    function saveMemories(memories) {
+        try {
+            // Clean titles before saving
+            const cleanedMemories = memories.map(m => ({
+                ...m,
+                title: cleanTitleString(m.title)
+            }));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(cleanedMemories));
+        } catch (e) {
+            console.error('Error saving memories:', e);
+        }
+    }
+
+    function formatDateString(dateStr) {
+        if (!dateStr) return '';
+        const parts = dateStr.split('-');
+        if (parts.length !== 3) return dateStr;
+        const [year, month, day] = parts;
+        
+        // Months in Italian
+        const months = [
+            'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
+            'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'
+        ];
+        const monthIndex = parseInt(month, 10) - 1;
+        return `${parseInt(day, 10)} ${months[monthIndex]} ${year}`;
+    }
+
+    function renderMemories() {
+        const memories = loadMemories();
+        const searchTerm = searchInput.value.toLowerCase().trim();
+
+        // Clear existing memories rendering
+        memoriesList.innerHTML = '';
+
+        // Filter and sort (most recent date first)
+        const filtered = memories.filter(m => {
+            return m.title.toLowerCase().includes(searchTerm) || 
+                   m.desc.toLowerCase().includes(searchTerm) ||
+                   m.date.includes(searchTerm);
+        }).sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        if (filtered.length === 0) {
+            const emptyContainer = document.createElement('div');
+            emptyContainer.classList.add('memories-empty');
+            emptyContainer.innerHTML = `
+                <div class="memories-empty-icon">📖</div>
+                <p class="memories-empty-text">Nessun ricordo trovato... Scrivine uno a sinistra!</p>
+            `;
+            memoriesList.appendChild(emptyContainer);
+            return;
+        }
+
+        filtered.forEach(memory => {
+            const card = document.createElement('div');
+            card.classList.add('memory-card');
+
+            const header = document.createElement('div');
+            header.classList.add('memory-header');
+
+            const meta = document.createElement('div');
+            meta.classList.add('memory-meta');
+
+            const titleEl = document.createElement('div');
+            titleEl.classList.add('memory-card-title');
+            titleEl.textContent = memory.title;
+
+            const dateEl = document.createElement('div');
+            dateEl.classList.add('memory-card-date');
+            dateEl.textContent = formatDateString(memory.date);
+
+            meta.appendChild(titleEl);
+            meta.appendChild(dateEl);
+            header.appendChild(meta);
+
+            const textEl = document.createElement('p');
+            textEl.classList.add('memory-card-text');
+            textEl.textContent = (memory.emoji ? memory.emoji + ' ' : '') + memory.desc;
+
+            // Delete button
+            const deleteBtn = document.createElement('button');
+            deleteBtn.classList.add('memory-delete-btn');
+            deleteBtn.innerHTML = '×';
+            deleteBtn.title = 'Elimina questo ricordo';
+            deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (window.confirm(`Sei sicuro di voler eliminare il ricordo "${memory.title}"?`)) {
+                    deleteMemory(memory.id);
+                }
+            });
+
+            card.appendChild(header);
+            card.appendChild(textEl);
+            card.appendChild(deleteBtn);
+            
+            memoriesList.appendChild(card);
+        });
+    }
+
+    function deleteMemory(id) {
+        const memories = loadMemories();
+        const updated = memories.filter(m => m.id !== id);
+        saveMemories(updated);
+        renderMemories();
+    }
+
+    // Emoji selection logic
+    if (emojiSelector) {
+        const opts = emojiSelector.querySelectorAll('.emoji-opt');
+        opts.forEach(opt => {
+            opt.addEventListener('click', () => {
+                opts.forEach(o => o.classList.remove('active'));
+                opt.classList.add('active');
+                memoryEmojiInput.value = opt.dataset.emoji;
+            });
+        });
+    }
+
+    // Search logic
+    searchInput.addEventListener('input', renderMemories);
+
+    // Form submit logic
+    memoryForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const title = cleanTitleString(memoryTitle.value.trim());
+        const date = memoryDate.value;
+        const desc = memoryDesc.value.trim();
+        const emoji = memoryEmojiInput.value;
+
+        if (!title || !date || !desc) return;
+
+        const newMemory = {
+            id: 'memory-' + Date.now(),
+            title: title,
+            date: date,
+            desc: desc,
+            emoji: emoji
+        };
+
+        const memories = loadMemories();
+        memories.push(newMemory);
+        saveMemories(memories);
+
+        // Reset form
+        memoryTitle.value = '';
+        memoryDesc.value = '';
+        
+        // Reset emoji active state
+        if (emojiSelector) {
+            const opts = emojiSelector.querySelectorAll('.emoji-opt');
+            opts.forEach((o, i) => {
+                if (i === 0) {
+                    o.classList.add('active');
+                    memoryEmojiInput.value = o.dataset.emoji;
+                } else {
+                    o.classList.remove('active');
+                }
+            });
+        }
+
+        // Keep date input to today's date
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        memoryDate.value = `${yyyy}-${mm}-${dd}`;
+
+        renderMemories();
+
+        // Scroll to the list of memories
+        memoriesList.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    // Set today's date in form by default
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    memoryDate.value = `${yyyy}-${mm}-${dd}`;
+
+    // Initial render
+    renderMemories();
+});
+

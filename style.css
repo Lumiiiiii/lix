@@ -2624,4 +2624,396 @@ footer {
     font-size: 0.8rem;
     margin-bottom: 10px;
   }
+}
+
+/* ==========================================
+   Quadernino dei Ricordi (Memories Notebook)
+   ========================================== */
+.notebook-container {
+  display: flex;
+  min-height: 600px;
+  background: var(--glass-bg);
+  border-radius: var(--card-radius);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glow-shadow);
+  overflow: hidden;
+  position: relative;
+  margin: 0 auto;
+  max-width: 1050px;
+}
+
+.notebook-page {
+  flex: 1;
+  padding: 40px;
+  background-color: #fbf9f3; /* Crema/avorio cartaceo */
+  color: #1e293b; /* Colore inchiostro scuro */
+  display: flex;
+  flex-direction: column;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.05);
+}
+
+.notebook-left {
+  border-top-left-radius: var(--card-radius);
+  border-bottom-left-radius: var(--card-radius);
+  border-right: 1px dashed rgba(0, 102, 255, 0.15);
+}
+
+.notebook-right {
+  border-top-right-radius: var(--card-radius);
+  border-bottom-right-radius: var(--card-radius);
+  border-left: 1px dashed rgba(0, 102, 255, 0.15);
+}
+
+/* Spirale centrale di rilegatura */
+.notebook-binding {
+  width: 30px;
+  background: linear-gradient(to right, #e2e8f0, #cbd5e1, #94a3b8, #cbd5e1, #e2e8f0);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px 0;
+  z-index: 10;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+}
+
+.binding-ring {
+  width: 34px;
+  height: 12px;
+  background: linear-gradient(to bottom, #94a3b8, #cbd5e1, #64748b);
+  border-radius: 6px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  margin: 10px 0;
+}
+
+/* Titoli interni alle pagine */
+.notebook-page-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #0f172a;
+  text-align: center;
+  margin-bottom: 25px;
+  border-bottom: 2px dashed rgba(30, 41, 59, 0.15);
+  padding-bottom: 10px;
+}
+
+/* Form del taccuino */
+.notebook-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex-grow: 1;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #475569;
+  letter-spacing: 0.05em;
+}
+
+.notebook-form input[type="text"],
+.notebook-form input[type="date"],
+.notebook-form textarea {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.15);
+  padding: 10px 5px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  color: #0f172a;
+  transition: all 0.3s ease;
+}
+
+.notebook-form input[type="text"]:focus,
+.notebook-form input[type="date"]:focus,
+.notebook-form textarea:focus {
+  border-bottom: 2px solid var(--accent-color);
+  background: rgba(0, 102, 255, 0.02);
+}
+
+.notebook-form textarea {
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: 8px;
+  padding: 10px;
+  resize: vertical;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Selettore Emoji */
+.emoji-selector {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 5px;
+}
+
+.emoji-opt {
+  font-size: 1.4rem;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.emoji-opt:hover {
+  transform: scale(1.1);
+  background: rgba(0, 102, 255, 0.05);
+}
+
+.emoji-opt.active {
+  background: rgba(0, 102, 255, 0.1);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 8px rgba(0, 102, 255, 0.2);
+  transform: scale(1.15);
+}
+
+/* Bottone di salvataggio del taccuino */
+.notebook-btn {
+  margin-top: auto;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
+}
+
+.notebook-btn:hover {
+  background: #0052cc;
+  box-shadow: 0 6px 20px rgba(0, 102, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+.notebook-btn:active {
+  transform: translateY(0);
+}
+
+/* Pagina di Destra - Ricerca e Ricordi */
+.notebook-search-box {
+  margin-bottom: 20px;
+}
+
+.notebook-search-box input {
+  width: 100%;
+  padding: 10px 15px;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  background: rgba(255, 255, 255, 0.5);
+  font-family: 'Inter', sans-serif;
+  color: #0f172a;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.notebook-search-box input:focus {
+  border-color: var(--accent-color);
+  background: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 102, 255, 0.05);
+}
+
+/* Contenitore Scorrimento Ricordi */
+.memories-list-wrapper {
+  flex-grow: 1;
+  overflow-y: auto;
+  max-height: 400px;
+  padding-right: 5px;
+  /* Righe del quaderno */
+  background-image: linear-gradient(rgba(0, 102, 255, 0.06) 1px, transparent 1px);
+  background-size: 100% 32px;
+  line-height: 32px;
+}
+
+/* Personalizzazione Scrollbar del quadernino */
+.memories-list-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+
+.memories-list-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.memories-list-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.1);
+  border-radius: 3px;
+}
+
+.memories-list-wrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(15, 23, 42, 0.2);
+}
+
+/* Card del Ricordo */
+.memory-card {
+  position: relative;
+  margin-bottom: 25px;
+  padding: 15px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(15, 23, 42, 0.05);
+  line-height: 1.5;
+  transition: all 0.3s ease;
+  animation: popIn 0.4s ease-out;
+  transform-origin: top center;
+}
+
+.memory-card:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.memory-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.memory-emoji-display {
+  font-size: 1.5rem;
+}
+
+.memory-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.memory-card-title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #0f172a;
+}
+
+.memory-card-date {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.memory-card-text {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #1e293b;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  padding: 5px 0;
+}
+
+/* Bottone di cancellazione del ricordo */
+.memory-delete-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(239, 68, 68, 0.05);
+  color: #ef4444;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease;
+  line-height: 1;
+  z-index: 10;
+}
+
+.memory-delete-btn:hover {
+  background: #ef4444;
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Messaggio di quaderno vuoto */
+.memories-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: #64748b;
+}
+
+.memories-empty-icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  opacity: 0.5;
+  animation: float-emoji 3s infinite alternate ease-in-out;
+}
+
+@keyframes float-emoji {
+  from { transform: translateY(0); }
+  to { transform: translateY(-8px); }
+}
+
+.memories-empty-text {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.5rem;
+}
+
+/* Responsive per il quadernino */
+@media (max-width: 900px) {
+  .notebook-container {
+    flex-direction: column;
+    min-height: auto;
+    border-radius: var(--card-radius);
+  }
+
+  .notebook-left {
+    border-top-left-radius: var(--card-radius);
+    border-top-right-radius: var(--card-radius);
+    border-bottom-left-radius: 0;
+    border-right: none;
+    border-bottom: 2px dashed rgba(30, 41, 59, 0.1);
+  }
+
+  .notebook-right {
+    border-bottom-left-radius: var(--card-radius);
+    border-bottom-right-radius: var(--card-radius);
+    border-top-right-radius: 0;
+    border-left: none;
+  }
+
+  .notebook-binding {
+    width: 100%;
+    height: 30px;
+    flex-direction: row;
+    padding: 0 20px;
+    background: linear-gradient(to bottom, #e2e8f0, #cbd5e1, #94a3b8, #cbd5e1, #e2e8f0);
+  }
+
+  .binding-ring {
+    width: 12px;
+    height: 34px;
+    background: linear-gradient(to right, #94a3b8, #cbd5e1, #64748b);
+    margin: 0 10px;
+  }
 }
