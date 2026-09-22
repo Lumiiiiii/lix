@@ -1,0 +1,1174 @@
+/* ========================================================
+   COMPLEANNO.CSS - STILI DEDICATI 16° COMPLEANNO LINDA
+   ======================================================== */
+
+.bday-page-body {
+  background-color: #000612;
+  color: #ffffff;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* ========================================================
+   PERSISTENT AUTODESTRUCTION TIMER HUD (STICKY AT TOP)
+   ======================================================== */
+.autodestruct-hud-wrapper {
+  position: sticky;
+  top: 12px;
+  z-index: 9999;
+  width: 95%;
+  max-width: 920px;
+  margin: 0 auto 25px auto;
+  pointer-events: auto;
+}
+
+.autodestruct-hud {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: rgba(15, 5, 25, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 45, 85, 0.4);
+  border-radius: 50px;
+  box-shadow: 0 10px 35px rgba(255, 20, 147, 0.25), inset 0 0 15px rgba(255, 45, 85, 0.15);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.autodestruct-hud:hover {
+  border-color: rgba(255, 215, 0, 0.6);
+  box-shadow: 0 12px 45px rgba(255, 45, 85, 0.35), inset 0 0 20px rgba(255, 215, 0, 0.2);
+}
+
+.hud-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hud-pulse-dot {
+  width: 12px;
+  height: 12px;
+  background: #ff2d55;
+  border-radius: 50%;
+  box-shadow: 0 0 12px #ff2d55, 0 0 20px #ff2d55;
+  animation: pulseAlarm 1.2s infinite ease-in-out;
+  flex-shrink: 0;
+}
+
+@keyframes pulseAlarm {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.7;
+    box-shadow: 0 0 5px #ff2d55;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+    box-shadow: 0 0 20px #ff2d55, 0 0 30px #ff0055;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0.7;
+    box-shadow: 0 0 5px #ff2d55;
+  }
+}
+
+.hud-title-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.hud-tag {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 1.2px;
+  color: #ff3366;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(255, 51, 102, 0.5);
+}
+
+.hud-sub {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Digital timer */
+.hud-center {
+  display: flex;
+  align-items: center;
+}
+
+.hud-digital-timer {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 6px 18px;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.hud-t-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hud-val {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #ffd700;
+  line-height: 1;
+  text-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+  min-width: 32px;
+  text-align: center;
+}
+
+.hud-lbl {
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  letter-spacing: 0.8px;
+  font-weight: 700;
+}
+
+.hud-sep {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #ff3366;
+  line-height: 1;
+  animation: blinkSep 1s infinite;
+}
+
+@keyframes blinkSep {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+.hud-right {
+  display: flex;
+  align-items: center;
+}
+
+.hud-home-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.2s ease;
+}
+
+.hud-home-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: #ffd700;
+  color: #ffd700;
+  transform: translateY(-1px);
+}
+
+/* Progress bar inside HUD bottom */
+.hud-progress-bar-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.hud-progress-fill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #00ff88, #ffd700, #ff2d55);
+  transition: width 1s linear;
+}
+
+/* ========================================================
+   SECURITY LOCK & AUTODESTRUCTION OVERLAYS
+   ======================================================== */
+.bday-lock-overlay,
+.autodestruct-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 20000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(2, 4, 10, 0.96);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  transition: opacity 0.5s ease;
+}
+
+.bday-lock-overlay.hidden,
+.autodestruct-overlay.hidden {
+  display: none !important;
+}
+
+.bday-lock-card,
+.destruct-box {
+  max-width: 520px;
+  width: 100%;
+  padding: 45px 35px;
+  text-align: center;
+  border-radius: var(--card-radius);
+  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.bday-lock-card {
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+}
+
+.destruct-box {
+  border: 2px solid #ff2d55;
+  box-shadow: 0 0 60px rgba(255, 45, 85, 0.5), inset 0 0 30px rgba(255, 45, 85, 0.2);
+  animation: destructGlitch 0.6s ease;
+}
+
+@keyframes destructGlitch {
+  0% { transform: scale(0.9) skewX(4deg); opacity: 0; }
+  50% { transform: scale(1.05) skewX(-4deg); opacity: 1; }
+  100% { transform: scale(1) skewX(0); opacity: 1; }
+}
+
+.lock-icon,
+.destruct-icon {
+  font-size: 4rem;
+  margin-bottom: 15px;
+  display: inline-block;
+}
+
+.destruct-warning-badge {
+  display: inline-block;
+  background: rgba(255, 45, 85, 0.2);
+  color: #ff3366;
+  border: 1px solid #ff3366;
+  font-weight: 800;
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+}
+
+.destruct-title {
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  color: #ff2d55;
+  margin-bottom: 15px;
+  font-family: 'Outfit', sans-serif;
+  text-shadow: 0 0 20px rgba(255, 45, 85, 0.7);
+}
+
+.destruct-msg {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #e6f0ff;
+  margin-bottom: 15px;
+}
+
+.destruct-submsg {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.6rem;
+  color: #ffc0cb;
+  margin-bottom: 25px;
+}
+
+.destruct-countdown {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  font-weight: 600;
+}
+
+.destruct-countdown span {
+  color: #ffd700;
+  font-weight: 900;
+  font-size: 1.2rem;
+}
+
+.bday-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 40px;
+  background: linear-gradient(135deg, #ff1493, #6e8efb);
+  color: #ffffff;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 8px 25px rgba(255, 20, 147, 0.4);
+  transition: transform 0.2s ease;
+}
+
+.bday-back-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(255, 20, 147, 0.6);
+}
+
+/* ========================================================
+   MAIN CONTENT & HERO SECTION
+   ======================================================== */
+.bday-main-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px 80px 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.bday-hero-section {
+  text-align: center;
+  padding: 30px 10px 50px 10px;
+}
+
+.bday-special-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 20px;
+  border-radius: 30px;
+  background: rgba(255, 215, 0, 0.12);
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  color: #ffd700;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.2);
+}
+
+.bday-hero-title {
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  font-weight: 900;
+  line-height: 1.15;
+  margin-bottom: 18px;
+  background: linear-gradient(135deg, #ffffff 10%, #ffc0cb 50%, #ffd700 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 25px rgba(255, 105, 180, 0.35));
+}
+
+.bday-cake-emoji {
+  display: inline-block;
+  animation: cakeWiggle 2s infinite ease-in-out;
+}
+
+@keyframes cakeWiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg) scale(1.1); }
+  75% { transform: rotate(10deg) scale(1.1); }
+}
+
+.bday-hero-subtitle {
+  font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+  color: #e6f0ff;
+  max-width: 680px;
+  margin: 0 auto 30px auto;
+  line-height: 1.6;
+}
+
+.bday-celebrate-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 36px;
+  font-size: 1.15rem;
+  font-weight: 800;
+  font-family: 'Outfit', sans-serif;
+  color: #ffffff;
+  background: linear-gradient(135deg, #ff1493 0%, #9932cc 50%, #ff8c00 100%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50px;
+  box-shadow: 0 10px 35px rgba(255, 20, 147, 0.5), 0 0 25px rgba(255, 215, 0, 0.4);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.bday-celebrate-btn:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 15px 45px rgba(255, 20, 147, 0.7), 0 0 40px rgba(255, 215, 0, 0.6);
+}
+
+/* ========================================================
+   SEZIONE TORTA DI COMPLEANNO
+   ======================================================== */
+.bday-cake-section {
+  margin: 40px 0 70px 0;
+}
+
+.cake-card {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 30px;
+  text-align: center;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), inset 0 0 30px rgba(255, 105, 180, 0.1);
+}
+
+.cake-header h2 {
+  font-size: clamp(1.8rem, 4vw, 2.3rem);
+  margin-bottom: 8px;
+}
+
+.cake-sub {
+  color: var(--text-dim);
+  font-size: 0.95rem;
+}
+
+.interactive-cake-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 35px 0 25px 0;
+}
+
+.cake-candles-row {
+  display: grid;
+  grid-template-columns: repeat(16, minmax(0, auto));
+  justify-content: center;
+  align-items: end;
+  gap: 8px;
+  margin-bottom: -6px;
+  z-index: 2;
+  max-width: 100%;
+}
+
+.candle-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  padding: 4px 2px;
+}
+
+.candle-item:hover {
+  transform: translateY(-4px);
+}
+
+.candle-item:active {
+  transform: scale(0.92);
+}
+
+.candle-flame {
+  font-size: 1.35rem;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  filter: drop-shadow(0 0 8px #ffcc00);
+  animation: flameFlicker 1.2s ease-in-out infinite alternate;
+}
+
+.candle-flame.off {
+  opacity: 0.15;
+  transform: scale(0.6);
+  filter: none;
+  animation: none;
+}
+
+@keyframes flameFlicker {
+  0% { transform: scale(1) rotate(-3deg); }
+  50% { transform: scale(1.1) rotate(2deg); filter: drop-shadow(0 0 12px #ffaa00); }
+  100% { transform: scale(0.95) rotate(-1deg); }
+}
+
+.candle-stick {
+  width: 9px;
+  height: 40px;
+  background: linear-gradient(to bottom, #ff99c8, #ff5c8a, #ffd700);
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.cake-visual {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cake-icing {
+  width: 88%;
+  height: 16px;
+  background: #ffffff;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+}
+
+.cake-layer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  color: #fff;
+  border-radius: 14px;
+  margin-top: 2px;
+}
+
+.cake-layer-top {
+  height: 55px;
+  background: linear-gradient(135deg, #ff1493, #ff69b4);
+  box-shadow: inset 0 -4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cake-layer-bottom {
+  height: 65px;
+  width: 106%;
+  background: linear-gradient(135deg, #4b0082, #8a2be2);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+  margin-top: 4px;
+}
+
+.cake-decor {
+  font-size: 1.15rem;
+  color: #ffd700;
+  letter-spacing: 2px;
+  text-shadow: 0 0 12px rgba(255, 215, 0, 0.8);
+}
+
+.cake-decor-sub {
+  font-size: 0.95rem;
+  letter-spacing: 1.5px;
+  color: #ffffff;
+}
+
+.cake-status-text {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffd700;
+  margin-bottom: 18px;
+}
+
+.cake-actions-row {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.bday-secondary-btn {
+  padding: 12px 24px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bday-secondary-btn:hover {
+  background: rgba(255, 215, 0, 0.2);
+  transform: translateY(-2px);
+  border-color: #ffd700;
+}
+
+.wish-revealed-box {
+  margin-top: 25px;
+  padding: 20px;
+  background: rgba(255, 215, 0, 0.12);
+  border: 1px solid rgba(255, 215, 0, 0.5);
+  border-radius: 20px;
+  animation: popIn 0.5s ease;
+}
+
+.wish-icon {
+  font-size: 2.5rem;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.wish-revealed-box h3 {
+  color: #ffd700;
+  font-size: 1.5rem;
+  margin-bottom: 6px;
+}
+
+.wish-revealed-box p {
+  color: #ffffff;
+  font-size: 1.05rem;
+}
+
+/* ========================================================
+   SECTION TITLE WRAPPERS & 16 REASONS GRID
+   ======================================================== */
+.section-title-wrap {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.bday-section-title {
+  font-size: clamp(2rem, 5vw, 2.6rem);
+  margin-bottom: 8px;
+}
+
+.bday-section-sub {
+  color: var(--text-dim);
+  font-size: 1rem;
+}
+
+.bday-reasons-section {
+  margin: 70px 0;
+}
+
+.reasons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.reason-card {
+  perspective: 1000px;
+  height: 160px;
+  cursor: pointer;
+}
+
+.reason-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+  border-radius: var(--card-radius);
+}
+
+.reason-card.flipped .reason-card-inner {
+  transform: rotateY(180deg);
+}
+
+.reason-card-front,
+.reason-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: var(--card-radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border: 1px solid rgba(255, 215, 0, 0.25);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.reason-card-front {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 105, 180, 0.1));
+  backdrop-filter: blur(10px);
+}
+
+.reason-card-front .reason-num {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #ffd700;
+  opacity: 0.85;
+}
+
+.reason-card-front .reason-icon {
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+  transition: transform 0.3s ease;
+}
+
+.reason-card:hover .reason-card-front .reason-icon {
+  transform: scale(1.2) rotate(10deg);
+}
+
+.reason-card-front .reason-prompt {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.reason-card-back {
+  background: linear-gradient(135deg, rgba(255, 20, 147, 0.35), rgba(123, 104, 238, 0.35));
+  backdrop-filter: blur(12px);
+  transform: rotateY(180deg);
+  border-color: rgba(255, 105, 180, 0.5);
+}
+
+.reason-card-back p {
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* ========================================================
+   SEZIONE POLAROID & RICORDI
+   ======================================================== */
+.bday-photos-section {
+  margin: 70px 0;
+}
+
+.bday-polaroids-row {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.bday-polaroid-item {
+  background: #ffffff;
+  padding: 12px 12px 25px 12px;
+  border-radius: 4px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  transform: rotate(calc(var(--r, 0) * 1deg));
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 220px;
+  text-align: center;
+}
+
+.bday-polaroid-item:nth-child(1) { transform: rotate(-3deg); }
+.bday-polaroid-item:nth-child(2) { transform: rotate(2deg); }
+.bday-polaroid-item:nth-child(3) { transform: rotate(-2deg); }
+.bday-polaroid-item:nth-child(4) { transform: rotate(3deg); }
+
+.bday-polaroid-item:hover {
+  transform: scale(1.08) rotate(0deg) !important;
+  z-index: 10;
+  box-shadow: 0 25px 50px rgba(255, 105, 180, 0.4);
+}
+
+.bday-polaroid-item img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.polaroid-caption {
+  display: block;
+  margin-top: 10px;
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.25rem;
+  color: #222222;
+  font-weight: 700;
+}
+
+/* ========================================================
+   SEZIONE LETTERA DI COMPLEANNO
+   ======================================================== */
+.bday-letter-section {
+  margin: 80px 0;
+}
+
+.bday-letter-envelope {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 35px 30px;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  transition: all 0.4s ease;
+}
+
+.envelope-top-badge {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #ffd700;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+.wax-seal {
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, #e60000 0%, #8b0000 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px auto;
+  box-shadow: 0 4px 15px rgba(230, 0, 0, 0.6);
+  border: 2px solid #ff4d4d;
+  color: #ffd700;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  font-size: 1.4rem;
+  transition: transform 0.3s ease;
+}
+
+.bday-letter-envelope:hover .wax-seal {
+  transform: scale(1.15) rotate(15deg);
+}
+
+.letter-inner {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  text-align: left;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0 25px;
+  border-radius: 16px;
+  border: 1px solid transparent;
+}
+
+.bday-letter-envelope.open .letter-inner {
+  max-height: 600px;
+  opacity: 1;
+  padding: 25px;
+  margin-top: 20px;
+  border-color: rgba(255, 215, 0, 0.3);
+}
+
+.letter-date {
+  font-size: 0.85rem;
+  color: #ffd700;
+  margin-bottom: 12px;
+  text-align: right;
+  font-weight: 600;
+}
+
+.letter-greeting {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 15px;
+}
+
+.letter-body-text {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.45rem;
+  line-height: 1.6;
+  color: #fce4ec;
+  margin-bottom: 20px;
+}
+
+.letter-sign {
+  text-align: right;
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.7rem;
+  color: #ffd700;
+  font-weight: 700;
+}
+
+/* ========================================================
+   SEZIONE SOUNDTRACK / PLAYER
+   ======================================================== */
+.bday-music-section {
+  margin: 60px 0;
+}
+
+.bday-music-card {
+  max-width: 550px;
+  margin: 0 auto;
+  padding: 20px 25px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.music-note-icon {
+  font-size: 2.2rem;
+  animation: bounceNote 1.5s infinite alternate ease-in-out;
+}
+
+@keyframes bounceNote {
+  from { transform: translateY(-2px); }
+  to { transform: translateY(4px); }
+}
+
+.music-info {
+  flex: 1;
+  text-align: left;
+}
+
+.music-title {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #ffffff;
+}
+
+.music-sub {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.bday-play-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 215, 0, 0.5);
+  background: rgba(255, 215, 0, 0.15);
+  color: #ffd700;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.bday-play-btn:hover {
+  transform: scale(1.1);
+  background: rgba(255, 215, 0, 0.3);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+}
+
+/* ========================================================
+   FOOTER
+   ======================================================== */
+.bday-footer {
+  text-align: center;
+  margin-top: 50px;
+  padding-top: 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+/* ========================================================
+   RESPONSIVE & MOBILE OPTIMIZATIONS
+   ======================================================== */
+@media (max-width: 768px) {
+  .autodestruct-hud {
+    padding: 10px 16px;
+  }
+  .hud-sub {
+    display: none;
+  }
+  .hud-val {
+    font-size: 1.3rem;
+  }
+  .reasons-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .reason-card {
+    height: 150px;
+  }
+  .reason-card-front .reason-icon {
+    font-size: 1.8rem;
+  }
+  .reason-card-back p {
+    font-size: 0.82rem;
+  }
+}
+
+/* Tablet & Mobile: 2 righe da 8 candeline ciascuna (8 + 8 = 16 perfette!) */
+@media (max-width: 680px) {
+  .cake-candles-row {
+    grid-template-columns: repeat(8, minmax(0, auto));
+    gap: 8px 10px;
+    margin-bottom: -6px;
+  }
+  .candle-stick {
+    width: 8px;
+    height: 35px;
+  }
+  .candle-flame {
+    font-size: 1.2rem;
+  }
+  .bday-polaroids-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    max-width: 100%;
+  }
+  .bday-polaroid-item {
+    width: 100%;
+    padding: 8px 8px 16px 8px;
+  }
+  .bday-polaroid-item img {
+    height: 135px;
+  }
+  .polaroid-caption {
+    font-size: 1.05rem;
+  }
+}
+
+/* Smartphone Portrait (iPhone, Android) */
+@media (max-width: 480px) {
+  .bday-main-content {
+    padding: 0 12px 60px 12px;
+  }
+
+  .autodestruct-hud-wrapper {
+    top: 6px;
+    width: 96%;
+    margin-bottom: 15px;
+  }
+  .autodestruct-hud {
+    padding: 7px 10px;
+    gap: 4px;
+  }
+  .hud-pulse-dot {
+    width: 8px;
+    height: 8px;
+  }
+  .hud-tag {
+    font-size: 0.62rem;
+    letter-spacing: 0.5px;
+  }
+  .hud-digital-timer {
+    padding: 3px 8px;
+    gap: 3px;
+  }
+  .hud-val {
+    font-size: 1.15rem;
+    min-width: 22px;
+  }
+  .hud-lbl {
+    font-size: 0.5rem;
+  }
+  .hud-sep {
+    font-size: 1rem;
+  }
+  .home-btn-text {
+    display: none;
+  }
+  .hud-home-btn {
+    padding: 6px 10px;
+    font-size: 0.78rem;
+  }
+
+  .bday-hero-section {
+    padding: 15px 5px 30px 5px;
+  }
+  .bday-hero-title {
+    font-size: 2.1rem;
+    line-height: 1.2;
+    margin-bottom: 14px;
+  }
+  .bday-celebrate-btn {
+    padding: 12px 22px;
+    font-size: 0.95rem;
+    width: 100%;
+    max-width: 290px;
+  }
+
+  .cake-card {
+    padding: 24px 10px;
+  }
+  .cake-header h2 {
+    font-size: 1.45rem;
+  }
+  .cake-sub {
+    font-size: 0.85rem;
+  }
+  .cake-visual {
+    max-width: 290px;
+  }
+  .cake-candles-row {
+    gap: 6px 7px;
+  }
+  .candle-stick {
+    width: 6.5px;
+    height: 30px;
+  }
+  .candle-flame {
+    font-size: 1.05rem;
+  }
+  .bday-secondary-btn {
+    padding: 10px 18px;
+    font-size: 0.85rem;
+    width: 90%;
+    max-width: 270px;
+  }
+
+  .bday-section-title {
+    font-size: 1.55rem;
+  }
+  .bday-section-sub {
+    font-size: 0.85rem;
+    padding: 0 8px;
+  }
+
+  .reasons-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .reason-card {
+    height: 155px;
+  }
+  .reason-card-front,
+  .reason-card-back {
+    padding: 10px 8px;
+  }
+  .reason-card-front .reason-num {
+    top: 8px;
+    left: 10px;
+    font-size: 0.75rem;
+  }
+  .reason-card-front .reason-icon {
+    font-size: 1.6rem;
+    margin-bottom: 4px;
+  }
+  .reason-card-front .reason-prompt {
+    font-size: 0.82rem;
+  }
+  .reason-card-back p {
+    font-size: 0.78rem;
+    line-height: 1.35;
+  }
+
+  .bday-letter-envelope {
+    padding: 20px 12px;
+  }
+  .wax-seal {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+  }
+  .bday-letter-envelope.open .letter-inner {
+    padding: 16px 12px;
+  }
+  .letter-greeting {
+    font-size: 1.1rem;
+  }
+  .letter-body-text {
+    font-size: 1.18rem;
+    line-height: 1.5;
+  }
+  .letter-sign {
+    font-size: 1.4rem;
+  }
+
+  .bday-music-card {
+    padding: 12px 16px;
+    gap: 10px;
+  }
+  .music-title {
+    font-size: 0.92rem;
+  }
+  .bday-play-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 1.05rem;
+  }
+}

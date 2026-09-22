@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎂 Buon Compleanno amore mio 🎂 </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Inter:wght@300;400;600;800&family=Outfit:wght@400;600;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=4">
+    <link rel="stylesheet" href="compleanno.css?v=1">
+</head>
+
+<body class="bday-page-body">
+
+    <!-- Sfondo con palloncini fluttuanti -->
+    <div id="bday-balloons-bg" class="balloons-container"></div>
+
+    <!-- Schermata di blocco di sicurezza (prima o dopo la data) -->
+    <div id="bday-lock-screen" class="bday-lock-overlay hidden">
+        <div class="bday-lock-card glass">
+            <div class="lock-icon" id="lock-icon">🔒</div>
+            <h2 id="lock-title">Accesso Bloccato</h2>
+            <p id="lock-desc">Questa pagina speciale è disponibile solo il 24 Settembre!</p>
+            <div class="lock-actions">
+                <a href="index.html" class="bday-back-link">Torna alla schermata del PIN </a>
+            </div>
+            <div class="lock-preview-hint" id="lock-preview-hint"
+                style="margin-top: 15px; font-size: 0.8rem; color: var(--text-dim); cursor: pointer;">
+                (Sei tu? Clicca qui per la modalità anteprima di test)
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay di Autodistruzione (Allo scadere delle 23:59:59) -->
+    <div id="autodestruct-overlay" class="autodestruct-overlay hidden">
+        <div class="destruct-box glass">
+            <div class="destruct-warning-badge">⚠️ ATTENZIONE ⚠️</div>
+            <div class="destruct-icon">💥</div>
+            <h1 class="destruct-title">AUTODISTRUZIONE COMPLETATA</h1>
+            <p class="destruct-msg">
+                Il 24 Settembre è terminato. Il tuo 16° compleanno è giunto alla fine e questo regalo speciale si è
+                appena autodistrutto.
+            </p>
+            <p class="destruct-submsg">Ti amo tanto. 🤍</p>
+            <div class="destruct-countdown">Ritorno al PIN tra <span id="destruct-redirect-sec">5</span>s...</div>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         PERSISTENT AUTODESTRUCTION TIMER HUD (SEMPRE VISIBILE)
+         ======================================================== -->
+    <header class="autodestruct-hud-wrapper" id="autodestruct-hud">
+        <div class="autodestruct-hud glass">
+            <div class="hud-left">
+                <span class="hud-pulse-dot"></span>
+                <div class="hud-title-group">
+                    <span class="hud-tag">⚠️ AUTODISTRUZIONE ATTIVA</span>
+                    <span class="hud-sub">Tempo rimasto alla fine del giorno:</span>
+                </div>
+            </div>
+
+            <div class="hud-center">
+                <div class="hud-digital-timer">
+                    <div class="hud-t-unit">
+                        <span id="hud-hours" class="hud-val">00</span>
+                        <span class="hud-lbl">Ore</span>
+                    </div>
+                    <span class="hud-sep">:</span>
+                    <div class="hud-t-unit">
+                        <span id="hud-minutes" class="hud-val">00</span>
+                        <span class="hud-lbl">Min</span>
+                    </div>
+                    <span class="hud-sep">:</span>
+                    <div class="hud-t-unit">
+                        <span id="hud-seconds" class="hud-val">00</span>
+                        <span class="hud-lbl">Sec</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hud-right">
+                <a href="index.html" class="hud-home-btn" id="hud-home-btn" title="Torna alla schermata del PIN">
+                    <span>🏠</span> <span class="home-btn-text">Home (PIN)</span>
+                </a>
+            </div>
+
+            <div class="hud-progress-bar-container">
+                <div id="hud-progress-fill" class="hud-progress-fill"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="bday-main-content">
+        <!-- Floating orbs per atmosfera magica -->
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+
+        <!-- HERO SECTION: BENVENUTO E AUGURI -->
+        <section class="bday-hero-section">
+            <div class="bday-special-badge">
+                <span class="sparkle-icon">✨</span>
+                <span>24 SETTEMBRE • OFFICIAL 16th BIRTHDAY</span>
+                <span class="sparkle-icon">✨</span>
+            </div>
+
+            <h1 class="bday-hero-title">
+                Tanti Auguri Linda! <span class="bday-cake-emoji">🎂</span>
+            </h1>
+
+
+
+            <div class="bday-confetti-launch-wrapper">
+                <button id="launch-confetti-btn" class="bday-celebrate-btn">
+                    <span class="btn-sparkle">🎉</span> Lancia i coriandoli <span class="btn-sparkle">✨</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- SEZIONE TORTA DI COMPLEANNO A 16 CANDELINE -->
+        <section class="bday-cake-section">
+            <div class="cake-card glass">
+                <div class="cake-header">
+                    <h2>La Tua Torta a 16 Candeline 🎂</h2>
+                    <p class="cake-sub">Clicca sulle candeline per spegnerle una ad una o soffia su tutte insieme</p>
+                </div>
+
+                <div class="interactive-cake-container">
+                    <!-- Candeline -->
+                    <div class="cake-candles-row" id="cake-candles-row">
+                        <!-- Generato dinamicamente con 16 candeline -->
+                    </div>
+
+                    <!-- Visuale della torta -->
+                    <div class="cake-visual">
+                        <div class="cake-icing"></div>
+                        <div class="cake-layer cake-layer-top">
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stato Candeline e Azioni -->
+                <div class="cake-status-wrapper">
+                    <p id="cake-status-text" class="cake-status-text">16 candeline ancora accese 🔥</p>
+                    <div class="cake-actions-row">
+                        <button id="blow-all-candles-btn" class="bday-secondary-btn">
+                            💨 Soffia tutte le candeline!
+                        </button>
+                        <button id="relight-candles-btn" class="bday-secondary-btn hidden">
+                            🕯️ Riaccendi le candeline
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Messaggio desiderio -->
+                <div id="wish-revealed-box" class="wish-revealed-box hidden">
+                    <span class="wish-icon">🌟</span>
+                    <h3>Desiderio Espresso</h3>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE 16 MOTIVI / COSE CHE AMO DI TE -->
+        <section class="bday-reasons-section">
+            <div class="section-title-wrap">
+                <h2 class="bday-section-title">16 Motivi per cui sei Unica 🤍</h2>
+                <p class="bday-section-sub">Tocca ogni card per scoprire un motivo speciale per cui ti amo con tutto me
+                    stesso</p>
+            </div>
+
+            <div class="reasons-grid" id="reasons-grid">
+                <!-- Generato dinamicamente in compleanno.js -->
+            </div>
+        </section>
+
+        <!-- SEZIONE FOTO RICORDO SPECIALI -->
+        <section class="bday-photos-section">
+            <div class="section-title-wrap">
+                <h2 class="bday-section-title">I Nostri Momenti Più Belli 📸</h2>
+                <p class="bday-section-sub">Ogni singolo istante passato con te è il regalo più prezioso che potessi
+                    ricevere</p>
+            </div>
+
+            <div class="bday-polaroids-row">
+                <div class="bday-polaroid-item">
+                    <img src="photo1.jpg" alt="Noi due">
+                    <span class="polaroid-caption">Noi due 🤍</span>
+                </div>
+                <div class="bday-polaroid-item">
+                    <img src="photo7.jpg" alt="Il tuo sorriso">
+                    <span class="polaroid-caption">La tua bellezza ✨</span>
+                </div>
+                <div class="bday-polaroid-item">
+                    <img src="photo3.jpg" alt="Momenti insieme">
+                    <span class="polaroid-caption">Per sempre noi ♾️</span>
+                </div>
+                <div class="bday-polaroid-item">
+                    <img src="photo11.jpg" alt="Ricordi felici">
+                    <span class="polaroid-caption">Il mio posto sicuro 🏡</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE LETTERA SPECIALE DI COMPLEANNO -->
+        <section class="bday-letter-section">
+            <div class="section-title-wrap">
+                <h2 class="bday-section-title">La Mia Lettera per i tuoi 16 Anni 💌</h2>
+                <p class="bday-section-sub">Clicca sulla ceralacca per aprire la lettera dedicata al tuo compleanno</p>
+            </div>
+
+            <div class="bday-letter-envelope glass" id="bday-envelope" onclick="this.classList.toggle('open')">
+                <div class="envelope-top-badge">
+                    <span>💌 PER IL TUO COMPLEANNO</span>
+                </div>
+                <div class="wax-seal">
+                    <span>16</span>
+                </div>
+                <div class="letter-inner" onclick="event.stopPropagation()">
+                    <div class="letter-date">24 Settembre 2026</div>
+                    <div class="letter-greeting">Cara Linda, amore mio grande,</div>
+                    <div class="letter-body-text">
+                        Oggi compi 16 anni. Sembra ieri quando abbiamo iniziato a parlare, eppure ogni giorno che passo
+                        con te è un regalo così immenso che non basterebbero tutte le parole del vocabolario per
+                        descriverlo.<br><br>
+                        Sei la persona più pura, divertente, dolce e incredibile che io conosca. Volevo creare questa
+                        pagina speciale, visibile soltanto oggi per il tuo compleanno, per ricordarti quanto sei
+                        importante e quanto tu renda luminosa ogni mia giornata.<br><br>
+                        Goditi ogni singolo secondo di questi tuoi 16 anni. Io sarò sempre al tuo fianco per tenerti la
+                        mano, farti ridere, ascoltarti e sostenerti in ogni tuo sogno. Non vedo l'ora di creare ancora
+                        tantissimi ricordi insieme a te.<br><br>
+                        Buon compleanno vita mia, ti amo infinitamente. 🤍
+                    </div>
+                    <div class="letter-sign">Il tuo Lumi 🤍</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MUSIC SOUNDTRACK PLAYER SECTION -->
+        <section class="bday-music-section">
+            <div class="bday-music-card glass">
+                <div class="music-note-icon">🎵</div>
+                <div class="music-info">
+                    <div class="music-title">"Your lips, my lips, apocalypse"</div>
+                    <div class="music-sub">La nostra colonna sonora per oggi 🤍</div>
+                </div>
+                <button id="bday-audio-btn" class="bday-play-btn">
+                    <span id="bday-play-icon">▶</span>
+                </button>
+                <audio id="bday-music-player" src="canzone.mp3.mp3" preload="auto"></audio>
+            </div>
+        </section>
+
+        <!-- FOOTER DI CHIUSURA -->
+        <footer class="bday-footer">
+            <p>Creato con tutto l'amore del mondo per Linda 🤍 • 24 Settembre 2026</p>
+        </footer>
+    </main>
+
+    <!-- Canvas Confetti Library per esplosioni grafiche -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="compleanno.js?v=1"></script>
+</body>
+
+</html>

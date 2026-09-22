@@ -16,6 +16,7 @@
 </head>
 
 <body>
+    <!-- Sfondo con elementi fluttuanti (palloncini e stelle) -->
     <!-- Login Overlay (PIN Numpad) -->
     <div id="login-overlay">
         <div class="login-card glass">
@@ -44,6 +45,57 @@
                 <div class="btn-spacer"></div>
                 <button class="num-btn" data-val="0">0</button>
                 <button class="num-btn delete-btn" id="delete-btn">⌫</button>
+            </div>
+
+            <!-- Birthday Countdown & Unlock Widget inside PIN Screen -->
+            <div id="pin-birthday-widget" class="pin-bday-widget">
+                <div class="pin-bday-divider">
+                    <span>🎁 16° COMPLEANNO 🎂</span>
+                </div>
+
+                <!-- Timer State: Active Countdown before 24 Sept -->
+                <div id="pin-bday-timer-container" class="pin-bday-timer-container">
+                    <p class="pin-bday-subtitle">La tua sorpresa si sblocca tra:</p>
+                    <div class="pin-timer-boxes">
+                        <div class="pin-t-box glass">
+                            <span id="pin-days" class="pin-t-val">00</span>
+                            <span class="pin-t-label">Giorni</span>
+                        </div>
+                        <div class="pin-t-box glass">
+                            <span id="pin-hours" class="pin-t-val">00</span>
+                            <span class="pin-t-label">Ore</span>
+                        </div>
+                        <div class="pin-t-box glass">
+                            <span id="pin-minutes" class="pin-t-val">00</span>
+                            <span class="pin-t-label">Min</span>
+                        </div>
+                        <div class="pin-t-box glass">
+                            <span id="pin-seconds" class="pin-t-val">00</span>
+                            <span class="pin-t-label">Sec</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Unlocked State: Becomes a Button on 24 Sept -->
+                <div id="pin-bday-btn-container" class="pin-bday-btn-container hidden">
+                    <a href="compleanno.html" id="pin-bday-cta-btn" class="pin-bday-unlocked-btn">
+                        <span class="cta-sparkle">✨</span>
+                        <span class="cta-text">🎂 APRI LA PAGINA DEL TUO COMPLEANNO! 🎁</span>
+                        <span class="cta-sparkle">✨</span>
+                    </a>
+                </div>
+
+                <!-- Expired State: After 24 Sept -->
+                <div id="pin-bday-expired-container" class="pin-bday-expired-container hidden">
+                    <p class="pin-bday-expired-msg">🔒 La festa di compleanno del 24 Settembre è terminata</p>
+                </div>
+
+                <!-- Tasto Test per simulare il 24 Settembre -->
+                <div class="test-simulate-wrapper" style="margin-top: 15px;">
+                    <button type="button" id="test-simulate-24-btn" class="test-simulate-btn">
+                        🧪 Simula che sia il 24 Settembre
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -756,9 +808,11 @@
         Buon 3° mese <span id="secret-trigger" style="cursor: pointer; user-select: none;">🤍</span>
     </footer>
 
+    <!-- Canvas Confetti CDN for Birthday Animations -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <!-- Leaflet Map JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-    <script src="script.js?v=3"></script>
+    <script src="script.js?v=5"></script>
 </body>
 
 </html>

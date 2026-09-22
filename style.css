@@ -65,6 +65,7 @@ h3 {
 #login-overlay.hidden {
   opacity: 0;
   visibility: hidden;
+  display: none !important;
 }
 
 .login-card {
@@ -3016,4 +3017,685 @@ footer {
     background: linear-gradient(to right, #94a3b8, #cbd5e1, #64748b);
     margin: 0 10px;
   }
-}
+}
+
+/* ==========================================================================
+   16th BIRTHDAY THEME & ANIMATIONS (Special Edition)
+   ========================================================================== */
+
+/* Floating Balloons & Background Particles */
+.balloons-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.floating-balloon {
+  position: absolute;
+  bottom: -60px;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  opacity: 0.75;
+  animation: floatBalloonUp 12s linear infinite;
+  filter: drop-shadow(0 4px 12px rgba(255, 105, 180, 0.4));
+  user-select: none;
+}
+
+@keyframes floatBalloonUp {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.85;
+  }
+  90% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(-115vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Birthday Badges & Text Styling */
+.bday-mini-badge,
+.bday-badge-sparkle,
+.bday-hero-tag,
+.bday-section-badge {
+  display: inline-block;
+  padding: 6px 18px;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.25), rgba(255, 105, 180, 0.25));
+  border: 1px solid rgba(255, 215, 0, 0.5);
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #ffd700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+  box-shadow: 0 0 20px rgba(255, 105, 180, 0.2);
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  animation: pulseGlowBadge 3s ease-in-out infinite alternate;
+}
+
+@keyframes pulseGlowBadge {
+  0% {
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    border-color: rgba(255, 215, 0, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 25px rgba(255, 105, 180, 0.6);
+    border-color: rgba(255, 105, 180, 0.8);
+  }
+}
+
+.bday-hero-title {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  background: linear-gradient(135deg, #ffffff 0%, #ffd700 40%, #ff69b4 80%, #ffffff 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shineTitle 6s linear infinite;
+  margin-bottom: 10px;
+  line-height: 1.1;
+}
+
+@keyframes shineTitle {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.bday-hero-subtitle {
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  color: #ffc0cb;
+  margin-bottom: 25px;
+  font-weight: 600;
+  text-shadow: 0 0 12px rgba(255, 192, 203, 0.5);
+}
+
+.bday-gradient-text {
+  background: linear-gradient(135deg, #ffd700, #ff69b4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+
+/* Birthday Entrance Intro Modal */
+.bday-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 8, 20, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 11000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
+}
+
+.bday-modal-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.bday-modal-overlay.fade-out {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: all 0.8s ease;
+}
+
+.bday-modal-card {
+  max-width: 520px;
+  width: 100%;
+  padding: 40px 30px;
+  text-align: center;
+  border: 1px solid rgba(255, 215, 0, 0.35);
+  box-shadow: 0 20px 60px rgba(255, 105, 180, 0.3), 0 0 40px rgba(255, 215, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+  animation: bdayPopIn 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@keyframes bdayPopIn {
+  from {
+    transform: scale(0.85) translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.bday-modal-title {
+  font-size: clamp(1.8rem, 4.5vw, 2.5rem);
+  color: #ffffff;
+  margin-top: 10px;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.bday-modal-subtitle {
+  color: var(--text-dim);
+  font-size: 1rem;
+  margin-bottom: 25px;
+}
+
+.modal-cake-container {
+  margin: 20px auto 25px auto;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bday-cake-art {
+  position: relative;
+  display: inline-block;
+}
+
+.cake-emoji-visual {
+  font-size: clamp(4.5rem, 10vw, 6rem);
+  filter: drop-shadow(0 10px 20px rgba(255, 105, 180, 0.5));
+}
+
+.number-16-badge {
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #ffd700, #ff69b4);
+  color: #000;
+  font-weight: 900;
+  font-size: 1.3rem;
+  padding: 2px 10px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.8);
+}
+
+.candle-flames-group {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 15px;
+}
+
+.flame-sparkle {
+  font-size: 1.6rem;
+  animation: flameWiggle 1s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 10px #ffaa00);
+}
+
+.flame-2 {
+  animation-delay: 0.3s;
+}
+
+@keyframes flameWiggle {
+  0% {
+    transform: translateY(0) scale(1) rotate(-5deg);
+  }
+  100% {
+    transform: translateY(-4px) scale(1.15) rotate(5deg);
+  }
+}
+
+.bday-prompt-text {
+  font-size: 1.05rem;
+  color: #ffd700;
+  font-weight: 600;
+  margin-bottom: 25px;
+}
+
+/* Primary Birthday Button */
+.bday-primary-btn {
+  background: linear-gradient(135deg, #ff1493 0%, #ff69b4 50%, #ffd700 100%);
+  color: #ffffff;
+  border: none;
+  padding: 14px 32px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(255, 20, 147, 0.4), 0 0 20px rgba(255, 215, 0, 0.3);
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.bday-primary-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 14px 32px rgba(255, 20, 147, 0.6), 0 0 30px rgba(255, 215, 0, 0.6);
+}
+
+.bday-primary-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* 16 Reasons Grid */
+.reasons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.reason-card {
+  perspective: 1000px;
+  height: 160px;
+  cursor: pointer;
+}
+
+.reason-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+  border-radius: var(--card-radius);
+}
+
+.reason-card.flipped .reason-card-inner {
+  transform: rotateY(180deg);
+}
+
+.reason-card-front,
+.reason-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: var(--card-radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.reason-card-front {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 105, 180, 0.08));
+  backdrop-filter: blur(10px);
+}
+
+.reason-card-front .reason-num {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #ffd700;
+  opacity: 0.8;
+}
+
+.reason-card-front .reason-icon {
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+  transition: transform 0.3s ease;
+}
+
+.reason-card:hover .reason-card-front .reason-icon {
+  transform: scale(1.2) rotate(10deg);
+}
+
+.reason-card-front .reason-prompt {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #e6f0ff;
+}
+
+.reason-card-back {
+  background: linear-gradient(135deg, rgba(255, 20, 147, 0.25), rgba(123, 104, 238, 0.25));
+  backdrop-filter: blur(12px);
+  transform: rotateY(180deg);
+  border-color: rgba(255, 105, 180, 0.4);
+}
+
+.reason-card-back p {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* Interactive Birthday Cake Section */
+.cake-card {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 25px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.interactive-cake-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px 0 10px 0;
+}
+
+.cake-candles-row {
+  display: flex;
+  justify-content: center;
+  gap: clamp(6px, 1.5vw, 14px);
+  margin-bottom: -6px;
+  z-index: 2;
+  flex-wrap: wrap;
+  max-width: 95%;
+}
+
+.candle-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  user-select: none;
+}
+
+.candle-item:hover {
+  transform: translateY(-4px);
+}
+
+.candle-flame {
+  font-size: 1.2rem;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  filter: drop-shadow(0 0 6px #ffcc00);
+  animation: flameFlicker 1.2s ease-in-out infinite alternate;
+}
+
+.candle-flame.off {
+  opacity: 0.15;
+  transform: scale(0.6);
+  filter: none;
+  animation: none;
+}
+
+.candle-stick {
+  width: 8px;
+  height: 38px;
+  background: linear-gradient(to bottom, #ff99c8, #ff5c8a, #ffd700);
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.cake-visual {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cake-icing {
+  width: 90%;
+  height: 14px;
+  background: #ffffff;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+}
+
+.cake-layer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  color: #fff;
+  border-radius: 12px;
+  margin-top: 2px;
+}
+
+.cake-layer-top {
+  height: 50px;
+  background: linear-gradient(135deg, #ff1493, #ff69b4);
+  box-shadow: inset 0 -4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cake-layer-bottom {
+  height: 60px;
+  width: 108%;
+  background: linear-gradient(135deg, #4b0082, #8a2be2);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  margin-top: 4px;
+}
+
+.cake-decor {
+  font-size: 1.1rem;
+  color: #ffd700;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+}
+
+.cake-decor-sub {
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  color: #ffffff;
+}
+
+@media (max-width: 600px) {
+  .reasons-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .reason-card {
+    height: 140px;
+  }
+
+  .reason-card-front .reason-icon {
+    font-size: 1.8rem;
+  }
+
+  .reason-card-back p {
+    font-size: 0.85rem;
+  }
+
+  .candle-stick {
+    width: 6px;
+    height: 30px;
+  }
+
+  .candle-flame {
+    font-size: 1rem;
+  }
+}
+
+/* =============================================
+   PIN Birthday Widget & Countdown / Button
+   ============================================= */
+.pin-bday-widget {
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px dashed rgba(255, 215, 0, 0.35);
+  text-align: center;
+  width: 100%;
+}
+
+.pin-bday-divider {
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #ffd700;
+  margin-bottom: 8px;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+  user-select: none;
+}
+
+.pin-bday-subtitle {
+  font-size: 0.82rem;
+  color: rgba(255, 192, 203, 0.9);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.pin-timer-boxes {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pin-t-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 62px;
+  height: 56px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease;
+}
+
+.pin-t-box:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 215, 0, 0.6);
+}
+
+.pin-t-val {
+  font-size: 1.35rem;
+  font-weight: 900;
+  font-family: 'Outfit', sans-serif;
+  color: #ffd700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  line-height: 1;
+}
+
+.pin-t-label {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  letter-spacing: 0.8px;
+  margin-top: 3px;
+  font-weight: 600;
+}
+
+/* Unlocked Action Button State */
+.pin-bday-btn-container {
+  margin-top: 8px;
+}
+
+.pin-bday-unlocked-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 20px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  font-family: 'Outfit', sans-serif;
+  color: #ffffff;
+  text-decoration: none;
+  background: linear-gradient(135deg, #ff1493 0%, #ff69b4 45%, #ffd700 100%);
+  border-radius: 50px;
+  box-shadow: 0 0 25px rgba(255, 20, 147, 0.65), 0 0 30px rgba(255, 215, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  animation: pulseBdayBtn 2s infinite alternate ease-in-out;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  line-height: 1.3;
+}
+
+.pin-bday-unlocked-btn:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 0 35px rgba(255, 20, 147, 0.85), 0 0 45px rgba(255, 215, 0, 0.6);
+  color: #ffffff;
+}
+
+@keyframes pulseBdayBtn {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(255, 20, 147, 0.6), 0 0 25px rgba(255, 215, 0, 0.4);
+  }
+  100% {
+    transform: scale(1.03);
+    box-shadow: 0 0 32px rgba(255, 20, 147, 0.8), 0 0 40px rgba(255, 215, 0, 0.6);
+  }
+}
+
+.pin-bday-expired-msg {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: inline-block;
+  margin-top: 5px;
+}
+
+/* Pulsante Test Simulazione 24 Settembre */
+.test-simulate-btn {
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px dashed rgba(255, 215, 0, 0.5);
+  color: #ffd700;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.test-simulate-btn:hover {
+  background: rgba(255, 215, 0, 0.25);
+  border-color: #ffd700;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+}
+
+.test-simulate-btn.active {
+  background: rgba(0, 255, 136, 0.15);
+  border: 1px solid #00ff88;
+  color: #00ff88;
+}
+
+@media (max-width: 400px) {
+  .pin-timer-boxes {
+    gap: 6px;
+  }
+  .pin-t-box {
+    width: 54px;
+    height: 52px;
+  }
+  .pin-t-val {
+    font-size: 1.15rem;
+  }
+  .pin-bday-unlocked-btn {
+    font-size: 0.8rem;
+    padding: 10px 15px;
+  }
+  .test-simulate-btn {
+    font-size: 0.75rem;
+    padding: 6px 12px;
+  }
+}
+
+

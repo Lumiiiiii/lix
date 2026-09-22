@@ -33,11 +33,16 @@ document.addEventListener('DOMContentLoaded', () => {
         statusMsg.textContent = 'Accesso autorizzato';
         statusMsg.style.color = '#00ff88';
 
-        // localStorage.setItem('loggedIn', 'true'); // Disabilitato per chiedere sempre il PIN
+        // Salva stato autenticato nella sessione
+        sessionStorage.setItem('site_authenticated', 'true');
+
+        // Esplosione confetti al login
+        triggerBirthdayConfetti();
 
         setTimeout(() => {
             loginOverlay.classList.add('hidden');
             document.body.style.overflow = 'auto';
+
             setTimeout(() => {
                 loginOverlay.style.display = 'none';
             }, 800);
@@ -1406,5 +1411,198 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial render
     renderMemories();
+
+    // -------------------------------------------------------------
+    // Blow Candles Action (Birthday Intro Modal)
+    // -------------------------------------------------------------
+    const blowBtn = document.getElementById('blow-candles-btn');
+    if (blowBtn) {
+        blowBtn.addEventListener('click', () => {
+            triggerBirthdayConfetti(true);
+
+            const flame1 = document.getElementById('modal-flame-1');
+            const flame2 = document.getElementById('modal-flame-2');
+            if (flame1) flame1.style.opacity = '0';
+            if (flame2) flame2.style.opacity = '0';
+
+            const bgMusic = document.getElementById('bg-music');
+            if (bgMusic) {
+                bgMusic.play().catch(() => {});
+            }
+
+            const bdayModal = document.getElementById('birthday-intro-modal');
+            if (bdayModal) {
+                bdayModal.classList.add('fade-out');
+                setTimeout(() => {
+                    bdayModal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }, 800);
+            }
+        });
+    }
 });
+
+// -------------------------------------------------------------
+// Confetti Fireworks Engine
+// -------------------------------------------------------------
+function triggerBirthdayConfetti(isMega = false) {
+    if (typeof confetti === 'function') {
+        const count = isMega ? 220 : 100;
+        confetti({
+            particleCount: count,
+            spread: 90,
+            origin: { y: 0.6 },
+            colors: ['#ffd700', '#ff69b4', '#00ccff', '#ffffff', '#ff1493']
+        });
+
+        if (isMega) {
+            setTimeout(() => {
+                confetti({
+                    particleCount: 80,
+                    angle: 60,
+                    spread: 60,
+                    origin: { x: 0 }
+                });
+                confetti({
+                    particleCount: 80,
+                    angle: 120,
+                    spread: 60,
+                    origin: { x: 1 }
+                });
+            }, 300);
+        }
+    }
+}
+
+// -------------------------------------------------------------
+// -------------------------------------------------------------
+// PIN Screen Birthday Countdown & Unlock Logic (24 Settembre)
+// -------------------------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+    const pinTimerContainer = document.getElementById('pin-bday-timer-container');
+    const pinBtnContainer = document.getElementById('pin-bday-btn-container');
+    const pinExpiredContainer = document.getElementById('pin-bday-expired-container');
+    const pinDays = document.getElementById('pin-days');
+    const pinHours = document.getElementById('pin-hours');
+    const pinMinutes = document.getElementById('pin-minutes');
+    const pinSeconds = document.getElementById('pin-seconds');
+    const pinWidget = document.getElementById('pin-birthday-widget');
+
+    // Birthday starts: 24 September 2026 00:00:00
+    const bdayStartDate = new Date('2026-09-24T00:00:00').getTime();
+    // Birthday ends (Autodestruction): 24 September 2026 23:59:59.999 (25 Sept 00:00:00)
+    const bdayEndDate = new Date('2026-09-25T00:00:00').getTime();
+
+    // Support URL parameters for testing (?test=bday or ?preview=1)
+    const urlParams = new URLSearchParams(window.location.search);
+    let isTestUnlocked = urlParams.has('test') || urlParams.has('preview') || sessionStorage.getItem('bday_test_mode') === 'true';
+
+    // Secret double-click on widget header to toggle test mode
+    if (pinWidget) {
+        const divider = pinWidget.querySelector('.pin-bday-divider');
+        if (divider) {
+            divider.title = 'Doppio click per testare la modalità compleanno';
+            divider.style.cursor = 'pointer';
+            divider.addEventListener('dblclick', (e) => {
+                e.preventDefault();
+                isTestUnlocked = !isTestUnlocked;
+                sessionStorage.setItem('bday_test_mode', isTestUnlocked ? 'true' : 'false');
+                updatePinCountdown();
+                if (isTestUnlocked && typeof triggerBirthdayConfetti === 'function') {
+                    triggerBirthdayConfetti(true);
+                }
+            });
+        }
+    }
+
+    const testSimulateBtn = document.getElementById('test-simulate-24-btn');
+    function updateTestBtnUI() {
+        if (!testSimulateBtn) return;
+        if (isTestUnlocked) {
+            testSimulateBtn.innerHTML = '🔄 Torna a oggi (Disattiva simulazione)';
+            testSimulateBtn.classList.add('active');
+        } else {
+            testSimulateBtn.innerHTML = '🧪 Simula che sia il 24 Settembre';
+            testSimulateBtn.classList.remove('active');
+        }
+    }
+    updateTestBtnUI();
+
+    if (testSimulateBtn) {
+        testSimulateBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            isTestUnlocked = !isTestUnlocked;
+            sessionStorage.setItem('bday_test_mode', isTestUnlocked ? 'true' : 'false');
+            if (!isTestUnlocked) {
+                sessionStorage.removeItem('site_authenticated');
+                sessionStorage.removeItem('bday_test_mode');
+                if (loginOverlay) {
+                    loginOverlay.style.display = 'flex';
+                    loginOverlay.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+            updateTestBtnUI();
+            updatePinCountdown();
+            if (isTestUnlocked && typeof triggerBirthdayConfetti === 'function') {
+                triggerBirthdayConfetti(true);
+            }
+        });
+    }
+
+    function updatePinCountdown() {
+        if (!pinTimerContainer || !pinBtnContainer) return;
+
+        const now = new Date().getTime();
+
+        // If in test mode, simulate that birthday has arrived
+        if (isTestUnlocked) {
+            pinTimerContainer.classList.add('hidden');
+            pinBtnContainer.classList.remove('hidden');
+            if (pinExpiredContainer) pinExpiredContainer.classList.add('hidden');
+            const ctaBtn = document.getElementById('pin-bday-cta-btn');
+            if (ctaBtn) ctaBtn.href = 'compleanno.html?test=1';
+            return;
+        }
+
+        const distanceToStart = bdayStartDate - now;
+        const distanceToEnd = bdayEndDate - now;
+
+        if (distanceToStart > 0) {
+            // Before 24 Sept 00:00:00: Show Countdown
+            pinTimerContainer.classList.remove('hidden');
+            pinBtnContainer.classList.add('hidden');
+            if (pinExpiredContainer) pinExpiredContainer.classList.add('hidden');
+
+            const days = Math.floor(distanceToStart / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distanceToStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distanceToStart % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distanceToStart % (1000 * 60)) / 1000);
+
+            if (pinDays) pinDays.innerText = days.toString().padStart(2, '0');
+            if (pinHours) pinHours.innerText = hours.toString().padStart(2, '0');
+            if (pinMinutes) pinMinutes.innerText = minutes.toString().padStart(2, '0');
+            if (pinSeconds) pinSeconds.innerText = seconds.toString().padStart(2, '0');
+        } else if (distanceToEnd > 0) {
+            // During 24 Sept (00:00:00 to 23:59:59): Timer turns into the action button!
+            pinTimerContainer.classList.add('hidden');
+            pinBtnContainer.classList.remove('hidden');
+            if (pinExpiredContainer) pinExpiredContainer.classList.add('hidden');
+            const ctaBtn = document.getElementById('pin-bday-cta-btn');
+            if (ctaBtn) ctaBtn.href = 'compleanno.html';
+        } else {
+            // After 24 Sept: Expired / Self-destructed
+            pinTimerContainer.classList.add('hidden');
+            pinBtnContainer.classList.add('hidden');
+            if (pinExpiredContainer) pinExpiredContainer.classList.remove('hidden');
+        }
+    }
+
+    if (pinWidget) {
+        setInterval(updatePinCountdown, 1000);
+        updatePinCountdown();
+    }
+});
+
+
 
