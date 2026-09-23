@@ -100,6 +100,25 @@
         </div>
     </div>
 
+    <!-- Modal Password Simulazione (Richiede password 5893) -->
+    <div id="sim-pwd-modal" class="sim-pwd-modal hidden">
+        <div class="sim-pwd-backdrop" id="sim-pwd-backdrop"></div>
+        <div class="sim-pwd-card glass">
+            <button type="button" class="sim-pwd-close" id="sim-pwd-close" aria-label="Chiudi">&times;</button>
+            <div class="sim-pwd-icon">🔐</div>
+            <h3 class="sim-pwd-title">Accesso Simulatore</h3>
+            <p class="sim-pwd-subtitle">Inserisci la password per simulare il 24 Settembre:</p>
+            <div class="sim-pwd-input-wrap">
+                <input type="password" id="sim-pwd-input" class="sim-pwd-input" placeholder="••••" maxlength="10" autocomplete="off" />
+            </div>
+            <div id="sim-pwd-error" class="sim-pwd-error hidden">Password errata! Riprova ❌</div>
+            <div class="sim-pwd-actions">
+                <button type="button" id="sim-pwd-cancel" class="sim-pwd-btn cancel">Annulla</button>
+                <button type="button" id="sim-pwd-confirm" class="sim-pwd-btn confirm">Sblocca ✨</button>
+            </div>
+        </div>
+    </div>
+
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
 

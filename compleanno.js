@@ -11,15 +11,98 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fine Compleanno (Autodistruzione): 24 Settembre 2026 23:59:59.999 (25 Settembre 00:00:00)
     const bdayEndDate = new Date('2026-09-25T00:00:00').getTime();
 
-    const urlParams = new URLSearchParams(window.location.search);
-    let isTestMode = urlParams.has('test') || urlParams.has('preview') || sessionStorage.getItem('bday_test_mode') === 'true';
+    // Password di sicurezza per la simulazione (5893)
+    const SIM_PASSWORD = '5893';
 
-    // Gestione click per attivare la modalità anteprima dal messaggio di blocco
+    // Accesso anteprima SOLO se è stata validata la password 5893 in sessione
+    let isTestMode = sessionStorage.getItem('bday_sim_auth') === SIM_PASSWORD;
+
+    // Gestione Modal Password Simulazione in compleanno.html
+    const simModal = document.getElementById('sim-pwd-modal');
+    const simInput = document.getElementById('sim-pwd-input');
+    const simError = document.getElementById('sim-pwd-error');
+    const simConfirmBtn = document.getElementById('sim-pwd-confirm');
+    const simCancelBtn = document.getElementById('sim-pwd-cancel');
+    const simCloseBtn = document.getElementById('sim-pwd-close');
+    const simBackdrop = document.getElementById('sim-pwd-backdrop');
+
+    function openSimulationPasswordModal(onSuccess) {
+        if (!simModal) {
+            const entered = prompt('Inserisci la password per sbloccare la modalità anteprima:');
+            if (entered === SIM_PASSWORD) {
+                if (typeof onSuccess === 'function') onSuccess();
+            } else if (entered !== null) {
+                alert('Password errata! Accesso negato ❌');
+            }
+            return;
+        }
+
+        if (simError) simError.classList.add('hidden');
+        if (simInput) {
+            simInput.value = '';
+            simModal.classList.remove('hidden');
+            setTimeout(() => simInput.focus(), 100);
+        }
+
+        function closeSimModal() {
+            if (simModal) simModal.classList.add('hidden');
+            cleanupListeners();
+        }
+
+        function handleConfirm() {
+            const val = simInput ? simInput.value.trim() : '';
+            if (val === SIM_PASSWORD) {
+                closeSimModal();
+                if (typeof onSuccess === 'function') onSuccess();
+            } else {
+                if (simError) {
+                    simError.classList.remove('hidden');
+                    simError.innerText = 'Password errata! Riprova ❌';
+                }
+                if (simInput) {
+                    simInput.select();
+                }
+            }
+        }
+
+        function handleKey(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handleConfirm();
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
+                closeSimModal();
+            }
+        }
+
+        function cleanupListeners() {
+            if (simConfirmBtn) simConfirmBtn.removeEventListener('click', handleConfirm);
+            if (simCancelBtn) simCancelBtn.removeEventListener('click', closeSimModal);
+            if (simCloseBtn) simCloseBtn.removeEventListener('click', closeSimModal);
+            if (simBackdrop) simBackdrop.removeEventListener('click', closeSimModal);
+            document.removeEventListener('keydown', handleKey);
+        }
+
+        if (simConfirmBtn) simConfirmBtn.addEventListener('click', handleConfirm);
+        if (simCancelBtn) simCancelBtn.addEventListener('click', closeSimModal);
+        if (simCloseBtn) simCloseBtn.addEventListener('click', closeSimModal);
+        if (simBackdrop) simBackdrop.addEventListener('click', closeSimModal);
+        document.addEventListener('keydown', handleKey);
+    }
+
+    // Gestione click per attivare la modalità anteprima dal messaggio di blocco (richiede password 5893)
     const previewHint = document.getElementById('lock-preview-hint');
     if (previewHint) {
         previewHint.addEventListener('click', () => {
-            sessionStorage.setItem('bday_test_mode', 'true');
-            window.location.reload();
+            openSimulationPasswordModal(() => {
+                sessionStorage.setItem('bday_sim_auth', SIM_PASSWORD);
+                sessionStorage.setItem('bday_test_mode', 'true');
+                isTestMode = true;
+                checkAccessAndAutodestruction();
+                if (typeof triggerFullConfettiExplosion === 'function') {
+                    triggerFullConfettiExplosion();
+                }
+            });
         });
     }
 
@@ -129,6 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (secondsLeft <= 0) {
                 clearInterval(countdownInterval);
                 sessionStorage.removeItem('bday_test_mode');
+                sessionStorage.removeItem('bday_sim_auth');
                 window.location.href = 'index.html';
             }
         }, 1000);
@@ -236,56 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // -------------------------------------------------------------
-    // 5. 16 Motivi Per Cui Sei Speciale (Flip Cards)
-    // -------------------------------------------------------------
-    const reasonsGrid = document.getElementById('reasons-grid');
-    if (reasonsGrid) {
-        const reasons = [
-            { icon: '💖', title: 'Motivo #1', desc: 'Il tuo sorriso unico che illumina all’istante qualsiasi mia giornata, anche quelle più grigie.' },
-            { icon: '🌺', title: 'Motivo #2', desc: 'La tua dolcezza infinita e il modo premuroso con cui ti prendi cura di me ogni volta.' },
-            { icon: '✨', title: 'Motivo #3', desc: 'I tuoi occhi bellissimi e profondi, in cui potrei perdermi a guardarti per ore intere.' },
-            { icon: '🍕', title: 'Motivo #4', desc: 'La nostra complicità quando mangiamo insieme al sushi e condividiamo ogni cosa.' },
-            { icon: '🎬', title: 'Motivo #5', desc: 'Le nostre serate al cinema vicini vicini al buio della sala, mano nella mano.' },
-            { icon: '🌊', title: 'Motivo #6', desc: 'I nostri primi bagni al mare insieme, il sole caldo sulla pelle e le risate tra le onde.' },
-            { icon: '🗣️', title: 'Motivo #7', desc: 'Le nostre chiamate interminabili in cui parliamo di tutto e il tempo vola via in un secondo.' },
-            { icon: '🤍', title: 'Motivo #8', desc: 'I tuoi abbracci calorosi: il posto al mondo in cui mi sento più al sicuro e amato.' },
-            { icon: '🎵', title: 'Motivo #9', desc: 'La nostra sintonia musicale e cantare la nostra canzone a squarciagola insieme in macchina.' },
-            { icon: '⭐', title: 'Motivo #10', desc: 'La tua intelligenza, la tua simpatia e la tua forza di volontà che ammiro tantissimo.' },
-            { icon: '💌', title: 'Motivo #11', desc: 'I tuoi messaggi dolci che conservo con cura nei preferiti e rileggo quando mi manchi.' },
-            { icon: '🛌', title: 'Motivo #12', desc: 'La nostra prima notte passata svegli insieme fino alle 6 del mattino a ridere senza sosta.' },
-            { icon: '🚗', title: 'Motivo #13', desc: 'Tutti i nostri sogni di viaggio e la voglia matta di esplorare il mondo mano nella mano.' },
-            { icon: '🥟', title: 'Motivo #14', desc: 'Come mi ascolti e mi capisci senza mai giudicarmi, dandomi sempre fiducia e coraggio.' },
-            { icon: '🌟', title: 'Motivo #15', desc: 'La ragazza straordinaria, gentile e meravigliosa che sei e che diventa ogni giorno più speciale.' },
-            { icon: '♾️', title: 'Motivo #16', desc: 'Che siamo noi due, complici contro tutto il mondo, con un amore puro e infinito!' }
-        ];
-
-        reasons.forEach((r, idx) => {
-            const card = document.createElement('div');
-            card.className = 'reason-card';
-            card.innerHTML = `
-                <div class="reason-card-inner">
-                    <div class="reason-card-front">
-                        <span class="reason-num">#${idx + 1}</span>
-                        <div class="reason-icon">${r.icon}</div>
-                        <div class="reason-prompt">${r.title}</div>
-                    </div>
-                    <div class="reason-card-back">
-                        <p>${r.desc}</p>
-                    </div>
-                </div>
-            `;
-
-            card.addEventListener('click', () => {
-                card.classList.toggle('flipped');
-                triggerMiniConfetti(card);
-            });
-
-            reasonsGrid.appendChild(card);
-        });
-    }
-
-    // -------------------------------------------------------------
-    // 6. Effetti Confetti & Celebrazione
+    // 5. Effetti Confetti & Celebrazione
     // -------------------------------------------------------------
     const launchConfettiBtn = document.getElementById('launch-confetti-btn');
     if (launchConfettiBtn) {
@@ -352,25 +387,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function triggerMiniConfetti(card) {
-        if (typeof confetti === 'function') {
-            const rect = card.getBoundingClientRect();
-            const x = (rect.left + rect.width / 2) / window.innerWidth;
-            const y = (rect.top + rect.height / 2) / window.innerHeight;
-
-            confetti({
-                particleCount: 20,
-                spread: 50,
-                origin: { x, y },
-                colors: ['#ff1493', '#ffd700', '#6e8efb'],
-                scalar: 0.8,
-                ticks: 70
-            });
-        }
-    }
-
     // -------------------------------------------------------------
-    // 7. Audio Soundtrack Player
+    // 6. Audio Soundtrack Player
     // -------------------------------------------------------------
     const audioBtn = document.getElementById('bday-audio-btn');
     const audioPlayer = document.getElementById('bday-music-player');
@@ -396,7 +414,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // -------------------------------------------------------------
-    // 8. Navigazione e Ritorno alla Schermata del PIN
+    // 7. Navigazione e Ritorno alla Schermata del PIN
     // -------------------------------------------------------------
     function navigateToPinScreen(e) {
         if (e) e.preventDefault();

@@ -35,6 +35,25 @@
         </div>
     </div>
 
+    <!-- Modal Password Simulazione (Richiede password 5893) -->
+    <div id="sim-pwd-modal" class="sim-pwd-modal hidden">
+        <div class="sim-pwd-backdrop" id="sim-pwd-backdrop"></div>
+        <div class="sim-pwd-card glass">
+            <button type="button" class="sim-pwd-close" id="sim-pwd-close" aria-label="Chiudi">&times;</button>
+            <div class="sim-pwd-icon">🔐</div>
+            <h3 class="sim-pwd-title">Accesso Anteprima</h3>
+            <p class="sim-pwd-subtitle">Inserisci la password per visualizzare l'anteprima:</p>
+            <div class="sim-pwd-input-wrap">
+                <input type="password" id="sim-pwd-input" class="sim-pwd-input" placeholder="••••" maxlength="10" autocomplete="off" />
+            </div>
+            <div id="sim-pwd-error" class="sim-pwd-error hidden">Password errata! Riprova ❌</div>
+            <div class="sim-pwd-actions">
+                <button type="button" id="sim-pwd-cancel" class="sim-pwd-btn cancel">Annulla</button>
+                <button type="button" id="sim-pwd-confirm" class="sim-pwd-btn confirm">Sblocca ✨</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Overlay di Autodistruzione (Allo scadere delle 23:59:59) -->
     <div id="autodestruct-overlay" class="autodestruct-overlay hidden">
         <div class="destruct-box glass">
@@ -159,54 +178,18 @@
                 <!-- Messaggio desiderio -->
                 <div id="wish-revealed-box" class="wish-revealed-box hidden">
                     <span class="wish-icon">🌟</span>
-                    <h3>Desiderio Espresso</h3>
-
+                    <h3>Desiderio Espresso! ✨</h3>
+                    >
                 </div>
             </div>
         </section>
 
-        <!-- SEZIONE 16 MOTIVI / COSE CHE AMO DI TE -->
-        <section class="bday-reasons-section">
-            <div class="section-title-wrap">
-                <h2 class="bday-section-title">16 Motivi per cui sei Unica 🤍</h2>
-                <p class="bday-section-sub">Tocca ogni card per scoprire un motivo speciale per cui ti amo con tutto me
-                    stesso</p>
-            </div>
-
-            <div class="reasons-grid" id="reasons-grid">
-                <!-- Generato dinamicamente in compleanno.js -->
-            </div>
-        </section>
-
-        <!-- SEZIONE FOTO RICORDO SPECIALI -->
-        <section class="bday-photos-section">
-            <div class="section-title-wrap">
-                <h2 class="bday-section-title">I Nostri Momenti Più Belli 📸</h2>
-                <p class="bday-section-sub">Ogni singolo istante passato con te è il regalo più prezioso che potessi
-                    ricevere</p>
-            </div>
-
-            <div class="bday-polaroids-row">
-                <div class="bday-polaroid-item">
-                    <img src="photo1.jpg" alt="Noi due">
-                    <span class="polaroid-caption">Noi due 🤍</span>
-                </div>
-                <div class="bday-polaroid-item">
-                    <img src="photo7.jpg" alt="Il tuo sorriso">
-                    <span class="polaroid-caption">La tua bellezza ✨</span>
-                </div>
-                <div class="bday-polaroid-item">
-                    <img src="photo3.jpg" alt="Momenti insieme">
-                    <span class="polaroid-caption">Per sempre noi ♾️</span>
-                </div>
-                <div class="bday-polaroid-item">
-                    <img src="photo11.jpg" alt="Ricordi felici">
-                    <span class="polaroid-caption">Il mio posto sicuro 🏡</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- SEZIONE LETTERA SPECIALE DI COMPLEANNO -->
+        <!-- =======================================================================
+             SEZIONI SOSPESE (Lettera & Musica)
+             Temporaneamente disattivate per lasciare protagonista solo la Torta.
+             Saranno riattivate o integrate con le nuove idee che decideremo insieme!
+             ======================================================================= -->
+        <!--
         <section class="bday-letter-section">
             <div class="section-title-wrap">
                 <h2 class="bday-section-title">La Mia Lettera per i tuoi 16 Anni 💌</h2>
@@ -240,7 +223,6 @@
             </div>
         </section>
 
-        <!-- MUSIC SOUNDTRACK PLAYER SECTION -->
         <section class="bday-music-section">
             <div class="bday-music-card glass">
                 <div class="music-note-icon">🎵</div>
@@ -254,6 +236,7 @@
                 <audio id="bday-music-player" src="canzone.mp3.mp3" preload="auto"></audio>
             </div>
         </section>
+        -->
 
         <!-- FOOTER DI CHIUSURA -->
         <footer class="bday-footer">

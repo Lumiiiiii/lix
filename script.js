@@ -1493,23 +1493,110 @@ document.addEventListener('DOMContentLoaded', () => {
     // Birthday ends (Autodestruction): 24 September 2026 23:59:59.999 (25 Sept 00:00:00)
     const bdayEndDate = new Date('2026-09-25T00:00:00').getTime();
 
-    // Support URL parameters for testing (?test=bday or ?preview=1)
-    const urlParams = new URLSearchParams(window.location.search);
-    let isTestUnlocked = urlParams.has('test') || urlParams.has('preview') || sessionStorage.getItem('bday_test_mode') === 'true';
+    // Password di sicurezza per la simulazione (5893)
+    const SIM_PASSWORD = '5893';
 
-    // Secret double-click on widget header to toggle test mode
+    // La simulazione è consentita SOLO se è stata inserita la password corretta
+    let isTestUnlocked = sessionStorage.getItem('bday_sim_auth') === SIM_PASSWORD;
+
+    // Gestione Modal Password Simulazione
+    const simModal = document.getElementById('sim-pwd-modal');
+    const simInput = document.getElementById('sim-pwd-input');
+    const simError = document.getElementById('sim-pwd-error');
+    const simConfirmBtn = document.getElementById('sim-pwd-confirm');
+    const simCancelBtn = document.getElementById('sim-pwd-cancel');
+    const simCloseBtn = document.getElementById('sim-pwd-close');
+    const simBackdrop = document.getElementById('sim-pwd-backdrop');
+
+    function openSimulationPasswordModal(onSuccess) {
+        if (!simModal) {
+            const entered = prompt('Inserisci la password per attivare la simulazione:');
+            if (entered === SIM_PASSWORD) {
+                if (typeof onSuccess === 'function') onSuccess();
+            } else if (entered !== null) {
+                alert('Password errata! Accesso negato ❌');
+            }
+            return;
+        }
+
+        if (simError) simError.classList.add('hidden');
+        if (simInput) {
+            simInput.value = '';
+            simModal.classList.remove('hidden');
+            setTimeout(() => simInput.focus(), 100);
+        }
+
+        function closeSimModal() {
+            if (simModal) simModal.classList.add('hidden');
+            cleanupListeners();
+        }
+
+        function handleConfirm() {
+            const val = simInput ? simInput.value.trim() : '';
+            if (val === SIM_PASSWORD) {
+                closeSimModal();
+                if (typeof onSuccess === 'function') onSuccess();
+            } else {
+                if (simError) {
+                    simError.classList.remove('hidden');
+                    simError.innerText = 'Password errata! Riprova ❌';
+                }
+                if (simInput) {
+                    simInput.select();
+                }
+            }
+        }
+
+        function handleKey(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handleConfirm();
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
+                closeSimModal();
+            }
+        }
+
+        function cleanupListeners() {
+            if (simConfirmBtn) simConfirmBtn.removeEventListener('click', handleConfirm);
+            if (simCancelBtn) simCancelBtn.removeEventListener('click', closeSimModal);
+            if (simCloseBtn) simCloseBtn.removeEventListener('click', closeSimModal);
+            if (simBackdrop) simBackdrop.removeEventListener('click', closeSimModal);
+            document.removeEventListener('keydown', handleKey);
+        }
+
+        if (simConfirmBtn) simConfirmBtn.addEventListener('click', handleConfirm);
+        if (simCancelBtn) simCancelBtn.addEventListener('click', closeSimModal);
+        if (simCloseBtn) simCloseBtn.addEventListener('click', closeSimModal);
+        if (simBackdrop) simBackdrop.addEventListener('click', closeSimModal);
+        document.addEventListener('keydown', handleKey);
+    }
+
+    // Secret double-click on widget header to toggle test mode (richiede password)
     if (pinWidget) {
         const divider = pinWidget.querySelector('.pin-bday-divider');
         if (divider) {
-            divider.title = 'Doppio click per testare la modalità compleanno';
+            divider.title = 'Doppio click per testare la modalità compleanno (richiede password)';
             divider.style.cursor = 'pointer';
             divider.addEventListener('dblclick', (e) => {
                 e.preventDefault();
-                isTestUnlocked = !isTestUnlocked;
-                sessionStorage.setItem('bday_test_mode', isTestUnlocked ? 'true' : 'false');
-                updatePinCountdown();
-                if (isTestUnlocked && typeof triggerBirthdayConfetti === 'function') {
-                    triggerBirthdayConfetti(true);
+                if (isTestUnlocked) {
+                    isTestUnlocked = false;
+                    sessionStorage.removeItem('bday_sim_auth');
+                    sessionStorage.removeItem('bday_test_mode');
+                    updateTestBtnUI();
+                    updatePinCountdown();
+                } else {
+                    openSimulationPasswordModal(() => {
+                        isTestUnlocked = true;
+                        sessionStorage.setItem('bday_sim_auth', SIM_PASSWORD);
+                        sessionStorage.setItem('bday_test_mode', 'true');
+                        updateTestBtnUI();
+                        updatePinCountdown();
+                        if (typeof triggerBirthdayConfetti === 'function') {
+                            triggerBirthdayConfetti(true);
+                        }
+                    });
                 }
             });
         }
@@ -1519,7 +1606,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateTestBtnUI() {
         if (!testSimulateBtn) return;
         if (isTestUnlocked) {
-            testSimulateBtn.innerHTML = '🔄 Torna a oggi (Disattiva simulazione)';
+            testSimulateBtn.innerHTML = '🔄 Disattiva simulazione (Torna a oggi)';
             testSimulateBtn.classList.add('active');
         } else {
             testSimulateBtn.innerHTML = '🧪 Simula che sia il 24 Settembre';
@@ -1531,21 +1618,25 @@ document.addEventListener('DOMContentLoaded', () => {
     if (testSimulateBtn) {
         testSimulateBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            isTestUnlocked = !isTestUnlocked;
-            sessionStorage.setItem('bday_test_mode', isTestUnlocked ? 'true' : 'false');
-            if (!isTestUnlocked) {
-                sessionStorage.removeItem('site_authenticated');
+            if (isTestUnlocked) {
+                // Se già attiva, un click la disattiva subito senza richiedere password
+                isTestUnlocked = false;
+                sessionStorage.removeItem('bday_sim_auth');
                 sessionStorage.removeItem('bday_test_mode');
-                if (loginOverlay) {
-                    loginOverlay.style.display = 'flex';
-                    loginOverlay.classList.remove('hidden');
-                    document.body.style.overflow = 'hidden';
-                }
-            }
-            updateTestBtnUI();
-            updatePinCountdown();
-            if (isTestUnlocked && typeof triggerBirthdayConfetti === 'function') {
-                triggerBirthdayConfetti(true);
+                updateTestBtnUI();
+                updatePinCountdown();
+            } else {
+                // Richiede obbligatoriamente la password 5893
+                openSimulationPasswordModal(() => {
+                    isTestUnlocked = true;
+                    sessionStorage.setItem('bday_sim_auth', SIM_PASSWORD);
+                    sessionStorage.setItem('bday_test_mode', 'true');
+                    updateTestBtnUI();
+                    updatePinCountdown();
+                    if (typeof triggerBirthdayConfetti === 'function') {
+                        triggerBirthdayConfetti(true);
+                    }
+                });
             }
         });
     }
