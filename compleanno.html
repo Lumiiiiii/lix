@@ -11,7 +11,7 @@
         href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Inter:wght@300;400;600;800&family=Outfit:wght@400;600;800;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=4">
-    <link rel="stylesheet" href="compleanno.css?v=1">
+    <link rel="stylesheet" href="compleanno.css?v=3">
 </head>
 
 <body class="bday-page-body">
@@ -44,7 +44,8 @@
             <h3 class="sim-pwd-title">Accesso Anteprima</h3>
             <p class="sim-pwd-subtitle">Inserisci la password per visualizzare l'anteprima:</p>
             <div class="sim-pwd-input-wrap">
-                <input type="password" id="sim-pwd-input" class="sim-pwd-input" placeholder="••••" maxlength="10" autocomplete="off" />
+                <input type="password" id="sim-pwd-input" class="sim-pwd-input" placeholder="••••" maxlength="10"
+                    autocomplete="off" />
             </div>
             <div id="sim-pwd-error" class="sim-pwd-error hidden">Password errata! Riprova ❌</div>
             <div class="sim-pwd-actions">
@@ -127,7 +128,7 @@
             </div>
 
             <h1 class="bday-hero-title">
-                Tanti Auguri Linda! <span class="bday-cake-emoji">🎂</span>
+                AUGURI AMORE MIO <span class="bday-cake-emoji">🎂</span>
             </h1>
 
 
@@ -144,7 +145,8 @@
             <div class="cake-card glass">
                 <div class="cake-header">
                     <h2>La Tua Torta a 16 Candeline 🎂</h2>
-                    <p class="cake-sub">Clicca sulle candeline per spegnerle una ad una o soffia su tutte insieme</p>
+                    <p class="cake-sub">Clicca sulle candeline per spegnerle una ad una o soffia su tutte insieme,
+                        ricordati di esprimere un desiderio ehehe</p>
                 </div>
 
                 <div class="interactive-cake-container">
@@ -166,20 +168,149 @@
                 <div class="cake-status-wrapper">
                     <p id="cake-status-text" class="cake-status-text">16 candeline ancora accese 🔥</p>
                     <div class="cake-actions-row">
+                        <button id="mic-blow-btn" class="bday-secondary-btn mic-btn"
+                            title="Usa il microfono per soffiare davvero sulle candeline!">
+                            <span class="mic-icon">🎙️</span> <span id="mic-btn-label">Soffia con il Microfono</span>
+                        </button>
                         <button id="blow-all-candles-btn" class="bday-secondary-btn">
-                            💨 Soffia tutte le candeline!
+                            💨 Spegni tutte le candeline
                         </button>
                         <button id="relight-candles-btn" class="bday-secondary-btn hidden">
                             🕯️ Riaccendi le candeline
                         </button>
                     </div>
+
+                    <!-- Indicatore audio in ascolto per soffio sul microfono -->
+                    <div id="mic-indicator-wrap" class="mic-indicator-wrap hidden">
+                        <div class="mic-wave-container">
+                            <span class="mic-wave-bar"></span>
+                            <span class="mic-wave-bar"></span>
+                            <span class="mic-wave-bar"></span>
+                            <span class="mic-wave-bar"></span>
+                            <span class="mic-wave-bar"></span>
+                        </div>
+                        <p id="mic-hint-text" class="mic-hint-text">🎤 In ascolto... Soffia vicino al microfono per
+                            spegnerle! 🌬️</p>
+                    </div>
                 </div>
 
-                <!-- Messaggio desiderio -->
-                <div id="wish-revealed-box" class="wish-revealed-box hidden">
-                    <span class="wish-icon">🌟</span>
-                    <h3>Desiderio Espresso! ✨</h3>
-                    >
+                <!-- Banner celebrazione candeline spente -->
+                <div id="cake-celebration-box" class="cake-celebration-box hidden">
+                    <div class="cake-celebrate-sparkle">🎉 🎂 ✨</div>
+                    <h3 class="cake-celebrate-title">Tutte le 16 Candeline Spente! ✨</h3>
+                    <p class="cake-celebrate-msg">
+                        Bravissima amore mio! Hai spento ogni singola candelina...<br>
+                        Ora tocca alla tua sorpresa: gira la <strong>Ruota della Fortuna</strong> qui sotto per
+                        riscuotere i tuoi premi speciali! 👇
+                    </p>
+                    <button id="cake-scroll-wheel-btn" class="bday-celebrate-btn cake-goto-wheel-btn" type="button">
+                        🎡 Vai alla Ruota dei Premi! ✨
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================
+             SEZIONE RUOTA DELLA FORTUNA DEI 16 ANNI 🎡
+             ======================================================== -->
+        <section class="bday-wheel-section" id="bday-wheel-section">
+            <div class="wheel-card glass">
+                <div class="wheel-header">
+                    <div class="bday-special-badge">
+                        <span>🎡 SPECIAL BIRTHDAY GAME 🎁</span>
+                    </div>
+                    <h2 class="wheel-title">La Ruota della Fortuna🎡</h2>
+                    <p class="wheel-sub">
+                        Gira la ruota e scopri tutti i premi
+                    </p>
+                </div>
+
+                <!-- Palcoscenico Ruota con puntatore e canvas rotante -->
+                <div class="wheel-stage">
+                    <div class="wheel-pointer-container">
+                        <div class="wheel-pointer" id="wheel-pointer">▼</div>
+                    </div>
+
+                    <div class="wheel-rotator-wrapper" id="wheel-rotator">
+                        <canvas id="wheel-canvas" width="460" height="460"></canvas>
+                        <button id="wheel-center-btn" class="wheel-center-btn" type="button" title="Clicca per girare!">
+                            <span class="center-btn-text">GIRA!</span>
+                            <span class="center-btn-icon">🎡</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Azione Principale Gira -->
+                <div class="wheel-action-row">
+                    <button id="wheel-spin-btn" class="bday-celebrate-btn wheel-spin-btn" type="button">
+                        🎡 GIRA LA RUOTA DELLA FORTUNA! ✨
+                    </button>
+                </div>
+
+                <!-- Card Risultato Premio Vinto -->
+                <div id="wheel-result-card" class="wheel-result-card glass hidden">
+                    <div class="wheel-result-badge">🏆 PREMIO VINTO! 🎉</div>
+                    <div id="wheel-result-icon" class="wheel-result-icon">✨</div>
+                    <h3 id="wheel-result-title" class="wheel-result-title">...</h3>
+                    <p id="wheel-result-desc" class="wheel-result-desc">...</p>
+                    <div class="wheel-result-actions">
+                        <button id="wheel-claim-btn" class="bday-celebrate-btn wheel-claim-btn" type="button">
+                            🤍 Riscatta Premio
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================
+             SEZIONE MEMORY DELLE FACCE BUFFE (16 CARTE X 16 ANNI) 🃏
+             ======================================================== -->
+        <section class="bday-memory-section" id="bday-memory-section">
+            <div class="memory-card-wrap glass">
+                <div class="memory-header">
+                    <div class="bday-special-badge">
+                        <span> SPECIAL BIRTHDAY GAME</span>
+                    </div>
+                    <h2 class="memory-title">Memory</h2>
+                </div>
+
+                <!-- HUD Punteggio & Statistiche -->
+                <div class="memory-hud">
+                    <div class="memory-stat-pill">
+                        <span class="stat-icon">🎯</span>
+                        <span class="stat-label">Coppie:</span>
+                        <span id="memory-pairs-count" class="stat-val">0 / 8</span>
+                    </div>
+                    <div class="memory-stat-pill">
+                        <span class="stat-icon">🔄</span>
+                        <span class="stat-label">Mosse:</span>
+                        <span id="memory-moves-count" class="stat-val">0</span>
+                    </div>
+                    <button id="memory-reset-btn" class="bday-secondary-btn memory-reset-btn" type="button"
+                        title="Ricomincia e rimescola le carte">
+                        <span>🎲</span> Rimescola
+                    </button>
+                </div>
+
+                <!-- Griglia del Memory (4x4) -->
+                <div class="memory-grid-container" id="memory-grid">
+                    <!-- Generato dinamicamente con le 16 carte -->
+                </div>
+
+                <!-- Card Vittoria Memory -->
+                <div id="memory-victory-card" class="memory-victory-card glass hidden">
+                    <div class="victory-trophy">🏆 🎉 🤍</div>
+                    <div class="victory-badge">BRAVISSIMA</div>
+                    <h3 class="victory-title">Hai Trovato Tutte le Mie Facce</h3>
+                    <p class="victory-msg">
+                        Complimenti sei riuscita a trovare tutte le mie facce in <strong
+                            id="victory-moves-final">0</strong> mosse!<br>
+                    </p>
+                    <div class="victory-actions">
+                        <button id="memory-replay-btn" class="bday-celebrate-btn memory-replay-btn" type="button">
+                            🔄 Rigioca da capo ✨
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -246,7 +377,8 @@
 
     <!-- Canvas Confetti Library per esplosioni grafiche -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <script src="compleanno.js?v=1"></script>
+    <script src="compleanno.js?v=7"></script>
+
 </body>
 
 </html>
