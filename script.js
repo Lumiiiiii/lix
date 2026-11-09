@@ -779,10 +779,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ----------------------------------------------------
-// Secret Message Board Logic
+// Secret Message Board Logic (Firebase Realtime)
 // ----------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
-    const STORAGE_KEY = 'lix-secret-board';
     const messagesContainer = document.getElementById('board-messages');
     const emptyMsg = document.getElementById('board-empty');
     const input = document.getElementById('board-input');
@@ -790,18 +789,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!messagesContainer || !input || !sendBtn) return;
 
-    function loadMessages() {
-        try {
-            const data = localStorage.getItem(STORAGE_KEY);
-            return data ? JSON.parse(data) : [];
-        } catch {
-            return [];
-        }
-    }
-
-    function saveMessages(messages) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
-    }
+    const boardRef = db.ref('board-messages');
 
     function formatDate(timestamp) {
         const d = new Date(timestamp);
@@ -813,17 +801,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return `${day}/${month}/${year} alle ${hours}:${mins}`;
     }
 
-    function renderMessages() {
-        // Remove all notes (keep empty message element)
+    function renderMessages(messages) {
         messagesContainer.querySelectorAll('.board-note').forEach(n => n.remove());
-
-        const messages = loadMessages();
 
         if (messages.length === 0) {
             emptyMsg.classList.remove('hidden');
         } else {
             emptyMsg.classList.add('hidden');
-            messages.forEach((msg, index) => {
+            messages.forEach((msg) => {
                 const note = document.createElement('div');
                 note.classList.add('board-note');
 
@@ -835,50 +820,50 @@ document.addEventListener('DOMContentLoaded', () => {
                 time.classList.add('board-note-time');
                 time.textContent = formatDate(msg.timestamp);
 
-                const deleteBtn = document.createElement('button');
-                deleteBtn.classList.add('board-note-delete');
-                deleteBtn.innerHTML = '×';
-                deleteBtn.title = 'Elimina';
-                deleteBtn.addEventListener('click', () => {
-                    deleteMessage(index);
+                const delBtn = document.createElement('button');
+                delBtn.classList.add('board-note-delete');
+                delBtn.innerHTML = '×';
+                delBtn.title = 'Elimina';
+                delBtn.addEventListener('click', () => {
+                    boardRef.child(msg._key).remove();
                 });
 
-                note.appendChild(deleteBtn);
+                note.appendChild(delBtn);
                 note.appendChild(text);
                 note.appendChild(time);
                 messagesContainer.appendChild(note);
             });
 
-            // Scroll to bottom
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
     }
 
-    function addMessage(text) {
-        const messages = loadMessages();
-        messages.push({
-            text: text.trim(),
-            timestamp: Date.now()
-        });
-        saveMessages(messages);
-        renderMessages();
-    }
-
-    function deleteMessage(index) {
-        const messages = loadMessages();
-        messages.splice(index, 1);
-        saveMessages(messages);
-        renderMessages();
-    }
+    // Ascolta i cambiamenti in tempo reale dal database
+    boardRef.on('value', (snapshot) => {
+        const data = snapshot.val();
+        const messages = [];
+        if (data) {
+            Object.keys(data).forEach(key => {
+                messages.push({ ...data[key], _key: key });
+            });
+            // Ordina per timestamp
+            messages.sort((a, b) => a.timestamp - b.timestamp);
+        }
+        renderMessages(messages);
+    });
 
     function handleSend() {
         const text = input.value.trim();
         if (!text) return;
 
-        addMessage(text);
+        // Salva nel database Firebase (si aggiorna da solo grazie al listener)
+        boardRef.push({
+            text: text,
+            timestamp: Date.now()
+        });
+
         input.value = '';
 
-        // Visual feedback
         sendBtn.classList.add('sent');
         const originalContent = sendBtn.innerHTML;
         sendBtn.innerHTML = '✓';
@@ -891,14 +876,11 @@ document.addEventListener('DOMContentLoaded', () => {
     sendBtn.addEventListener('click', handleSend);
 
     input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
             handleSend();
         }
     });
-
-    // Initial render
-    renderMessages();
 });
 
 // ----------------------------------------------------
@@ -975,28 +957,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     ];
 
-    const STORAGE_KEY = 'lix-travel-map-custom';
+    const mapRef = db.ref('travel-map-custom');
     let markersMap = {}; // Keep track of marker objects by place ID
+    let cachedCustomPlaces = []; // Cache locale aggiornato da Firebase
 
-    // Load custom places from localStorage
-    function loadCustomPlaces() {
-        try {
-            const data = localStorage.getItem(STORAGE_KEY);
-            return data ? JSON.parse(data) : [];
-        } catch (e) {
-            console.error('Error loading custom places:', e);
-            return [];
+    // Ascolta i cambiamenti in tempo reale dal database
+    mapRef.on('value', (snapshot) => {
+        const data = snapshot.val();
+        cachedCustomPlaces = [];
+        if (data) {
+            Object.keys(data).forEach(key => {
+                cachedCustomPlaces.push({ ...data[key], _key: key });
+            });
         }
-    }
-
-    // Save custom places to localStorage
-    function saveCustomPlaces(places) {
-        try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(places));
-        } catch (e) {
-            console.error('Error saving custom places:', e);
-        }
-    }
+        renderMapAndList();
+    });
 
     // Render list and markers
     function renderMapAndList() {
@@ -1004,8 +979,7 @@ document.addEventListener('DOMContentLoaded', () => {
         Object.values(markersMap).forEach(marker => map.removeLayer(marker));
         markersMap = {};
 
-        const customPlaces = loadCustomPlaces();
-        const allPlaces = [...defaultPlaces, ...customPlaces];
+        const allPlaces = [...defaultPlaces, ...cachedCustomPlaces];
 
         // Clear sidebar list container
         listContainer.innerHTML = '';
@@ -1088,7 +1062,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function addCustomPlace(lat, lng, name, desc) {
-        const customPlaces = loadCustomPlaces();
         const newPlace = {
             id: 'custom-' + Date.now(),
             name: name,
@@ -1096,8 +1069,8 @@ document.addEventListener('DOMContentLoaded', () => {
             desc: desc,
             type: 'wishlist'
         };
-        customPlaces.push(newPlace);
-        saveCustomPlaces(customPlaces);
+        // Salva su Firebase (il listener aggiornerà automaticamente la lista)
+        mapRef.push(newPlace);
         renderMapAndList();
 
         // Highlight and focus the new item
@@ -1111,10 +1084,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function deleteCustomPlace(id) {
-        let customPlaces = loadCustomPlaces();
-        customPlaces = customPlaces.filter(p => p.id !== id);
-        saveCustomPlaces(customPlaces);
-        renderMapAndList();
+        // Trova la chiave Firebase del posto da eliminare
+        const place = cachedCustomPlaces.find(p => p.id === id);
+        if (place && place._key) {
+            mapRef.child(place._key).remove();
+        }
     }
 
     // Map Click Listener to Add Place
@@ -1203,43 +1177,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     ];
 
-    function loadMemories() {
-        try {
-            const data = localStorage.getItem(STORAGE_KEY);
-            let memories = [];
-            if (!data) {
-                // If empty, save and return default seed data
-                memories = defaultMemories;
-                saveMemories(memories);
-            } else {
-                memories = JSON.parse(data);
-            }
-            // Strip any emojis from titles of all memories
-            return memories.map(m => ({
-                ...m,
-                title: cleanTitleString(m.title)
-            }));
-        } catch (e) {
-            console.error('Error loading memories:', e);
-            return defaultMemories.map(m => ({
-                ...m,
-                title: cleanTitleString(m.title)
-            }));
-        }
-    }
+    const memoriesRef = db.ref('memories-book');
+    let cachedMemories = [];
 
-    function saveMemories(memories) {
-        try {
-            // Clean titles before saving
-            const cleanedMemories = memories.map(m => ({
-                ...m,
-                title: cleanTitleString(m.title)
+    // Ascolta i ricordi in tempo reale da Firebase
+    memoriesRef.on('value', (snapshot) => {
+        const data = snapshot.val();
+        if (!data) {
+            // Se il database è vuoto la prima volta, carichiamo i seed predefiniti
+            defaultMemories.forEach(m => memoriesRef.push(m));
+            cachedMemories = defaultMemories.map(m => ({ ...m, title: cleanTitleString(m.title) }));
+        } else {
+            cachedMemories = Object.keys(data).map(key => ({
+                ...data[key],
+                _key: key,
+                title: cleanTitleString(data[key].title)
             }));
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(cleanedMemories));
-        } catch (e) {
-            console.error('Error saving memories:', e);
         }
-    }
+        renderMemories();
+    });
 
     function formatDateString(dateStr) {
         if (!dateStr) return '';
@@ -1257,17 +1213,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderMemories() {
-        const memories = loadMemories();
         const searchTerm = searchInput.value.toLowerCase().trim();
 
         // Clear existing memories rendering
         memoriesList.innerHTML = '';
 
         // Filter and sort (most recent date first)
-        const filtered = memories.filter(m => {
-            return m.title.toLowerCase().includes(searchTerm) || 
-                   m.desc.toLowerCase().includes(searchTerm) ||
-                   m.date.includes(searchTerm);
+        const filtered = cachedMemories.filter(m => {
+            return (m.title && m.title.toLowerCase().includes(searchTerm)) || 
+                   (m.desc && m.desc.toLowerCase().includes(searchTerm)) ||
+                   (m.date && m.date.includes(searchTerm));
         }).sort((a, b) => new Date(b.date) - new Date(a.date));
 
         if (filtered.length === 0) {
@@ -1315,7 +1270,7 @@ document.addEventListener('DOMContentLoaded', () => {
             deleteBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 if (window.confirm(`Sei sicuro di voler eliminare il ricordo "${memory.title}"?`)) {
-                    deleteMemory(memory.id);
+                    deleteMemory(memory.id || memory._key);
                 }
             });
 
@@ -1327,11 +1282,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function deleteMemory(id) {
-        const memories = loadMemories();
-        const updated = memories.filter(m => m.id !== id);
-        saveMemories(updated);
-        renderMemories();
+    function deleteMemory(idOrKey) {
+        const mem = cachedMemories.find(m => m.id === idOrKey || m._key === idOrKey);
+        if (mem && mem._key) {
+            memoriesRef.child(mem._key).remove();
+        }
     }
 
     // Emoji selection logic
@@ -1368,9 +1323,8 @@ document.addEventListener('DOMContentLoaded', () => {
             emoji: emoji
         };
 
-        const memories = loadMemories();
-        memories.push(newMemory);
-        saveMemories(memories);
+        // Salva su Firebase (il listener aggiornerà la lista su tutti i dispositivi!)
+        memoriesRef.push(newMemory);
 
         // Reset form
         memoryTitle.value = '';

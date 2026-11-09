@@ -2133,19 +2133,19 @@ footer {
    Secret Message Board
    ============================================= */
 .board-container {
-  max-width: 550px;
+  max-width: 700px;
   margin: 0 auto;
-  padding: 30px;
+  padding: 35px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 25px;
 }
 
 .board-messages {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  max-height: 350px;
+  max-height: 500px;
   overflow-y: auto;
   padding-right: 5px;
 }
@@ -2189,10 +2189,12 @@ footer {
 }
 
 .board-note-text {
-  font-size: 1rem;
-  line-height: 1.5;
+  font-size: 1.05rem;
+  line-height: 1.6;
   color: var(--text-color);
   word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 .board-note-time {
@@ -2225,20 +2227,24 @@ footer {
 .board-input-area {
   display: flex;
   gap: 12px;
-  align-items: center;
+  align-items: flex-end;
 }
 
 .board-input {
   flex: 1;
   padding: 14px 18px;
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-family: 'Inter', sans-serif;
   color: var(--text-color);
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 50px;
+  border-radius: 18px;
   outline: none;
   transition: all 0.3s ease;
+  resize: vertical;
+  min-height: 60px;
+  max-height: 200px;
+  line-height: 1.5;
 }
 
 .board-input::placeholder {
@@ -2258,6 +2264,7 @@ footer {
   border: 1.5px solid rgba(255, 107, 157, 0.3);
   background: linear-gradient(135deg, rgba(255, 107, 157, 0.15), rgba(196, 77, 255, 0.1));
   font-size: 1.3rem;
+  color: var(--text-color);
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -2288,6 +2295,7 @@ footer {
   .board-input {
     padding: 12px 15px;
     font-size: 0.95rem;
+    min-height: 55px;
   }
   .board-send-btn {
     width: 45px;

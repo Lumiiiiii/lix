@@ -751,9 +751,8 @@
                 </div>
 
                 <div class="board-input-area">
-                    <input type="text" id="board-input" class="board-input" placeholder="Scrivi un pensiero dolce..."
-                        maxlength="200" autocomplete="off">
-                    <button id="board-send-btn" class="board-send-btn"></button>
+                    <textarea id="board-input" class="board-input" placeholder="Scrivi un pensiero dolce..." rows="3" autocomplete="off"></textarea>
+                    <button id="board-send-btn" class="board-send-btn">➤</button>
                 </div>
             </div>
         </section>
@@ -831,7 +830,11 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <!-- Leaflet Map JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-    <script src="script.js?v=5"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="script.js?v=6"></script>
 </body>
 
 </html>
