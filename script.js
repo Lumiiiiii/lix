@@ -113,9 +113,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = 'hidden';
 });
 
-// Countdown Timer Logic - Bloccato ad adesso (14 Novembre 2026 alle 20:46)
+// Countdown Timer Logic - Bloccato ad adesso con secondi e millisecondi reali non azzerati
 const startDate = new Date('2025-12-11T00:00:00'); // Fixed starting date();
-const FROZEN_DATE = new Date('2026-11-14T20:46:00'); // Data e ora di stop bloccata ad adesso
+const FROZEN_DATE = new Date('2026-11-14T20:53:38.742'); // Bloccato ad adesso: 20:53, 38 sec, 742 ms
 
 let currentTimerMode = 0;
 const timerModes = [
