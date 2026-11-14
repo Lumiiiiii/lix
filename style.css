@@ -300,19 +300,36 @@ section {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border-color: rgba(255, 42, 58, 0.4) !important;
+  box-shadow: 0 0 25px rgba(255, 42, 58, 0.2);
 }
 
 .timer-value {
   font-size: 3rem;
   font-weight: 800;
   font-family: 'Outfit';
+  color: #ff3344;
+  background: linear-gradient(135deg, #ff7a7a 0%, #ff2a3a 50%, #d90429 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 20px rgba(255, 42, 58, 0.6));
+}
+
+#single-value {
+  color: #ff3344;
+  background: linear-gradient(135deg, #ff7a7a 0%, #ff2a3a 50%, #d90429 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 20px rgba(255, 42, 58, 0.6));
 }
 
 .timer-label {
   font-size: 0.9rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--text-dim);
+  color: rgba(255, 180, 180, 0.85);
 }
 
 /* Scroll Indicator */
@@ -2041,6 +2058,8 @@ footer {
   text-align: center;
   position: relative;
   overflow: hidden;
+  border-color: rgba(255, 42, 58, 0.4) !important;
+  box-shadow: 0 0 30px rgba(255, 42, 58, 0.2);
 }
 
 .mesiversario-countdown {
@@ -2062,11 +2081,12 @@ footer {
   font-size: clamp(2.5rem, 6vw, 3.5rem);
   font-weight: 900;
   font-family: 'Outfit', sans-serif;
-  background: linear-gradient(135deg, #ff6b9d 0%, #c44dff 50%, #6e8efb 100%);
+  color: #ff3344;
+  background: linear-gradient(135deg, #ff7a7a 0%, #ff2a3a 50%, #d90429 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 15px rgba(196, 77, 255, 0.3));
+  filter: drop-shadow(0 0 18px rgba(255, 42, 58, 0.6));
   line-height: 1;
 }
 
@@ -2074,7 +2094,7 @@ footer {
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  color: var(--text-dim);
+  color: rgba(255, 180, 180, 0.85);
   font-weight: 600;
 }
 
@@ -3574,20 +3594,24 @@ footer {
   height: 56px;
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 215, 0, 0.3);
+  border: 1px solid rgba(255, 42, 58, 0.4);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
   transition: transform 0.2s ease;
 }
 
 .pin-t-box:hover {
   transform: translateY(-2px);
-  border-color: rgba(255, 215, 0, 0.6);
+  border-color: rgba(255, 42, 58, 0.7);
 }
 
 .pin-t-val {
   font-size: 1.35rem;
   font-weight: 900;
   font-family: 'Outfit', sans-serif;
+  color: #ff3344;
+  text-shadow: 0 0 10px rgba(255, 42, 58, 0.6);
+  line-height: 1;
+}
   color: #ffd700;
   text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
   line-height: 1;

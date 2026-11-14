@@ -113,8 +113,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = 'hidden';
 });
 
-// Countdown Timer Logic
+// Countdown Timer Logic - Bloccato ad adesso (14 Novembre 2026 alle 20:46)
 const startDate = new Date('2025-12-11T00:00:00'); // Fixed starting date();
+const FROZEN_DATE = new Date('2026-11-14T20:46:00'); // Data e ora di stop bloccata ad adesso
 
 let currentTimerMode = 0;
 const timerModes = [
@@ -150,9 +151,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Timer Logic
+// Timer Logic - calcolato all'istante di stop
 function updateTimer() {
-    const now = new Date().getTime();
+    const now = FROZEN_DATE.getTime();
     const distance = now - startDate;
 
     if (currentTimerMode === 0) {
@@ -174,7 +175,7 @@ function updateTimer() {
     }
 }
 
-setInterval(updateTimer, 50); // Faster update for milliseconds
+// Timer fermo ad adesso (nessun intervallo attivo)
 updateTimer();
 
 // Animated Number Counter Logic
@@ -675,25 +676,24 @@ document.addEventListener('DOMContentLoaded', () => {
         return (currentYear - startYear) * 12 + (currentMonth - startMonth);
     }
 
-    function getNextMesiversario() {
-        const now = new Date();
-        const thisMonth11 = new Date(now.getFullYear(), now.getMonth(), ANNIVERSARY_DAY);
+    function getNextMesiversario(nowDate) {
+        const thisMonth11 = new Date(nowDate.getFullYear(), nowDate.getMonth(), ANNIVERSARY_DAY);
 
-        if (now.getDate() === ANNIVERSARY_DAY) {
+        if (nowDate.getDate() === ANNIVERSARY_DAY) {
             return null; // It's today!
-        } else if (now.getDate() < ANNIVERSARY_DAY) {
+        } else if (nowDate.getDate() < ANNIVERSARY_DAY) {
             return thisMonth11;
         } else {
             // Next month's 11th
-            return new Date(now.getFullYear(), now.getMonth() + 1, ANNIVERSARY_DAY);
+            return new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, ANNIVERSARY_DAY);
         }
     }
 
     let confettiFired = false;
 
     function updateMesiversario() {
-        const now = new Date();
-        const target = getNextMesiversario();
+        const now = FROZEN_DATE;
+        const target = getNextMesiversario(now);
 
         if (target === null) {
             // It's mesiversario day!
@@ -701,7 +701,7 @@ document.addEventListener('DOMContentLoaded', () => {
             todayEl.classList.remove('hidden');
             const monthNum = getMonthNumber(now);
             monthNumberEl.innerText = monthNum + '° mese insieme 🤍';
-            subtitleEl.innerText = 'Oggi è un giorno speciale!';
+            subtitleEl.innerText = 'Oggi è il nostro mesiversario!';
 
             // Fire confetti once
             if (!confettiFired) {
@@ -713,7 +713,7 @@ document.addEventListener('DOMContentLoaded', () => {
             todayEl.classList.add('hidden');
 
             const nextMonthNum = getMonthNumber(target);
-            subtitleEl.innerText = 'Mancano al nostro ' + nextMonthNum + '° mese...';
+            subtitleEl.innerText = 'Mancavano al nostro ' + nextMonthNum + '° mese...';
 
             const diff = target.getTime() - now.getTime();
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -774,8 +774,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Timer del mesiversario fermo ad adesso (nessun setInterval)
     updateMesiversario();
-    setInterval(updateMesiversario, 1000);
 });
 
 // ----------------------------------------------------
@@ -1598,7 +1598,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updatePinCountdown() {
         if (!pinTimerContainer || !pinBtnContainer) return;
 
-        const now = new Date().getTime();
+        const now = FROZEN_DATE.getTime();
 
         // If in test mode, simulate that birthday has arrived
         if (isTestUnlocked) {
@@ -1644,7 +1644,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (pinWidget) {
-        setInterval(updatePinCountdown, 1000);
+        // Timer del compleanno fermo ad adesso (nessun setInterval)
         updatePinCountdown();
     }
 });
