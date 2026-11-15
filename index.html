@@ -109,7 +109,8 @@
             <h3 class="sim-pwd-title">Accesso Simulatore</h3>
             <p class="sim-pwd-subtitle">Inserisci la password per simulare il 24 Settembre:</p>
             <div class="sim-pwd-input-wrap">
-                <input type="password" id="sim-pwd-input" class="sim-pwd-input" placeholder="••••" maxlength="10" autocomplete="off" />
+                <input type="password" id="sim-pwd-input" class="sim-pwd-input" placeholder="••••" maxlength="10"
+                    autocomplete="off" />
             </div>
             <div id="sim-pwd-error" class="sim-pwd-error hidden">Password errata! Riprova ❌</div>
             <div class="sim-pwd-actions">
@@ -126,7 +127,7 @@
         <!-- Hero Section with Timer -->
         <section class="hero">
             <h1>나의 사랑</h1>
-            <p class="subtitle">Stiamo insieme da: </p>
+            <p class="subtitle">Siamo stati insieme: </p>
 
             <div id="timer-default" class="timer-container">
                 <div class="timer-box glass">
@@ -166,9 +167,29 @@
             </div>
 
             <div class="scroll-indicator"
-                onclick="document.getElementById('stats').scrollIntoView({behavior: 'smooth'})">
+                onclick="document.getElementById('secret-board').scrollIntoView({behavior: 'smooth'})">
                 <span class="scroll-text">Scorri verso il basso</span>
                 <div class="scroll-arrow">↓</div>
+            </div>
+        </section>
+
+        <!-- Secret Message Board -->
+        <section id="secret-board" style="margin-top: 40px; margin-bottom: 60px;">
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 10px;">La nostra bacheca segreta </h2>
+            <p style="text-align: center; color: var(--text-dim); margin-bottom: 40px;">Lasciami un messaggio che
+                troverò
+                la prossima volta che apro il sito 🤍</p>
+
+            <div class="board-container glass">
+                <div class="board-messages" id="board-messages">
+                    <p class="board-empty" id="board-empty">Nessun messaggio ancora... scrivimi qualcosa! </p>
+                </div>
+
+                <div class="board-input-area">
+                    <textarea id="board-input" class="board-input" placeholder="Scrivi un pensiero dolce..." rows="3"
+                        autocomplete="off"></textarea>
+                    <button id="board-send-btn" class="board-send-btn">➤</button>
+                </div>
             </div>
         </section>
 
@@ -675,8 +696,10 @@
 
         <!-- Quadernino dei Ricordi Section -->
         <section id="memories-notebook" style="margin-top: 80px; margin-bottom: 50px;">
-            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 10px;">Il Nostro Quadernino dei Ricordi</h2>
-            <p style="text-align: center; color: var(--text-dim); margin-bottom: 40px;">Un piccolo spazio per custodire i nostri momenti più speciali per sempre 🤍</p>
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 10px;">Il Nostro Quadernino dei Ricordi
+            </h2>
+            <p style="text-align: center; color: var(--text-dim); margin-bottom: 40px;">Un piccolo spazio per custodire
+                i nostri momenti più speciali per sempre 🤍</p>
 
             <div class="notebook-container glass">
                 <!-- Left Page: Form to Add Memory -->
@@ -685,7 +708,8 @@
                     <form id="memory-form" class="notebook-form" onsubmit="event.preventDefault();">
                         <div class="form-group">
                             <label for="memory-title">Cosa è successo?</label>
-                            <input type="text" id="memory-title" placeholder="Es. Il nostro picnic al parco..." required autocomplete="off">
+                            <input type="text" id="memory-title" placeholder="Es. Il nostro picnic al parco..." required
+                                autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label for="memory-date">Quando?</label>
@@ -693,7 +717,9 @@
                         </div>
                         <div class="form-group">
                             <label for="memory-desc">Il tuo ricordo...</label>
-                            <textarea id="memory-desc" placeholder="Scrivi quello che ricordi di questo momento speciale..." rows="4" required></textarea>
+                            <textarea id="memory-desc"
+                                placeholder="Scrivi quello che ricordi di questo momento speciale..." rows="4"
+                                required></textarea>
                         </div>
                         <div class="form-group">
                             <label>Scegli un'emoji:</label>
@@ -734,25 +760,6 @@
                     <div class="memories-list-wrapper" id="memories-list">
                         <!-- Generato dinamicamente in script.js -->
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Secret Message Board -->
-        <section id="secret-board" style="margin-top: 80px; margin-bottom: 50px;">
-            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 10px;">La nostra bacheca segreta </h2>
-            <p style="text-align: center; color: var(--text-dim); margin-bottom: 40px;">Lasciami un messaggio che
-                troverò
-                la prossima volta che apro il sito 🤍</p>
-
-            <div class="board-container glass">
-                <div class="board-messages" id="board-messages">
-                    <p class="board-empty" id="board-empty">Nessun messaggio ancora... scrivimi qualcosa! </p>
-                </div>
-
-                <div class="board-input-area">
-                    <textarea id="board-input" class="board-input" placeholder="Scrivi un pensiero dolce..." rows="3" autocomplete="off"></textarea>
-                    <button id="board-send-btn" class="board-send-btn">➤</button>
                 </div>
             </div>
         </section>
