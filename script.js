@@ -113,9 +113,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = 'hidden';
 });
 
-// Countdown Timer Logic - Bloccato ad adesso con secondi e millisecondi reali non azzerati
+// Countdown Timer Logic - Riavviato in tempo reale dal 11/12/2025
 const startDate = new Date('2025-12-11T00:00:00'); // Fixed starting date();
-const FROZEN_DATE = new Date('2026-11-14T20:53:38.742'); // Bloccato ad adesso: 20:53, 38 sec, 742 ms
 
 let currentTimerMode = 0;
 const timerModes = [
@@ -151,9 +150,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Timer Logic - calcolato all'istante di stop
+// Timer Logic in tempo reale
 function updateTimer() {
-    const now = FROZEN_DATE.getTime();
+    const now = new Date().getTime();
     const distance = now - startDate;
 
     if (currentTimerMode === 0) {
@@ -175,7 +174,8 @@ function updateTimer() {
     }
 }
 
-// Timer fermo ad adesso (nessun intervallo attivo)
+// Timer attivo in tempo reale con aggiornamento rapido dei millisecondi
+setInterval(updateTimer, 50);
 updateTimer();
 
 // Animated Number Counter Logic
@@ -692,7 +692,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let confettiFired = false;
 
     function updateMesiversario() {
-        const now = FROZEN_DATE;
+        const now = new Date();
         const target = getNextMesiversario(now);
 
         if (target === null) {
@@ -713,7 +713,7 @@ document.addEventListener('DOMContentLoaded', () => {
             todayEl.classList.add('hidden');
 
             const nextMonthNum = getMonthNumber(target);
-            subtitleEl.innerText = 'Mancavano al nostro ' + nextMonthNum + '° mese...';
+            subtitleEl.innerText = 'Mancano al nostro ' + nextMonthNum + '° mese...';
 
             const diff = target.getTime() - now.getTime();
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -774,8 +774,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Timer del mesiversario fermo ad adesso (nessun setInterval)
+    // Timer del mesiversario attivo in tempo reale ogni secondo
     updateMesiversario();
+    setInterval(updateMesiversario, 1000);
 });
 
 // ----------------------------------------------------
@@ -1598,7 +1599,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updatePinCountdown() {
         if (!pinTimerContainer || !pinBtnContainer) return;
 
-        const now = FROZEN_DATE.getTime();
+        const now = new Date().getTime();
 
         // If in test mode, simulate that birthday has arrived
         if (isTestUnlocked) {
@@ -1644,9 +1645,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (pinWidget) {
-        // Timer del compleanno fermo ad adesso (nessun setInterval)
+        setInterval(updatePinCountdown, 1000);
         updatePinCountdown();
     }
+});
+
+// -------------------------------------------------------------
+// Gestione Modal Informazioni Pausa Cronometro
+// -------------------------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+    const pauseModal = document.getElementById('pause-info-modal');
+    const pauseBackdrop = document.getElementById('pause-modal-backdrop');
+    const pauseClose = document.getElementById('pause-modal-close');
+    const heroBtn = document.getElementById('hero-pause-btn');
+    const mesiBtn = document.getElementById('mesi-pause-btn');
+
+    function openPauseModal() {
+        if (pauseModal) pauseModal.classList.remove('hidden');
+    }
+
+    function closePauseModal() {
+        if (pauseModal) pauseModal.classList.add('hidden');
+    }
+
+    if (heroBtn) heroBtn.addEventListener('click', openPauseModal);
+    if (mesiBtn) mesiBtn.addEventListener('click', openPauseModal);
+    if (pauseBackdrop) pauseBackdrop.addEventListener('click', closePauseModal);
+    if (pauseClose) pauseClose.addEventListener('click', closePauseModal);
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && pauseModal && !pauseModal.classList.contains('hidden')) {
+            closePauseModal();
+        }
+    });
 });
 
 
